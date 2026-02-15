@@ -1,8 +1,17 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { grammarCategories, grammarUnits, getUnitsByCategory } from '../data/grammarData'
 import { addXP, completeGrammarUnit } from '../utils/progressEngine'
 import { BookIcon, ArrowLeftIcon, CheckCircleIcon } from '../components/Icons'
 import CircularProgress from '../components/CircularProgress'
+
+function shuffleArray(arr) {
+    const a = [...arr]
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]]
+    }
+    return a
+}
 
 export default function GrammarLab({ progress, setProgress, showXpGain }) {
     const [view, setView] = useState('categories') // 'categories' | 'units' | 'lesson'
@@ -10,6 +19,16 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
     const [selectedUnit, setSelectedUnit] = useState(null)
     const [exerciseState, setExerciseState] = useState({})
     const [showResults, setShowResults] = useState(false)
+
+    // Shuffle options once per unit so correct answer isn't always first
+    const shuffledOptions = useMemo(() => {
+        if (!selectedUnit?.exercises) return {}
+        const map = {}
+        selectedUnit.exercises.forEach((ex, i) => {
+            map[i] = shuffleArray(ex.options)
+        })
+        return map
+    }, [selectedUnit])
 
     const openCategory = (cat) => {
         setSelectedCategory(cat)
@@ -220,7 +239,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                                         <div className="exercise__question-num">Question {exIdx + 1}</div>
                                         <div className="exercise__question-text">{ex.question}</div>
                                         <div className="exercise__options">
-                                            {ex.options.map((opt, optIdx) => {
+                                            {(shuffledOptions[exIdx] || ex.options).map((opt, optIdx) => {
                                                 let className = 'exercise__option'
                                                 if (state?.answered) {
                                                     if (opt === ex.answer) className += ' exercise__option--correct'

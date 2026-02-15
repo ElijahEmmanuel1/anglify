@@ -41,6 +41,15 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
 
     const allExercises = useMemo(() => getAllExercises(), [])
 
+    // Shuffle options for each question so correct answer isn't always first
+    const shuffledQOptions = useMemo(() => {
+        const map = {}
+        questions.forEach((q, i) => {
+            if (q.options) map[i] = shuffle(q.options)
+        })
+        return map
+    }, [questions])
+
     useEffect(() => {
         let interval
         if (timerActive) {
@@ -181,7 +190,7 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.75rem' }}>{q.sourceTitle}</div>
                     <div style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '1.5rem', lineHeight: 1.5 }}>{q.question}</div>
                     <div className="exercise__options">
-                        {q.options.map((opt, i) => {
+                        {(shuffledQOptions[currentQ] || q.options).map((opt, i) => {
                             let className = 'exercise__option'
                             if (state?.answered) {
                                 if (opt === q.answer) className += ' exercise__option--correct'

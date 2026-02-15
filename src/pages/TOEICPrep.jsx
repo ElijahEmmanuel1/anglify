@@ -1,7 +1,16 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { toeicParts, toeicSteps, getStepsByPart } from '../data/toeicData'
 import { addXP, completeToeicStep } from '../utils/progressEngine'
 import { TargetIcon, ArrowLeftIcon, ChevronDownIcon, CheckCircleIcon } from '../components/Icons'
+
+function shuffleArray(arr) {
+    const a = [...arr]
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]]
+    }
+    return a
+}
 
 export default function TOEICPrep({ progress, setProgress, showXpGain }) {
     const [view, setView] = useState('parts') // 'parts' | 'step'
@@ -9,6 +18,16 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
     const [selectedStep, setSelectedStep] = useState(null)
     const [exerciseState, setExerciseState] = useState({})
     const [showResults, setShowResults] = useState(false)
+
+    // Shuffle options once per step so correct answer isn't always first
+    const shuffledOptions = useMemo(() => {
+        if (!selectedStep?.exercises) return {}
+        const map = {}
+        selectedStep.exercises.forEach((ex, i) => {
+            map[i] = shuffleArray(ex.options)
+        })
+        return map
+    }, [selectedStep])
 
     const togglePart = (partId) => {
         setExpandedPart(expandedPart === partId ? null : partId)
@@ -119,7 +138,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                                         <div className="exercise__question-num">Question {exIdx + 1}</div>
                                         <div className="exercise__question-text">{ex.question}</div>
                                         <div className="exercise__options">
-                                            {ex.options.map((opt, optIdx) => {
+                                            {(shuffledOptions[exIdx] || ex.options).map((opt, optIdx) => {
                                                 let className = 'exercise__option'
                                                 if (state?.answered) {
                                                     if (opt === ex.answer) className += ' exercise__option--correct'
