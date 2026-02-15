@@ -3,6 +3,7 @@ import { grammarUnits } from '../data/grammarData'
 import { vocabularyWords } from '../data/vocabularyData'
 import { toeicSteps } from '../data/toeicData'
 import { addXP } from '../utils/progressEngine'
+import { TargetIcon, ClockIcon, PenIcon, StarIcon, ArrowLeftIcon } from '../components/Icons'
 
 // Gather all exercises from all sources
 function getAllExercises() {
@@ -135,7 +136,7 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
             const pct = Math.round((correctCount / total) * 100)
             return (
                 <div className="quick-practice" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                    <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', animation: 'scaleIn 0.4s ease' }}>
+                    <div className="card" style={{ textAlign: 'center', padding: '3rem', animation: 'scaleIn 0.4s ease' }}>
                         <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
                             {pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '📚'}
                         </div>
@@ -160,7 +161,7 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
 
         return (
             <div className="quick-practice" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <div className="lesson-view__back" onClick={goBack}>← Quitter</div>
+                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Quitter</div>
 
                 {/* Header */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
@@ -176,7 +177,7 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
                 </div>
 
                 {/* Question */}
-                <div className="glass-card">
+                <div className="card">
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.75rem' }}>{q.sourceTitle}</div>
                     <div style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '1.5rem', lineHeight: 1.5 }}>{q.question}</div>
                     <div className="exercise__options">
@@ -215,30 +216,30 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
     return (
         <div className="quick-practice">
             <div className="quick-practice__header">
-                <h2 className="quick-practice__title">⚡ Quick Practice</h2>
-                <p className="quick-practice__subtitle">Entraîne-toi rapidement pour renforcer tes acquis</p>
+                <h2 className="page-header__title">Quick Practice</h2>
+                <p className="page-header__subtitle">Entraîne-toi rapidement pour renforcer tes acquis</p>
             </div>
 
             <div className="practice-modes">
-                <div className="glass-card practice-mode" onClick={startDaily} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.1s' }}>
-                    <div className="practice-mode__icon">🎯</div>
+                <div className="card card--interactive practice-mode" onClick={startDaily} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.1s' }}>
+                    <div className="practice-mode__icon practice-mode__icon--daily"><TargetIcon size={28} /></div>
                     <div className="practice-mode__title">Défi Quotidien</div>
                     <div className="practice-mode__desc">10 questions mixtes (grammaire + TOEIC) — Chronomètre activé</div>
-                    <div className="practice-mode__reward">⭐ +50-150 XP</div>
+                    <div className="practice-mode__reward"><StarIcon size={14} /> +50-150 XP</div>
                 </div>
 
-                <div className="glass-card practice-mode" onClick={startSpeed} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.2s' }}>
-                    <div className="practice-mode__icon">⏱</div>
+                <div className="card card--interactive practice-mode" onClick={startSpeed} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.2s' }}>
+                    <div className="practice-mode__icon practice-mode__icon--speed"><ClockIcon size={28} /></div>
                     <div className="practice-mode__title">Speed Drill</div>
                     <div className="practice-mode__desc">5 questions rapides — Teste ta vitesse de réponse</div>
-                    <div className="practice-mode__reward">⭐ +30-80 XP</div>
+                    <div className="practice-mode__reward"><StarIcon size={14} /> +30-80 XP</div>
                 </div>
 
-                <div className="glass-card practice-mode" onClick={startVocabQuiz} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.3s' }}>
-                    <div className="practice-mode__icon">📝</div>
+                <div className="card card--interactive practice-mode" onClick={startVocabQuiz} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.3s' }}>
+                    <div className="practice-mode__icon practice-mode__icon--quiz"><PenIcon size={28} /></div>
                     <div className="practice-mode__title">Vocab Quiz</div>
                     <div className="practice-mode__desc">10 mots à traduire — Teste ton vocabulaire business</div>
-                    <div className="practice-mode__reward">⭐ +25-125 XP</div>
+                    <div className="practice-mode__reward"><StarIcon size={14} /> +25-125 XP</div>
                 </div>
             </div>
         </div>

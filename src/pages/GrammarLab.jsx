@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { grammarCategories, grammarUnits, getUnitsByCategory } from '../data/grammarData'
 import { addXP, completeGrammarUnit } from '../utils/progressEngine'
+import { BookIcon, ArrowLeftIcon, CheckCircleIcon } from '../components/Icons'
+import CircularProgress from '../components/CircularProgress'
 
 export default function GrammarLab({ progress, setProgress, showXpGain }) {
     const [view, setView] = useState('categories') // 'categories' | 'units' | 'lesson'
@@ -56,9 +58,9 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
     if (view === 'categories') {
         return (
             <div className="grammar-lab">
-                <div className="grammar-lab__header">
-                    <h2 className="grammar-lab__title">📖 Grammar Lab</h2>
-                    <p className="grammar-lab__subtitle">145 leçons basées sur English Grammar in Use — Raymond Murphy</p>
+                <div className="page-header">
+                    <h2 className="page-header__title">Grammar Lab</h2>
+                    <p className="page-header__subtitle">145 leçons basées sur English Grammar in Use — Raymond Murphy</p>
                 </div>
                 <div className="grammar-lab__categories">
                     {grammarCategories.map((cat, i) => {
@@ -68,19 +70,19 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                         return (
                             <div
                                 key={cat.id}
-                                className="glass-card category-card"
+                                className="card card--interactive category-card"
                                 onClick={() => openCategory(cat)}
                                 style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: `${0.05 * i}s` }}
                             >
                                 <div className="category-card__header">
-                                    <span className="category-card__icon">{cat.icon}</span>
+                                    <div className="category-card__icon"><BookIcon size={18} /></div>
                                     <span className="category-card__title">{cat.title}</span>
                                 </div>
                                 <p className="category-card__count">{cat.units.length} unités • {completedInCat} complété{completedInCat > 1 ? 's' : ''}</p>
                                 <div className="category-card__units">
                                     {units.slice(0, 3).map(u => (
                                         <span key={u.id} className="category-card__units-preview">
-                                            {progress.grammar[u.id]?.completed ? '✅' : '○'} {u.title}
+                                            {progress.grammar[u.id]?.completed ? <CheckCircleIcon size={12} /> : <span style={{ width: 12, height: 12, borderRadius: '50%', border: '1.5px solid var(--text-dim)', display: 'inline-block' }} />} {u.title}
                                         </span>
                                     ))}
                                     {cat.units.length > 3 && (
@@ -106,10 +108,10 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
         const allUnitsInCategory = selectedCategory.units
         return (
             <div className="grammar-lab">
-                <div className="lesson-view__back" onClick={goBack}>← Retour aux catégories</div>
-                <div className="grammar-lab__header">
-                    <h2 className="grammar-lab__title">{selectedCategory.icon} {selectedCategory.title}</h2>
-                    <p className="grammar-lab__subtitle">{selectedCategory.description}</p>
+                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Retour aux catégories</div>
+                <div className="page-header">
+                    <h2 className="page-header__title">{selectedCategory.title}</h2>
+                    <p className="page-header__subtitle">{selectedCategory.description}</p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     {allUnitsInCategory.map((unitId, i) => {
@@ -119,7 +121,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                         return (
                             <div
                                 key={unitId}
-                                className={`glass-card ${unit ? '' : 'glass-card--static'}`}
+                                className={`card ${unit ? 'card--interactive' : ''}`}
                                 style={{
                                     padding: '1rem 1.5rem',
                                     display: 'flex',
@@ -168,7 +170,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
 
         return (
             <div className="lesson-view">
-                <div className="lesson-view__back" onClick={goBack}>← Retour à {selectedCategory?.title}</div>
+                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Retour à {selectedCategory?.title}</div>
 
                 <div className="lesson-view__header">
                     <span className="lesson-view__unit-num">Unit {selectedUnit.id}</span>
@@ -214,7 +216,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                             {selectedUnit.exercises.map((ex, exIdx) => {
                                 const state = exerciseState[exIdx]
                                 return (
-                                    <div key={exIdx} className="glass-card exercise__question">
+                                    <div key={exIdx} className="card exercise__question">
                                         <div className="exercise__question-num">Question {exIdx + 1}</div>
                                         <div className="exercise__question-text">{ex.question}</div>
                                         <div className="exercise__options">
@@ -253,7 +255,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                             )}
 
                             {showResults && (
-                                <div className="glass-card" style={{ textAlign: 'center', padding: '2rem', animation: 'scaleIn 0.3s ease' }}>
+                                <div className="card" style={{ textAlign: 'center', padding: '2rem', animation: 'scaleIn 0.3s ease' }}>
                                     <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
                                         {correctCount === totalExercises ? '🏆' : correctCount >= totalExercises * 0.7 ? '🎉' : '📚'}
                                     </div>

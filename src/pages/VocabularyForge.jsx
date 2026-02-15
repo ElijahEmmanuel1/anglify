@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { vocabThemes, vocabularyWords, getWordsByTheme, getDueWords } from '../data/vocabularyData'
 import { addXP, updateVocabWord } from '../utils/progressEngine'
+import { PenIcon, ArrowLeftIcon, StarIcon, LayersIcon } from '../components/Icons'
 
 export default function VocabularyForge({ progress, setProgress, showXpGain }) {
     const [mode, setMode] = useState('themes') // 'themes' | 'review' | 'flashcard'
@@ -68,7 +69,7 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
 
         return (
             <div className="vocab-forge">
-                <div className="lesson-view__back" onClick={goBack}>← Retour</div>
+                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Retour</div>
                 <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
                     <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{selectedTheme?.icon} {selectedTheme?.title}</h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Carte {currentIndex + 1} / {words.length}</p>
@@ -113,31 +114,31 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
     return (
         <div className="vocab-forge">
             <div className="vocab-forge__header">
-                <h2 className="vocab-forge__title">📝 Vocabulary Forge</h2>
-                <p className="vocab-forge__subtitle">Maîtrise le vocabulaire business anglais avec la répétition espacée</p>
+                <h2 className="page-header__title">Vocabulary Forge</h2>
+                <p className="page-header__subtitle">Maîtrise le vocabulaire business anglais avec la répétition espacée</p>
             </div>
 
             {/* Stats */}
             <div className="vocab-forge__stats">
-                <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
+                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-primary-light)' }}>
                         {progress.vocabulary?.totalLearned || 0}
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Mots étudiés</div>
                 </div>
-                <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
+                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--success)' }}>
                         {progress.vocabulary?.totalMastered || 0}
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Mots maîtrisés</div>
                 </div>
-                <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
+                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--warning)' }}>
                         {dueWords.length}
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>À réviser</div>
                 </div>
-                <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
+                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                         {vocabularyWords.length}
                     </div>
@@ -147,7 +148,7 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
 
             {/* Due Review */}
             {dueWords.length > 0 && (
-                <div className="glass-card" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', animation: 'borderGlow 2s infinite', borderColor: 'var(--warning)' }}>
+                <div className="card" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', borderColor: 'var(--warning)' }}>
                     <span style={{ fontSize: '2rem' }}>🔔</span>
                     <div style={{ flex: 1 }}>
                         <div style={{ fontWeight: 700 }}>{dueWords.length} mots à réviser</div>
@@ -158,7 +159,7 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
             )}
 
             {/* Theme Cards */}
-            <h3 className="dashboard__section-title">📚 Thèmes</h3>
+            <h3 className="section-title"><LayersIcon size={20} /> Thèmes</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
                 {vocabThemes.map((theme, i) => {
                     const themeWords = getWordsByTheme(theme.id)
@@ -166,7 +167,7 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
                     return (
                         <div
                             key={theme.id}
-                            className="glass-card"
+                            className="card card--interactive"
                             onClick={() => startTheme(theme)}
                             style={{ cursor: 'pointer', animation: 'fadeInUp 0.4s ease both', animationDelay: `${0.05 * i}s` }}
                         >

@@ -6,14 +6,15 @@ import TOEICPrep from './pages/TOEICPrep'
 import VocabularyForge from './pages/VocabularyForge'
 import QuickPractice from './pages/QuickPractice'
 import Progress from './pages/Progress'
+import { HomeIcon, BookIcon, TargetIcon, PenIcon, ZapIcon, ChartIcon, FlameIcon, StarIcon, MenuIcon } from './components/Icons'
 
 const NAV_ITEMS = [
-    { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
-    { id: 'grammar', label: 'Grammar Lab', icon: '📖' },
-    { id: 'toeic', label: 'TOEIC Prep', icon: '🎯' },
-    { id: 'vocabulary', label: 'Vocabulary Forge', icon: '📝' },
-    { id: 'practice', label: 'Quick Practice', icon: '⚡' },
-    { id: 'progress', label: 'Progress', icon: '📊' },
+    { id: 'dashboard', label: 'Dashboard', Icon: HomeIcon },
+    { id: 'grammar', label: 'Grammar Lab', Icon: BookIcon },
+    { id: 'toeic', label: 'TOEIC Prep', Icon: TargetIcon },
+    { id: 'vocabulary', label: 'Vocabulary Forge', Icon: PenIcon },
+    { id: 'practice', label: 'Quick Practice', Icon: ZapIcon },
+    { id: 'progress', label: 'Progress', Icon: ChartIcon },
 ]
 
 const PAGE_TITLES = {
@@ -88,7 +89,7 @@ export default function App() {
                             className={`sidebar__link ${currentPage === item.id ? 'sidebar__link--active' : ''}`}
                             onClick={() => navigate(item.id)}
                         >
-                            <span className="sidebar__link-icon">{item.icon}</span>
+                            <item.Icon size={20} />
                             <span>{item.label}</span>
                             {item.id === 'grammar' && grammarStats.completed > 0 && (
                                 <span className="sidebar__link-badge">{grammarStats.completed}</span>
@@ -102,7 +103,9 @@ export default function App() {
 
                 <div className="sidebar__footer">
                     <div className="sidebar__streak">
-                        <span className="sidebar__streak-fire">🔥</span>
+                        <span className="sidebar__streak-fire">
+                            <FlameIcon size={22} />
+                        </span>
                         <div className="sidebar__streak-info">
                             <div className="sidebar__streak-count">{progress.streak.current} jours</div>
                             <div className="sidebar__streak-label">Série en cours</div>
@@ -126,16 +129,16 @@ export default function App() {
             <header className="header">
                 <div className="header__left">
                     <button className="mobile-menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
-                        ☰
+                        <MenuIcon size={22} />
                     </button>
                     <h1 className="header__title">{PAGE_TITLES[currentPage]}</h1>
                 </div>
                 <div className="header__right">
                     <div className="header__stat header__stat-streak">
-                        🔥 {progress.streak.current}
+                        <FlameIcon size={14} /> {progress.streak.current}
                     </div>
                     <div className="header__stat header__stat-xp">
-                        ⭐ {progress.xp} XP
+                        <StarIcon size={14} /> {progress.xp} XP
                     </div>
                     <div className="header__stat" style={{ color: 'var(--accent-primary-light)' }}>
                         Niv. {progress.level}
@@ -153,8 +156,9 @@ export default function App() {
             {/* XP Popup */}
             {xpPopup && (
                 <div className="xp-popup">
+                    <StarIcon size={20} />
                     <span className="xp-popup__amount">+{xpPopup} XP</span>
-                    <span className="xp-popup__label">Bien joué ! 🎉</span>
+                    <span className="xp-popup__label">Bien joué !</span>
                 </div>
             )}
         </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { toeicParts, toeicSteps, getStepsByPart } from '../data/toeicData'
 import { addXP, completeToeicStep } from '../utils/progressEngine'
+import { TargetIcon, ArrowLeftIcon, ChevronDownIcon, CheckCircleIcon } from '../components/Icons'
 
 export default function TOEICPrep({ progress, setProgress, showXpGain }) {
     const [view, setView] = useState('parts') // 'parts' | 'step'
@@ -57,7 +58,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
 
         return (
             <div className="lesson-view">
-                <div className="lesson-view__back" onClick={goBack}>← Retour aux parties TOEIC</div>
+                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Retour aux parties TOEIC</div>
 
                 <div className="lesson-view__header">
                     <span className="lesson-view__unit-num">Étape {selectedStep.id}</span>
@@ -114,7 +115,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                             {selectedStep.exercises.map((ex, exIdx) => {
                                 const state = exerciseState[exIdx]
                                 return (
-                                    <div key={exIdx} className="glass-card exercise__question">
+                                    <div key={exIdx} className="card exercise__question">
                                         <div className="exercise__question-num">Question {exIdx + 1}</div>
                                         <div className="exercise__question-text">{ex.question}</div>
                                         <div className="exercise__options">
@@ -148,7 +149,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                             )}
 
                             {showResults && (
-                                <div className="glass-card" style={{ textAlign: 'center', padding: '2rem', animation: 'scaleIn 0.3s ease' }}>
+                                <div className="card" style={{ textAlign: 'center', padding: '2rem', animation: 'scaleIn 0.3s ease' }}>
                                     <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
                                         {correctCount === totalExercises ? '🏆' : correctCount >= totalExercises * 0.7 ? '🎉' : '📚'}
                                     </div>
@@ -170,13 +171,13 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
     // Parts overview
     return (
         <div className="toeic-prep">
-            <div className="toeic-prep__header">
-                <h2 className="toeic-prep__title">🎯 TOEIC Prep</h2>
-                <p className="toeic-prep__subtitle">49 étapes méthodiques — Le TOEIC® en 49 étapes (Julie Valette)</p>
+            <div className="page-header">
+                <h2 className="page-header__title">TOEIC Prep</h2>
+                <p className="page-header__subtitle">49 étapes méthodiques — Le TOEIC® en 49 étapes (Julie Valette)</p>
             </div>
 
             {/* TOEIC Structure Info */}
-            <div className="glass-card" style={{ marginBottom: '2rem', padding: '1.5rem' }}>
+            <div className="card" style={{ marginBottom: '2rem', padding: '1.5rem' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                     <div style={{ textAlign: 'center' }}>
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Listening</div>
@@ -203,7 +204,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                     const progressPct = (completedSteps / part.steps.length) * 100
 
                     return (
-                        <div key={part.id} className="glass-card toeic-part" style={{ animation: 'fadeInUp 0.4s ease both', animationDelay: `${0.08 * i}s`, padding: 0 }}>
+                        <div key={part.id} className="card toeic-part" style={{ animation: 'fadeInUp 0.4s ease both', animationDelay: `${0.08 * i}s`, padding: 0 }}>
                             <div className="toeic-part__header" onClick={() => togglePart(part.id)}>
                                 <div className={`toeic-part__number toeic-part__number--${part.type === 'exam' ? 'listening' : part.type}`}>
                                     {part.number}
@@ -217,7 +218,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                                         <div className={`progress-bar__fill`} style={{ width: `${progressPct}%` }} />
                                     </div>
                                 </div>
-                                <span className={`toeic-part__expand ${isExpanded ? 'toeic-part__expand--open' : ''}`}>▼</span>
+                                <span className={`toeic-part__expand ${isExpanded ? 'toeic-part__expand--open' : ''}`}><ChevronDownIcon size={18} /></span>
                             </div>
 
                             {isExpanded && (
