@@ -1,15 +1,10 @@
-/* ============================================
-   Anglify — Circular Progress Ring
-   Animated SVG ring with center content
-   ============================================ */
-
 export default function CircularProgress({
     value = 0,
     max = 100,
     size = 120,
     strokeWidth = 8,
-    color = 'var(--accent-primary)',
-    gradientId,
+    trackColor = '#f1f5f9',
+    progressColor = '#2451ed',
     label,
     sublabel,
     className = '',
@@ -20,32 +15,22 @@ export default function CircularProgress({
     const offset = circumference - (percentage / 100) * circumference
 
     return (
-        <div className={`progress-ring ${className}`} style={{ width: size, height: size }}>
+        <div className={`relative inline-flex items-center justify-center ${className}`} style={{ width: size, height: size }}>
             <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-                {gradientId && (
-                    <defs>
-                        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="var(--accent-primary)" />
-                            <stop offset="100%" stopColor="var(--accent-secondary)" />
-                        </linearGradient>
-                    </defs>
-                )}
-                {/* Background track */}
                 <circle
                     cx={size / 2}
                     cy={size / 2}
                     r={radius}
                     fill="none"
-                    stroke="var(--bg-tertiary)"
+                    stroke={trackColor}
                     strokeWidth={strokeWidth}
                 />
-                {/* Progress arc */}
                 <circle
                     cx={size / 2}
                     cy={size / 2}
                     r={radius}
                     fill="none"
-                    stroke={gradientId ? `url(#${gradientId})` : color}
+                    stroke={progressColor}
                     strokeWidth={strokeWidth}
                     strokeLinecap="round"
                     strokeDasharray={circumference}
@@ -57,14 +42,16 @@ export default function CircularProgress({
                     }}
                 />
             </svg>
-            <div className="progress-ring__content">
-                {label !== undefined && (
-                    <span className="progress-ring__label">{label}</span>
-                )}
-                {sublabel && (
-                    <span className="progress-ring__sublabel">{sublabel}</span>
-                )}
-            </div>
+            {(label !== undefined || sublabel) && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    {label !== undefined && (
+                        <span className="text-lg font-display font-bold text-slate-900">{label}</span>
+                    )}
+                    {sublabel && (
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{sublabel}</span>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

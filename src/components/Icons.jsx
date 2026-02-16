@@ -1,6 +1,6 @@
 /* ============================================
    Anglify — Premium Duotone Icons
-   Rounded, friendly, and polished SVG icons
+   Consistent, rounded SVG icon system
    ============================================ */
 
 const IconBase = ({ size = 24, className = '', children, viewBox = "0 0 24 24" }) => (
@@ -10,8 +10,7 @@ const IconBase = ({ size = 24, className = '', children, viewBox = "0 0 24 24" }
         viewBox={viewBox}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={`icon ${className}`}
-        style={{ transition: 'all 0.2s ease' }}
+        className={className}
     >
         {children}
     </svg>
@@ -52,17 +51,16 @@ export const PenIcon = (props) => (
 
 export const ZapIcon = (props) => (
     <IconBase {...props}>
-        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor" fillOpacity="0.2" />
+        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </IconBase>
 )
 
 export const ChartIcon = (props) => (
     <IconBase {...props}>
+        <rect x="4" y="2" width="16" height="20" rx="2" fill="currentColor" fillOpacity="0.1" />
         <path d="M18 20V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M12 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M6 20V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <rect x="4" y="2" width="16" height="20" rx="2" fill="currentColor" fillOpacity="0.1" />
     </IconBase>
 )
 
@@ -83,8 +81,6 @@ export const StarIcon = (props) => (
 
 export const FlameIcon = (props) => (
     <IconBase {...props}>
-        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12C11 11.24 10.37 11 10.37 11C13 10.74 13.5 11.96 13.5 14.5C13.5 16.99 11.49 19 9 19C6.51 19 4.5 16.99 4.5 14.5C4.5 12.01 6.51 10 8.5 14.5Z" fill="currentColor" />
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.3" />
         <path d="M15 12C15 12 16.5 13 16.5 16C16.5 18.5 14.5 20.5 12 20.5C9.5 20.5 7.5 18.5 7.5 16C7.5 13.5 9 12 12 7C14 10 15 12 15 12Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </IconBase>
 )
@@ -101,6 +97,13 @@ export const ArrowLeftIcon = (props) => (
     <IconBase {...props}>
         <path d="M19 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const ArrowRightIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </IconBase>
 )
 
@@ -135,5 +138,96 @@ export const BookOpenIcon = (props) => (
     <IconBase {...props}>
         <path d="M2 3H8C9.06087 3 10.0783 3.42143 10.8284 4.17157C11.5786 4.92172 12 5.93913 12 7V21C12 20.2044 11.6839 19.4413 11.1213 18.8787C10.5587 18.3161 9.79565 18 9 18H2V3Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M22 3H16C14.9391 3 13.9217 3.42143 13.1716 4.17157C12.4214 4.92172 12 5.93913 12 7V21C12 20.2044 12.3161 19.4413 12.8787 18.8787C13.4413 18.3161 14.2044 18 15 18H22V3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+// --- New icons replacing emojis ---
+
+export const SparkleIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M19 15L19.83 17.17L22 18L19.83 18.83L19 21L18.17 18.83L16 18L18.17 17.17L19 15Z" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const BrainIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M12 2C8.5 2 6 4.5 6 7.5C6 9.5 7 11 8.5 12C7 13 6 14.5 6 16.5C6 19.5 8.5 22 12 22C15.5 22 18 19.5 18 16.5C18 14.5 17 13 15.5 12C17 11 18 9.5 18 7.5C18 4.5 15.5 2 12 2Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 2V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </IconBase>
+)
+
+export const RulesIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M3 6H21M3 12H21M3 18H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <rect x="2" y="3" width="20" height="18" rx="2" fill="currentColor" fillOpacity="0.08" />
+    </IconBase>
+)
+
+export const LightbulbIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M9 21H15M12 3C8.68629 3 6 5.68629 6 9C6 11.22 7.21 13.16 9 14.2V17H15V14.2C16.79 13.16 18 11.22 18 9C18 5.68629 15.3137 3 12 3Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const PencilEditIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M18.5 2.50001C18.8978 2.10219 19.4374 1.87869 20 1.87869C20.5626 1.87869 21.1022 2.10219 21.5 2.50001C21.8978 2.89784 22.1213 3.43739 22.1213 4.00001C22.1213 4.56262 21.8978 5.10219 21.5 5.50001L12 15L8 16L9 12L18.5 2.50001Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const PinIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M12 2L19 21L12 17L5 21L12 2Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const TrophyIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M6 9H4C3.44772 9 3 8.55228 3 8V4C3 3.44772 3.44772 3 4 3H6M18 9H20C20.5523 9 21 8.55228 21 8V4C21 3.44772 20.5523 3 20 3H18M6 3H18V9C18 12.3137 15.3137 15 12 15C8.68629 15 6 12.3137 6 9V3Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 15V18M8 21H16M10 18H14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const PartyIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M5.8 11.3L2 22L12.7 18.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M4 3H4.01M22 8H22.01M16 2H16.01M11 7H11.01M20 14H20.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        <path d="M5.8 11.3C7.36 9.34 9.28 7.71 11.45 6.5M12.7 18.2C14.76 16.72 16.52 14.85 17.86 12.66" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </IconBase>
+)
+
+export const CorrectIcon = (props) => (
+    <IconBase {...props}>
+        <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2" />
+        <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const WrongIcon = (props) => (
+    <IconBase {...props}>
+        <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2" />
+        <path d="M15 9L9 15M9 9L15 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const PlayIcon = (props) => (
+    <IconBase {...props}>
+        <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const RefreshIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M1 4V10H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3.51 15C4.15839 16.8404 5.39045 18.4202 7.01717 19.4952C8.64389 20.5702 10.5772 21.0811 12.5193 20.9517C14.4614 20.8224 16.3065 20.0601 17.768 18.7803C19.2296 17.5005 20.2298 15.7723 20.6142 13.8608C20.9987 11.9493 20.7466 9.96078 19.8955 8.20709C19.0443 6.45341 17.6423 5.03067 15.9009 4.15468C14.1596 3.27869 12.1747 2.99888 10.2575 3.35604C8.34036 3.7132 6.59693 4.68667 5.29 6.12L1 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
+
+export const GlobeIcon = (props) => (
+    <IconBase {...props}>
+        <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="2" />
+        <path d="M2 12H22M12 2C14.5 4.73 15.82 8.3 16 12C15.82 15.7 14.5 19.27 12 22C9.5 19.27 8.18 15.7 8 12C8.18 8.3 9.5 4.73 12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </IconBase>
 )
