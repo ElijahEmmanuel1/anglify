@@ -3,6 +3,8 @@
 // 145 Units organized in 12 categories
 // ============================================
 
+import { grammarLessonsFR } from './grammarLessons';
+
 export const grammarCategories = [
     {
         id: 'present-past',
@@ -1453,6 +1455,28 @@ export const grammarUnits = {
         ]
     }
 };
+
+// Merge rich French content (units 1-18) into grammarUnits — overrides old content
+Object.entries(grammarLessonsFR).forEach(([id, unit]) => {
+    grammarUnits[Number(id)] = unit;
+});
+
+// Normalize a unit to the new structure (for backward compat with old-format units)
+export function normalizeUnit(unit) {
+    if (!unit) return null;
+    // Already in new format (has lesson-level tips or evaluation)
+    if (unit.tips || unit.evaluation) return unit;
+    // Convert old format: add empty tips/evaluation, tag exercises as 'medium'
+    return {
+        ...unit,
+        tips: [],
+        evaluation: [],
+        exercises: (unit.exercises || []).map(ex => ({
+            ...ex,
+            difficulty: ex.difficulty || 'medium',
+        })),
+    };
+}
 
 // Helper to get units for a category
 export function getUnitsByCategory(categoryId) {
