@@ -5,7 +5,6 @@ import { toeicSteps } from '../data/toeicData'
 import { addXP } from '../utils/progressEngine'
 import { TargetIcon, ClockIcon, PenIcon, StarIcon, ArrowLeftIcon } from '../components/Icons'
 
-// Gather all exercises from all sources
 function getAllExercises() {
     const exercises = []
     Object.values(grammarUnits).forEach(unit => {
@@ -31,7 +30,7 @@ function shuffle(array) {
 }
 
 export default function QuickPractice({ progress, setProgress, showXpGain }) {
-    const [mode, setMode] = useState('menu') // 'menu' | 'daily' | 'speed' | 'vocab-quiz'
+    const [mode, setMode] = useState('menu')
     const [questions, setQuestions] = useState([])
     const [currentQ, setCurrentQ] = useState(0)
     const [answers, setAnswers] = useState({})
@@ -41,7 +40,6 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
 
     const allExercises = useMemo(() => getAllExercises(), [])
 
-    // Shuffle options for each question so correct answer isn't always first
     const shuffledQOptions = useMemo(() => {
         const map = {}
         questions.forEach((q, i) => {
@@ -87,7 +85,7 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
             const options = shuffle([w.definition, ...wrongAnswers])
             return {
                 type: 'correct',
-                question: `Quelle est la traduction de "${w.word}" ?`,
+                question: `What does "${w.word}" mean?`,
                 answer: w.definition,
                 options,
                 source: 'vocabulary',
@@ -131,11 +129,7 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
     }
 
     const formatTime = (s) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`
-
-    const goBack = () => {
-        setMode('menu')
-        setTimerActive(false)
-    }
+    const goBack = () => { setMode('menu'); setTimerActive(false) }
 
     // Quiz in progress
     if ((mode === 'daily' || mode === 'speed' || mode === 'vocab-quiz') && questions.length > 0) {
@@ -144,20 +138,18 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
             const total = questions.length
             const pct = Math.round((correctCount / total) * 100)
             return (
-                <div className="quick-practice" style={{ maxWidth: '600px', margin: '0 auto' }}>
+                <div className="quick-practice">
                     <div className="card" style={{ textAlign: 'center', padding: '3rem', animation: 'scaleIn 0.4s ease' }}>
                         <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
                             {pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '📚'}
                         </div>
-                        <div style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem' }}>
-                            {correctCount}/{total}
-                        </div>
+                        <div style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem' }}>{correctCount}/{total}</div>
                         <div style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Score: {pct}%</div>
-                        <div style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Temps: {formatTime(timer)}</div>
-                        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <div style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Time: {formatTime(timer)}</div>
+                        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
                             <button className="btn btn-secondary" onClick={goBack}>← Menu</button>
                             <button className="btn btn-primary" onClick={mode === 'daily' ? startDaily : mode === 'speed' ? startSpeed : startVocabQuiz}>
-                                🔄 Rejouer
+                                🔄 Play again
                             </button>
                         </div>
                     </div>
@@ -169,12 +161,10 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
         const state = answers[currentQ]
 
         return (
-            <div className="quick-practice" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Quitter</div>
-
-                {/* Header */}
+            <div className="quick-practice">
+                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Quit</div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-                    <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                         Question {currentQ + 1}/{questions.length}
                     </span>
                     <span style={{ fontSize: '0.875rem', fontFamily: 'var(--font-mono)', color: mode === 'speed' ? 'var(--error)' : 'var(--text-muted)' }}>
@@ -185,10 +175,9 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
                     <div className="progress-bar__fill" style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }} />
                 </div>
 
-                {/* Question */}
                 <div className="card">
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.75rem' }}>{q.sourceTitle}</div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '1.5rem', lineHeight: 1.5 }}>{q.question}</div>
+                    <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1.5rem', lineHeight: 1.5 }}>{q.question}</div>
                     <div className="exercise__options">
                         {(shuffledQOptions[currentQ] || q.options).map((opt, i) => {
                             let className = 'exercise__option'
@@ -207,11 +196,11 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
                     {state?.answered && (
                         <>
                             <div className={`exercise__feedback ${state.correct ? 'exercise__feedback--correct' : 'exercise__feedback--incorrect'}`} style={{ marginTop: '1rem' }}>
-                                {state.correct ? '✅ Correct !' : `❌ Réponse : ${q.answer}`}
+                                {state.correct ? '✅ Correct!' : `❌ Answer: ${q.answer}`}
                             </div>
                             <div style={{ marginTop: '1rem', textAlign: 'right' }}>
                                 <button className="btn btn-primary" onClick={nextQuestion}>
-                                    {currentQ < questions.length - 1 ? 'Suivante →' : 'Voir les résultats'}
+                                    {currentQ < questions.length - 1 ? 'Next →' : 'See results'}
                                 </button>
                             </div>
                         </>
@@ -224,31 +213,31 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
     // Menu
     return (
         <div className="quick-practice">
-            <div className="quick-practice__header">
+            <div className="page-header">
                 <h2 className="page-header__title">Quick Practice</h2>
-                <p className="page-header__subtitle">Entraîne-toi rapidement pour renforcer tes acquis</p>
+                <p className="page-header__subtitle">Train quickly to reinforce your skills</p>
             </div>
 
             <div className="practice-modes">
-                <div className="card card--interactive practice-mode" onClick={startDaily} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.1s' }}>
+                <div className="practice-mode" onClick={startDaily} style={{ animation: 'fadeInUp 0.4s ease 0.1s both' }}>
                     <div className="practice-mode__icon practice-mode__icon--daily"><TargetIcon size={28} /></div>
-                    <div className="practice-mode__title">Défi Quotidien</div>
-                    <div className="practice-mode__desc">10 questions mixtes (grammaire + TOEIC) — Chronomètre activé</div>
-                    <div className="practice-mode__reward"><StarIcon size={14} /> +50-150 XP</div>
+                    <div className="practice-mode__title">Daily Challenge</div>
+                    <div className="practice-mode__desc">10 mixed questions — Timer on</div>
+                    <div className="practice-mode__xp"><StarIcon size={14} /> +50-150 XP</div>
                 </div>
 
-                <div className="card card--interactive practice-mode" onClick={startSpeed} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.2s' }}>
+                <div className="practice-mode" onClick={startSpeed} style={{ animation: 'fadeInUp 0.4s ease 0.2s both' }}>
                     <div className="practice-mode__icon practice-mode__icon--speed"><ClockIcon size={28} /></div>
                     <div className="practice-mode__title">Speed Drill</div>
-                    <div className="practice-mode__desc">5 questions rapides — Teste ta vitesse de réponse</div>
-                    <div className="practice-mode__reward"><StarIcon size={14} /> +30-80 XP</div>
+                    <div className="practice-mode__desc">5 rapid questions — Test your speed</div>
+                    <div className="practice-mode__xp"><StarIcon size={14} /> +30-80 XP</div>
                 </div>
 
-                <div className="card card--interactive practice-mode" onClick={startVocabQuiz} style={{ animation: 'fadeInUp 0.5s ease both', animationDelay: '0.3s' }}>
-                    <div className="practice-mode__icon practice-mode__icon--quiz"><PenIcon size={28} /></div>
+                <div className="practice-mode" onClick={startVocabQuiz} style={{ animation: 'fadeInUp 0.4s ease 0.3s both' }}>
+                    <div className="practice-mode__icon practice-mode__icon--vocab"><PenIcon size={28} /></div>
                     <div className="practice-mode__title">Vocab Quiz</div>
-                    <div className="practice-mode__desc">10 mots à traduire — Teste ton vocabulaire business</div>
-                    <div className="practice-mode__reward"><StarIcon size={14} /> +25-125 XP</div>
+                    <div className="practice-mode__desc">10 words to translate — Business vocabulary</div>
+                    <div className="practice-mode__xp"><StarIcon size={14} /> +25-125 XP</div>
                 </div>
             </div>
         </div>

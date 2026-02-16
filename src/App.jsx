@@ -6,30 +6,20 @@ import TOEICPrep from './pages/TOEICPrep'
 import VocabularyForge from './pages/VocabularyForge'
 import QuickPractice from './pages/QuickPractice'
 import Progress from './pages/Progress'
-import { HomeIcon, BookIcon, TargetIcon, PenIcon, ZapIcon, ChartIcon, FlameIcon, StarIcon, MenuIcon } from './components/Icons'
+import { HomeIcon, BookIcon, TargetIcon, PenIcon, ZapIcon, ChartIcon, StarIcon, BellIcon } from './components/Icons'
 
 const NAV_ITEMS = [
-    { id: 'dashboard', label: 'Dashboard', Icon: HomeIcon },
-    { id: 'grammar', label: 'Grammar Lab', Icon: BookIcon },
-    { id: 'toeic', label: 'TOEIC Prep', Icon: TargetIcon },
-    { id: 'vocabulary', label: 'Vocabulary Forge', Icon: PenIcon },
-    { id: 'practice', label: 'Quick Practice', Icon: ZapIcon },
+    { id: 'dashboard', label: 'Home', Icon: HomeIcon },
+    { id: 'grammar', label: 'Grammar', Icon: BookIcon },
+    { id: 'toeic', label: 'TOEIC', Icon: TargetIcon },
+    { id: 'vocabulary', label: 'Vocab', Icon: PenIcon },
+    { id: 'practice', label: 'Practice', Icon: ZapIcon },
     { id: 'progress', label: 'Progress', Icon: ChartIcon },
 ]
-
-const PAGE_TITLES = {
-    dashboard: 'Dashboard',
-    grammar: 'Grammar Lab',
-    toeic: 'TOEIC Prep',
-    vocabulary: 'Vocabulary Forge',
-    practice: 'Quick Practice',
-    progress: 'My Progress',
-}
 
 export default function App() {
     const [currentPage, setCurrentPage] = useState('dashboard')
     const [progress, setProgress] = useState(loadProgress)
-    const [sidebarOpen, setSidebarOpen] = useState(false)
     const [xpPopup, setXpPopup] = useState(null)
 
     useEffect(() => {
@@ -44,13 +34,15 @@ export default function App() {
 
     const navigate = (page) => {
         setCurrentPage(page)
-        setSidebarOpen(false)
         window.scrollTo(0, 0)
     }
 
-    const xpInfo = xpToNextLevel(progress.xp, progress.level)
-    const grammarStats = getGrammarStats(progress)
-    const toeicStats = getToeicStats(progress)
+    const getTimeGreeting = () => {
+        const hour = new Date().getHours()
+        if (hour < 12) return 'Good Morning'
+        if (hour < 18) return 'Good Afternoon'
+        return 'Good Evening'
+    }
 
     const renderPage = () => {
         const pageProps = { progress, setProgress, showXpGain, navigate }
@@ -66,85 +58,26 @@ export default function App() {
 
     return (
         <div className="app-layout">
-            {/* Mobile overlay */}
-            {sidebarOpen && (
-                <div className="sidebar-overlay sidebar-overlay--visible" onClick={() => setSidebarOpen(false)} />
+            {/* Header - only on dashboard */}
+            {currentPage === 'dashboard' && (
+                <header className="header">
+                    <div className="header__user">
+                        <div className="header__avatar">An</div>
+                        <div>
+                            <div className="header__greeting-text">Hello 👋</div>
+                            <div className="header__greeting-name">{getTimeGreeting()}</div>
+                        </div>
+                    </div>
+                    <div className="header__actions">
+                        <div className="header__lang-badge">
+                            🇬🇧 English
+                        </div>
+                        <button className="header__notif">
+                            <BellIcon size={18} />
+                        </button>
+                    </div>
+                </header>
             )}
-
-            {/* Sidebar */}
-            <aside className={`sidebar ${sidebarOpen ? 'sidebar--open' : ''}`}>
-                <div className="sidebar__logo">
-                    <div className="sidebar__logo-icon">An</div>
-                    <div className="sidebar__logo-text">
-                        <span className="sidebar__logo-title">Anglify</span>
-                        <span className="sidebar__logo-subtitle">Master English, Ace TOEIC</span>
-                    </div>
-                </div>
-
-                <nav className="sidebar__nav">
-                    <span className="sidebar__label">Modules</span>
-                    {NAV_ITEMS.map(item => (
-                        <a
-                            key={item.id}
-                            className={`sidebar__link ${currentPage === item.id ? 'sidebar__link--active' : ''}`}
-                            onClick={() => navigate(item.id)}
-                        >
-                            <item.Icon size={20} />
-                            <span>{item.label}</span>
-                            {item.id === 'grammar' && grammarStats.completed > 0 && (
-                                <span className="sidebar__link-badge">{grammarStats.completed}</span>
-                            )}
-                            {item.id === 'toeic' && toeicStats.completed > 0 && (
-                                <span className="sidebar__link-badge">{toeicStats.completed}</span>
-                            )}
-                        </a>
-                    ))}
-                </nav>
-
-                <div className="sidebar__footer">
-                    <div className="sidebar__streak">
-                        <span className="sidebar__streak-fire">
-                            <FlameIcon size={22} />
-                        </span>
-                        <div className="sidebar__streak-info">
-                            <div className="sidebar__streak-count">{progress.streak.current} jours</div>
-                            <div className="sidebar__streak-label">Série en cours</div>
-                        </div>
-                    </div>
-                    <div className="sidebar__xp">
-                        <div className="sidebar__xp-header">
-                            <span className="sidebar__xp-level">
-                                Niv. {progress.level} — {LEVEL_TITLES[progress.level] || 'Apprenant'}
-                            </span>
-                            <span className="sidebar__xp-amount">{progress.xp} XP</span>
-                        </div>
-                        <div className="progress-bar">
-                            <div className="progress-bar__fill" style={{ width: `${xpInfo.percentage}%` }} />
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            {/* Header */}
-            <header className="header">
-                <div className="header__left">
-                    <button className="mobile-menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
-                        <MenuIcon size={22} />
-                    </button>
-                    <h1 className="header__title">{PAGE_TITLES[currentPage]}</h1>
-                </div>
-                <div className="header__right">
-                    <div className="header__stat header__stat-streak">
-                        <FlameIcon size={14} /> {progress.streak.current}
-                    </div>
-                    <div className="header__stat header__stat-xp">
-                        <StarIcon size={14} /> {progress.xp} XP
-                    </div>
-                    <div className="header__stat" style={{ color: 'var(--accent-primary-light)' }}>
-                        Niv. {progress.level}
-                    </div>
-                </div>
-            </header>
 
             {/* Main Content */}
             <main className="main-content">
@@ -152,6 +85,21 @@ export default function App() {
                     {renderPage()}
                 </div>
             </main>
+
+            {/* Bottom Navigation */}
+            <nav className="bottom-nav">
+                {NAV_ITEMS.map(item => (
+                    <button
+                        key={item.id}
+                        className={`bottom-nav__item ${currentPage === item.id ? 'bottom-nav__item--active' : ''}`}
+                        onClick={() => navigate(item.id)}
+                    >
+                        {currentPage === item.id && <div className="bottom-nav__indicator" />}
+                        <item.Icon size={22} />
+                        <span>{item.label}</span>
+                    </button>
+                ))}
+            </nav>
 
             {/* XP Popup */}
             {xpPopup && (

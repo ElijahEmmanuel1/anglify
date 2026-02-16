@@ -4,7 +4,7 @@ import { addXP, updateVocabWord } from '../utils/progressEngine'
 import { PenIcon, ArrowLeftIcon, StarIcon, LayersIcon } from '../components/Icons'
 
 export default function VocabularyForge({ progress, setProgress, showXpGain }) {
-    const [mode, setMode] = useState('themes') // 'themes' | 'review' | 'flashcard'
+    const [mode, setMode] = useState('themes')
     const [selectedTheme, setSelectedTheme] = useState(null)
     const [currentIndex, setCurrentIndex] = useState(0)
     const [flipped, setFlipped] = useState(false)
@@ -25,7 +25,7 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
         const due = getDueWords(progress)
         if (due.length === 0) return
         setWords(due.slice(0, 20))
-        setSelectedTheme({ title: 'Révision SRS', icon: '🔄' })
+        setSelectedTheme({ title: 'SRS Review', icon: '🔄' })
         setCurrentIndex(0)
         setFlipped(false)
         setMode('flashcard')
@@ -68,28 +68,26 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
         const boxLevel = wordProgress?.box || 0
 
         return (
-            <div className="vocab-forge">
-                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Retour</div>
+            <div className="vocabulary">
+                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Back</div>
                 <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
                     <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{selectedTheme?.icon} {selectedTheme?.title}</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Carte {currentIndex + 1} / {words.length}</p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Card {currentIndex + 1} / {words.length}</p>
                     <div className="progress-bar" style={{ maxWidth: '300px', margin: '0.75rem auto' }}>
-                        <div className="progress-bar__fill progress-bar--gold" style={{ width: `${((currentIndex + 1) / words.length) * 100}%` }} />
+                        <div className="progress-bar__fill" style={{ width: `${((currentIndex + 1) / words.length) * 100}%` }} />
                     </div>
                 </div>
 
-                <div className="flashcard-container">
-                    <div className={`flashcard ${flipped ? 'flashcard--flipped' : ''}`} onClick={() => setFlipped(!flipped)}>
+                <div className={`flashcard ${flipped ? 'flashcard--flipped' : ''}`} onClick={() => setFlipped(!flipped)}>
+                    <div className="flashcard__inner">
                         <div className="flashcard__face flashcard__front">
                             {boxLevel > 0 && (
                                 <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-                                    <span className={`badge ${boxLevel >= 4 ? 'badge-success' : boxLevel >= 2 ? 'badge-warning' : 'badge-primary'}`}>
-                                        Box {boxLevel}
-                                    </span>
+                                    <span className="badge badge--accent">Box {boxLevel}</span>
                                 </div>
                             )}
                             <div className="flashcard__word">{word.word}</div>
-                            <div className="flashcard__hint">Cliquer pour retourner</div>
+                            <div className="flashcard__hint">Tap to flip</div>
                         </div>
                         <div className="flashcard__face flashcard__back">
                             <div className="flashcard__definition">{word.definition}</div>
@@ -100,87 +98,70 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
 
                 <div className="flashcard__controls">
                     <button className="btn btn-secondary btn-lg" onClick={handleDontKnow} style={{ borderColor: 'var(--error)', color: 'var(--error)' }}>
-                        ❌ Je ne sais pas
+                        ❌ Don't know
                     </button>
-                    <button className="btn btn-success btn-lg" onClick={handleKnow}>
-                        ✅ Je sais !
+                    <button className="btn btn-primary btn-lg" onClick={handleKnow} style={{ background: 'var(--success)' }}>
+                        ✅ I know!
                     </button>
                 </div>
             </div>
         )
     }
 
-    // Themes view
     return (
-        <div className="vocab-forge">
-            <div className="vocab-forge__header">
+        <div className="vocabulary">
+            <div className="page-header">
                 <h2 className="page-header__title">Vocabulary Forge</h2>
-                <p className="page-header__subtitle">Maîtrise le vocabulaire business anglais avec la répétition espacée</p>
+                <p className="page-header__subtitle">Master business English with spaced repetition</p>
             </div>
 
-            {/* Stats */}
-            <div className="vocab-forge__stats">
-                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-primary-light)' }}>
-                        {progress.vocabulary?.totalLearned || 0}
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Mots étudiés</div>
+            <div className="vocab-stats">
+                <div className="vocab-stat">
+                    <div className="vocab-stat__value" style={{ color: 'var(--accent-primary)' }}>{progress.vocabulary?.totalLearned || 0}</div>
+                    <div className="vocab-stat__label">Studied</div>
                 </div>
-                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--success)' }}>
-                        {progress.vocabulary?.totalMastered || 0}
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Mots maîtrisés</div>
+                <div className="vocab-stat">
+                    <div className="vocab-stat__value" style={{ color: 'var(--success)' }}>{progress.vocabulary?.totalMastered || 0}</div>
+                    <div className="vocab-stat__label">Mastered</div>
                 </div>
-                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--warning)' }}>
-                        {dueWords.length}
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>À réviser</div>
-                </div>
-                <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                        {vocabularyWords.length}
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Mots au total</div>
+                <div className="vocab-stat">
+                    <div className="vocab-stat__value" style={{ color: 'var(--warning)' }}>{dueWords.length}</div>
+                    <div className="vocab-stat__label">Due</div>
                 </div>
             </div>
 
-            {/* Due Review */}
             {dueWords.length > 0 && (
-                <div className="card" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', borderColor: 'var(--warning)' }}>
+                <div className="card" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <span style={{ fontSize: '2rem' }}>🔔</span>
                     <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700 }}>{dueWords.length} mots à réviser</div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>La révision espacée renforce la mémorisation</div>
+                        <div style={{ fontWeight: 700 }}>{dueWords.length} words to review</div>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Spaced repetition strengthens memory</div>
                     </div>
-                    <button className="btn btn-gold" onClick={startReview}>Réviser maintenant</button>
+                    <button className="btn btn-primary btn-sm" onClick={startReview}>Review</button>
                 </div>
             )}
 
-            {/* Theme Cards */}
-            <h3 className="section-title"><LayersIcon size={20} /> Thèmes</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+            <div className="section-title"><LayersIcon size={18} /> Themes</div>
+            <div className="vocab-themes">
                 {vocabThemes.map((theme, i) => {
                     const themeWords = getWordsByTheme(theme.id)
                     const learned = themeWords.filter(w => progress.vocabulary?.words?.[w.id]).length
                     return (
                         <div
                             key={theme.id}
-                            className="card card--interactive"
+                            className="vocab-theme"
                             onClick={() => startTheme(theme)}
-                            style={{ cursor: 'pointer', animation: 'fadeInUp 0.4s ease both', animationDelay: `${0.05 * i}s` }}
+                            style={{ animation: `fadeInUp 0.3s ease ${0.04 * i}s both` }}
                         >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
-                                <span style={{ fontSize: '1.75rem' }}>{theme.icon}</span>
-                                <div>
-                                    <div style={{ fontWeight: 700 }}>{theme.title}</div>
-                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{themeWords.length} mots • {learned} appris</div>
+                            <span style={{ fontSize: '1.75rem' }}>{theme.icon}</span>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontWeight: 700 }}>{theme.title}</div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{themeWords.length} words • {learned} learned</div>
+                                <div className="progress-bar" style={{ marginTop: '0.5rem', maxWidth: '180px' }}>
+                                    <div className="progress-bar__fill" style={{ width: `${(learned / themeWords.length) * 100}%` }} />
                                 </div>
                             </div>
-                            <div className="progress-bar">
-                                <div className="progress-bar__fill" style={{ width: `${(learned / themeWords.length) * 100}%` }} />
-                            </div>
+                            <span style={{ color: 'var(--text-dim)' }}>→</span>
                         </div>
                     )
                 })}

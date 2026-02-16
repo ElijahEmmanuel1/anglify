@@ -1,198 +1,182 @@
+import { useMemo } from 'react'
 import { getGrammarStats, getToeicStats, estimateToeicScore } from '../utils/progressEngine'
-import CircularProgress from '../components/CircularProgress'
-import { BookIcon, TargetIcon, PenIcon, ZapIcon, StarIcon, FlameIcon, LayersIcon, ChartIcon } from '../components/Icons'
+import { BookIcon, TargetIcon, PenIcon, ZapIcon, StarIcon, FlameIcon, ChartIcon, LayersIcon, BookOpenIcon, ClockIcon } from '../components/Icons'
 
 const MODULES = [
     {
         id: 'grammar',
         Icon: BookIcon,
-        title: 'Grammar Lab',
-        desc: '145 leçons de grammaire avec exercices interactifs.',
+        title: 'Learn grammar with interactive exercises',
+        category: 'Grammar',
         accent: 'grammar',
-        color: 'var(--module-grammar)',
+        lessons: 145,
+        time: '30 min',
     },
     {
         id: 'toeic',
         Icon: TargetIcon,
-        title: 'TOEIC Prep',
-        desc: '49 étapes méthodiques pour maîtriser le test TOEIC.',
+        title: 'Master the TOEIC exam step by step',
+        category: 'TOEIC',
         accent: 'toeic',
-        color: 'var(--module-toeic)',
+        lessons: 49,
+        time: '20 min',
     },
     {
         id: 'vocabulary',
         Icon: PenIcon,
-        title: 'Vocabulary Forge',
-        desc: '500+ mots business avec flashcards et SRS.',
+        title: 'Build your vocabulary with flashcards',
+        category: 'Vocabulary',
         accent: 'vocab',
-        color: 'var(--module-vocab)',
+        lessons: 500,
+        time: '15 min',
     },
     {
         id: 'practice',
         Icon: ZapIcon,
-        title: 'Quick Practice',
-        desc: 'Défis quotidiens et speed drills pour progresser.',
+        title: 'Quick drills to test your skills',
+        category: 'Practice',
         accent: 'practice',
-        color: 'var(--module-practice)',
+        lessons: 10,
+        time: '5 min',
     }
 ]
 
-const QUOTES = [
-    "The secret of getting ahead is getting started. — Mark Twain",
-    "Learning is not attained by chance, it must be sought with ardor. — Abigail Adams",
-    "Every expert was once a beginner.",
-    "A journey of a thousand miles begins with a single step. — Lao Tzu",
-    "Education is the passport to the future. — Malcolm X",
+const BUDDY_MESSAGES = [
+    "You're learning great today! Keep it up! 🎯",
+    "Practice makes perfect! Let's go! 💪",
+    "One step closer to mastering English! 🚀",
+    "Your dedication is impressive! 🌟",
+    "Ready for another learning session? 📚",
 ]
 
 export default function Dashboard({ progress, navigate }) {
     const grammarStats = getGrammarStats(progress)
     const toeicStats = getToeicStats(progress)
     const toeicScore = estimateToeicScore(progress)
-    const vocabLearned = progress.vocabulary?.totalLearned || 0
-    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)]
 
-    const getTimeGreeting = () => {
-        const hour = new Date().getHours()
-        if (hour < 12) return 'Bonjour'
-        if (hour < 18) return 'Bon après-midi'
-        return 'Bonsoir'
-    }
+    const buddyMessage = useMemo(() =>
+        BUDDY_MESSAGES[Math.floor(Math.random() * BUDDY_MESSAGES.length)]
+        , [])
+
+    const grammarProgress = Math.round((grammarStats.completed / 145) * 100)
 
     return (
         <div className="dashboard">
-            {/* Hero Banner */}
-            <div className="dashboard__hero">
-                <div className="dashboard__hero-left">
-                    <h2 className="dashboard__greeting">
-                        {getTimeGreeting()} ! 👋
-                    </h2>
-                    <p className="dashboard__subtitle">{quote}</p>
+            {/* AI Buddy Card */}
+            <div className="buddy-card">
+                <div className="buddy-card__avatar">🤖</div>
+                <div className="buddy-card__content">
+                    <div className="buddy-card__label">Your AI buddy</div>
+                    <div className="buddy-card__message">{buddyMessage}</div>
                 </div>
-                <div className="dashboard__hero-right">
-                    <div className="dashboard__hero-ring">
-                        <CircularProgress
-                            value={toeicScore}
-                            max={990}
-                            size={100}
-                            strokeWidth={8}
-                            gradientId="hero-toeic"
-                            label={toeicScore}
-                            sublabel="TOEIC"
-                        />
-                        <div className="dashboard__hero-ring-label">Score estimé</div>
+                <div className="buddy-card__emoji">📚</div>
+            </div>
+
+            {/* Today's Pick */}
+            <div className="todays-pick" onClick={() => navigate('grammar')}>
+                <div className="todays-pick__info">
+                    <div className="todays-pick__title">Today's pick: Grammar</div>
+                    <div className="todays-pick__meta">
+                        <span>📖 {145 - grammarStats.completed} lessons left</span>
+                        <span>⏱ 10 min</span>
                     </div>
-                    <div className="dashboard__hero-ring">
-                        <CircularProgress
-                            value={grammarStats.completed}
-                            max={145}
-                            size={80}
-                            strokeWidth={6}
-                            color="var(--module-grammar)"
-                            label={grammarStats.completed}
-                            sublabel="/ 145"
-                        />
-                        <div className="dashboard__hero-ring-label">Grammar</div>
-                    </div>
+                </div>
+                <div className="todays-pick__right">
+                    <div className="todays-pick__progress-text">{grammarProgress}% complete</div>
+                    <button className="todays-pick__play">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                    </button>
                 </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="dashboard__grid">
-                <div className="card stat-card stagger-1" style={{ animationFillMode: 'both', animation: 'fadeInUp 0.5s ease 0.05s both' }}>
-                    <div className="stat-card__icon stat-card__icon--xp">
-                        <StarIcon size={20} />
-                    </div>
-                    <div>
-                        <div className="stat-card__value" style={{ color: 'var(--xp-gold-light)' }}>{progress.xp}</div>
-                        <div className="stat-card__label">XP Total</div>
-                    </div>
+            {/* Stats Row */}
+            <div className="stats-row">
+                <div className="stat-chip">
+                    <div className="stat-chip__icon">⭐</div>
+                    <div className="stat-chip__value" style={{ color: 'var(--xp-gold-light)' }}>{progress.xp}</div>
+                    <div className="stat-chip__label">XP</div>
                 </div>
-                <div className="card stat-card stagger-2" style={{ animation: 'fadeInUp 0.5s ease 0.1s both' }}>
-                    <div className="stat-card__icon stat-card__icon--streak">
-                        <FlameIcon size={20} />
-                    </div>
-                    <div>
-                        <div className="stat-card__value" style={{ color: 'var(--streak-fire)' }}>{progress.streak.current}</div>
-                        <div className="stat-card__label">Jours de série</div>
-                    </div>
+                <div className="stat-chip">
+                    <div className="stat-chip__icon">🔥</div>
+                    <div className="stat-chip__value" style={{ color: 'var(--streak-fire)' }}>{progress.streak.current}</div>
+                    <div className="stat-chip__label">Streak</div>
                 </div>
-                <div className="card stat-card stagger-3" style={{ animation: 'fadeInUp 0.5s ease 0.15s both' }}>
-                    <div className="stat-card__icon stat-card__icon--grammar">
-                        <BookIcon size={20} />
-                    </div>
-                    <div>
-                        <div className="stat-card__value" style={{ color: 'var(--module-grammar)' }}>{grammarStats.completed}/145</div>
-                        <div className="stat-card__label">Grammar Units</div>
-                    </div>
-                </div>
-                <div className="card stat-card stagger-4" style={{ animation: 'fadeInUp 0.5s ease 0.2s both' }}>
-                    <div className="stat-card__icon stat-card__icon--toeic">
-                        <TargetIcon size={20} />
-                    </div>
-                    <div>
-                        <div className="stat-card__value" style={{ color: 'var(--module-toeic)' }}>{toeicScore}</div>
-                        <div className="stat-card__label">TOEIC Estimé</div>
-                    </div>
+                <div className="stat-chip">
+                    <div className="stat-chip__icon">🎯</div>
+                    <div className="stat-chip__value" style={{ color: 'var(--accent-primary)' }}>{toeicScore}</div>
+                    <div className="stat-chip__label">TOEIC</div>
                 </div>
             </div>
 
-            {/* Modules */}
-            <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h3 className="section-title">
-                    <LayersIcon size={20} /> Modules d'apprentissage
-                </h3>
-                <div className="modules-grid">
-                    {MODULES.map((mod, i) => (
-                        <div
-                            key={mod.id}
-                            className="card card--interactive card--flush module-card"
-                            onClick={() => navigate(mod.id)}
-                            style={{ animation: `fadeInUp 0.5s ease ${0.05 * (i + 1)}s both` }}
-                        >
-                            <div className={`module-card__accent module-card__accent--${mod.accent}`} />
-                            <div className="module-card__body">
-                                <div className={`module-card__icon-wrap module-card__icon-wrap--${mod.accent}`}>
-                                    <mod.Icon size={22} />
-                                </div>
-                                <div className="module-card__info">
-                                    <div className="module-card__title">{mod.title}</div>
-                                    <div className="module-card__desc">{mod.desc}</div>
-                                    <div className="module-card__footer">
-                                        <button className="btn btn-sm btn-secondary">
-                                            Commencer →
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+            {/* Let's Learn Section */}
+            <div className="section-title">Let's learn</div>
+
+            {/* Category Tabs */}
+            <div className="category-tabs">
+                <div className="chip chip--active">
+                    All <span className="chip__count">{MODULES.length}</span>
+                </div>
+                <div className="chip" onClick={() => navigate('grammar')}>
+                    <BookIcon size={14} /> Grammar
+                </div>
+                <div className="chip" onClick={() => navigate('toeic')}>
+                    <TargetIcon size={14} /> TOEIC
+                </div>
+                <div className="chip" onClick={() => navigate('vocabulary')}>
+                    <PenIcon size={14} /> Vocab
+                </div>
+                <div className="chip" onClick={() => navigate('practice')}>
+                    <ZapIcon size={14} /> Practice
+                </div>
+            </div>
+
+            {/* Module Cards */}
+            <div className="modules-grid">
+                {MODULES.map((mod, i) => (
+                    <div
+                        key={mod.id}
+                        className={`module-card module-card--${mod.accent}`}
+                        onClick={() => navigate(mod.id)}
+                        style={{ animation: `fadeInUp 0.4s ease ${0.08 * (i + 1)}s both` }}
+                    >
+                        <div className={`module-card__icon-wrap module-card__icon-wrap--${mod.accent}`}>
+                            <mod.Icon size={22} />
                         </div>
-                    ))}
-                </div>
+                        <div className="module-card__category">{mod.category}</div>
+                        <div className="module-card__title">{mod.title}</div>
+                        <div className="module-card__meta">
+                            <span>📖 {mod.lessons} lessons</span>
+                            <span>⏱ {mod.time}</span>
+                        </div>
+                    </div>
+                ))}
             </div>
 
-            {/* Study Heatmap */}
-            <div className="card" style={{ animation: 'fadeInUp 0.6s ease 0.3s both' }}>
-                <h3 className="section-title" style={{ marginBottom: '16px' }}>
-                    <ChartIcon size={20} /> Activité d'étude
-                </h3>
-                <div className="heatmap__grid">
-                    {Array.from({ length: 91 }, (_, i) => {
-                        const date = new Date()
-                        date.setDate(date.getDate() - (90 - i))
-                        const dateStr = date.toISOString().split('T')[0]
-                        const val = progress.studyDays?.[dateStr] || 0
-                        const level = val === 0 ? '' : val < 3 ? 'heatmap__day--l1' : val < 5 ? 'heatmap__day--l2' : val < 10 ? 'heatmap__day--l3' : val < 20 ? 'heatmap__day--l4' : 'heatmap__day--l5'
-                        return <div key={i} className={`heatmap__day ${level}`} title={`${dateStr}: ${val} activités`} />
-                    })}
+            {/* Activity Heatmap */}
+            <div style={{ marginTop: 'var(--space-8)' }}>
+                <div className="section-title">
+                    <ChartIcon size={18} /> Study Activity
                 </div>
-                <div className="heatmap-legend">
-                    <span>Moins</span>
-                    <div className="heatmap__day" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l1" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l2" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l3" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l5" style={{ width: 11, height: 11 }} />
-                    <span>Plus</span>
+                <div className="card">
+                    <div className="heatmap__grid">
+                        {Array.from({ length: 91 }, (_, i) => {
+                            const date = new Date()
+                            date.setDate(date.getDate() - (90 - i))
+                            const dateStr = date.toISOString().split('T')[0]
+                            const val = progress.studyDays?.[dateStr] || 0
+                            const level = val === 0 ? '' : val < 3 ? 'heatmap__day--l1' : val < 5 ? 'heatmap__day--l2' : val < 10 ? 'heatmap__day--l3' : val < 20 ? 'heatmap__day--l4' : 'heatmap__day--l5'
+                            return <div key={i} className={`heatmap__day ${level}`} title={`${dateStr}: ${val} activities`} />
+                        })}
+                    </div>
+                    <div className="heatmap-legend">
+                        <span>Less</span>
+                        <div className="heatmap__day" style={{ width: 11, height: 11 }} />
+                        <div className="heatmap__day heatmap__day--l1" style={{ width: 11, height: 11 }} />
+                        <div className="heatmap__day heatmap__day--l2" style={{ width: 11, height: 11 }} />
+                        <div className="heatmap__day heatmap__day--l3" style={{ width: 11, height: 11 }} />
+                        <div className="heatmap__day heatmap__day--l5" style={{ width: 11, height: 11 }} />
+                        <span>More</span>
+                    </div>
                 </div>
             </div>
         </div>
