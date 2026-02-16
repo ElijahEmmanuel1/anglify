@@ -40,6 +40,13 @@ export default {
                 'fade-in-up': 'fadeInUp 0.4s ease-out forwards',
                 'scale-in': 'scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                 'progress-fill': 'progressFill 1.5s ease-out forwards',
+                'slide-in-left': 'slideInLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                'slide-in-right': 'slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                'reveal-up': 'revealUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                'pop': 'popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
+                'correct-flash': 'correctFlash 0.5s ease-out forwards',
+                'shake': 'shake 0.4s ease-out',
             },
             keyframes: {
                 fadeIn: {
@@ -57,6 +64,37 @@ export default {
                 progressFill: {
                     from: { transform: 'scaleX(0)' },
                     to: { transform: 'scaleX(1)' },
+                },
+                slideInLeft: {
+                    from: { opacity: '0', transform: 'translateX(-16px)' },
+                    to: { opacity: '1', transform: 'translateX(0)' },
+                },
+                slideInRight: {
+                    from: { opacity: '0', transform: 'translateX(16px)' },
+                    to: { opacity: '1', transform: 'translateX(0)' },
+                },
+                revealUp: {
+                    from: { opacity: '0', transform: 'translateY(16px)' },
+                    to: { opacity: '1', transform: 'translateY(0)' },
+                },
+                popIn: {
+                    from: { opacity: '0', transform: 'scale(0.9)' },
+                    to: { opacity: '1', transform: 'scale(1)' },
+                },
+                pulseSoft: {
+                    '0%, 100%': { opacity: '1' },
+                    '50%': { opacity: '0.7' },
+                },
+                correctFlash: {
+                    from: { backgroundColor: 'rgb(209 250 229)' },
+                    to: { backgroundColor: 'transparent' },
+                },
+                shake: {
+                    '0%, 100%': { transform: 'translateX(0)' },
+                    '20%': { transform: 'translateX(-4px)' },
+                    '40%': { transform: 'translateX(4px)' },
+                    '60%': { transform: 'translateX(-3px)' },
+                    '80%': { transform: 'translateX(3px)' },
                 },
             },
         },

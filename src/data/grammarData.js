@@ -213,18 +213,21 @@ export const grammarUnits = {
         id: 3,
         title: 'Present continuous and present simple 1',
         category: 'present-past',
-        explanation: `Learn when to use present continuous vs present simple — one of the most important distinctions in English.`,
+        explanation: `Learn when to use present continuous vs present simple — one of the most important distinctions in English. The **present continuous** describes things happening RIGHT NOW or temporarily. The **present simple** describes things that are ALWAYS true or happen regularly.`,
         rules: [
-            '**Present continuous** = happening now / temporary: _Tom is reading a book._',
-            '**Present simple** = always / permanent: _Tom reads a lot._',
-            '**State verbs** (know, like, want, believe, belong) → usually **present simple only**',
-            '**Action verbs** (work, play, run, eat) → can use both',
-            'Some verbs change meaning: _I\'m thinking about it_ (= considering) vs _I think it\'s good_ (= opinion)'
+            '**Present continuous** = happening now / temporary: _Tom is reading a book (right now)._',
+            '**Present simple** = always / permanent: _Tom reads a lot (in general)._',
+            '**State verbs** (know, like, want, believe, belong, understand, need, prefer) → usually **present simple only**',
+            '**Action verbs** (work, play, run, eat, write) → can use both tenses',
+            'Some verbs change meaning: _I\'m thinking about it_ (= considering) vs _I think it\'s good_ (= opinion)',
+            '**have** changes: _She\'s having lunch_ (= eating, action) vs _She has a car_ (= possessing, state)'
         ],
         examples: [
             { text: "The water **is boiling**. Can you turn it off? (happening now)", correct: true },
             { text: "Water **boils** at 100 degrees Celsius. (general fact)", correct: true },
-            { text: "I **don't believe** you. (NOT: I'm not believing)", correct: true }
+            { text: "I **don't believe** you. (NOT: I'm not believing)", correct: true },
+            { text: "He **is being** very rude today. (temporary behaviour, NOT permanent)", correct: true },
+            { text: "~~I am knowing~~ the answer. → I **know** the answer.", correct: false, note: "'know' is a state verb — never use continuous" }
         ],
         exercises: [
             {
@@ -246,10 +249,74 @@ export const grammarUnits = {
                 options: ["don't understand", "am not understanding", "not understand", "doesn't understand"]
             },
             {
+                type: 'fill',
+                question: 'This soup _____ (taste) delicious! What did you put in it?',
+                answer: "tastes",
+                options: ["tastes", "is tasting", "tasted", "has tasted"]
+            },
+            {
                 type: 'correct',
                 question: 'Which sentence is correct?',
                 answer: "I believe you are right.",
                 options: ["I believe you are right.", "I am believing you are right.", "I believing you are right."]
+            }
+        ]
+    },
+    4: {
+        id: 4,
+        title: 'Present continuous and present simple 2',
+        category: 'present-past',
+        explanation: `This unit goes deeper into the differences between present continuous and present simple, focusing on **temporary vs permanent**, **changing situations**, and tricky cases that often appear on the TOEIC.`,
+        rules: [
+            '**I always do** (present simple) = I do it every time: _I always go to work by car._',
+            '**I\'m always doing** (continuous) = too often / annoying habit: _He\'s always leaving the door open!_',
+            'Temporary situation → **continuous**: _I\'m living with a friend until I find an apartment._',
+            'Permanent situation → **simple**: _My parents live in London._',
+            'Changing/developing situations → **continuous**: _The cost of living **is rising** every year._',
+            '**look / feel / smell / taste** can use both: _You look tired_ = _You\'re looking tired_ (both OK)'
+        ],
+        examples: [
+            { text: "I **usually drive** to work, but today I **am taking** the bus.", correct: true },
+            { text: "The population of the world **is increasing** very fast.", correct: true },
+            { text: "You **'re always complaining** about the food! (annoying habit)", correct: true },
+            { text: "She **works** in a bank. (permanent) / She **'s working** at home today. (temporary)", correct: true }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'I usually _____ (drive) to work, but today I _____ (take) the bus.',
+                answer: "drive ... am taking",
+                options: ["drive ... am taking", "am driving ... take", "drive ... take", "am driving ... am taking"]
+            },
+            {
+                type: 'fill',
+                question: 'The company _____ (grow) rapidly. It now has over 500 employees.',
+                answer: "is growing",
+                options: ["is growing", "grows", "grew", "has grown"]
+            },
+            {
+                type: 'fill',
+                question: 'You\'re always _____ (use) my phone without asking!',
+                answer: "using",
+                options: ["using", "use", "used", "to use"]
+            },
+            {
+                type: 'fill',
+                question: 'She _____ (stay) at a hotel until she finds an apartment.',
+                answer: "is staying",
+                options: ["is staying", "stays", "stayed", "has stayed"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence describes a permanent situation?',
+                answer: "She works for a multinational company.",
+                options: ["She works for a multinational company.", "She is working for a multinational company.", "She has worked for a multinational company."]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence expresses an annoying habit?',
+                answer: "He's always borrowing money and never paying it back!",
+                options: ["He's always borrowing money and never paying it back!", "He always borrows money.", "He borrowed money again."]
             }
         ]
     },
@@ -297,6 +364,66 @@ export const grammarUnits = {
             }
         ]
     },
+    6: {
+        id: 6,
+        title: 'Past continuous (I was doing)',
+        category: 'present-past',
+        explanation: `The past continuous describes an action that was **in progress** at a particular time in the past. It sets the **background scene** for a story and is often used with the past simple to show an interruption.`,
+        rules: [
+            'Form: **subject + was/were + verb-ing**',
+            'Use for an action **in progress** at a specific past time: _At 8 o\'clock last night, I was watching TV._',
+            'Use for **background actions** in a story: _The sun was shining and birds were singing._',
+            'Use with **when/while** to show interruption: _I was walking home **when** it started to rain._',
+            '**Past continuous** (longer action) + **past simple** (shorter interruption): _She was cooking dinner when the phone rang._',
+            '**While** + past continuous: _While I was sleeping, someone stole my car._',
+            'Two past continuous verbs = **two things happening at the same time**: _While I was reading, my sister was watching TV._'
+        ],
+        examples: [
+            { text: "This time last year I **was living** in Brazil.", correct: true },
+            { text: "What **were** you **doing** at 10 o'clock last night?", correct: true },
+            { text: "I **was walking** along the street when I **met** an old friend. (interrupted)", correct: true },
+            { text: "**While** I **was driving**, I **saw** an accident.", correct: true },
+            { text: "~~When I was arriving, they left.~~ → When I **arrived**, they left.", correct: false, note: "Short completed actions use past simple, not continuous" }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'I _____ (walk) down the street when I heard someone shout.',
+                answer: "was walking",
+                options: ["was walking", "walked", "am walking", "had walked"]
+            },
+            {
+                type: 'fill',
+                question: 'What _____ you _____ (do) at midnight last night?',
+                answer: "were ... doing",
+                options: ["were ... doing", "did ... do", "have ... done", "are ... doing"]
+            },
+            {
+                type: 'fill',
+                question: 'While she _____ (cook), the fire alarm went off.',
+                answer: "was cooking",
+                options: ["was cooking", "cooked", "is cooking", "has cooked"]
+            },
+            {
+                type: 'fill',
+                question: 'It _____ (rain) when we left the office yesterday.',
+                answer: "was raining",
+                options: ["was raining", "rained", "rains", "is raining"]
+            },
+            {
+                type: 'fill',
+                question: 'They _____ (not/listen) when the teacher explained the exercise.',
+                answer: "weren't listening",
+                options: ["weren't listening", "didn't listen", "not listened", "haven't listened"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence correctly uses the past continuous for a background scene?',
+                answer: "The sun was setting and the birds were singing when we arrived at the lake.",
+                options: ["The sun was setting and the birds were singing when we arrived at the lake.", "The sun setted and the birds singed when we arrived at the lake.", "The sun set and the birds sang when we were arriving at the lake."]
+            }
+        ]
+    },
     7: {
         id: 7,
         title: 'Present perfect 1 (I have done)',
@@ -340,6 +467,627 @@ export const grammarUnits = {
                 question: 'Which sentence is correct?',
                 answer: "I've been to the new restaurant. It's great!",
                 options: ["I've been to the new restaurant. It's great!", "I've been to the new restaurant yesterday.", "I've went to the new restaurant."]
+            }
+        ]
+    },
+    8: {
+        id: 8,
+        title: 'Present perfect 2 (I have done)',
+        category: 'present-perfect',
+        explanation: `This unit explores more uses of the present perfect — focusing on **recent news**, **superlatives with ever**, and the key words **just, already, yet, still**.`,
+        rules: [
+            '**just** = a short time ago: _I\'ve **just** arrived._',
+            '**already** = sooner than expected: _She\'s **already** finished the report._',
+            '**yet** = until now (questions & negatives): _Have you finished **yet**? / I haven\'t finished **yet**._',
+            '**still** + haven\'t/hasn\'t = emphasises the action hasn\'t happened: _He **still** hasn\'t replied._',
+            'Use for **news/announcements**: _The CEO **has resigned**._ (We can then give details in past simple)',
+            'Superlative + **ever**: _It\'s the best book I\'ve ever read._',
+            '**This is the first/second time…** + present perfect: _This is the first time I\'ve been here._'
+        ],
+        examples: [
+            { text: "I **'ve just had** lunch, so I'm not hungry.", correct: true },
+            { text: "\"Has the meeting started **yet**?\" \"No, not **yet**.\"", correct: true },
+            { text: "It's the most interesting documentary I **'ve ever seen**.", correct: true },
+            { text: "She **still hasn't called** me back.", correct: true },
+            { text: "The company **has announced** a new product. (news — present perfect) The announcement **was made** this morning. (details — past simple)", correct: true }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'Don\'t eat the cake — I _____ (just/make) it, so it\'s still hot.',
+                answer: "have just made",
+                options: ["have just made", "just made", "am just making", "had just made"]
+            },
+            {
+                type: 'fill',
+                question: '"Have you finished the report _____?" "No, not _____."',
+                answer: "yet ... yet",
+                options: ["yet ... yet", "already ... still", "still ... yet", "just ... already"]
+            },
+            {
+                type: 'fill',
+                question: 'She _____ (already/send) the email to all the clients.',
+                answer: "has already sent",
+                options: ["has already sent", "already sent", "is already sending", "already has sent"]
+            },
+            {
+                type: 'fill',
+                question: 'It\'s the best presentation I _____ ever _____ (see).',
+                answer: "have ... seen",
+                options: ["have ... seen", "had ... seen", "did ... see", "was ... seeing"]
+            },
+            {
+                type: 'fill',
+                question: 'Tom _____ (still/not/reply) to my email. I sent it three days ago!',
+                answer: "still hasn't replied",
+                options: ["still hasn't replied", "hasn't still replied", "still didn't reply", "is still not replying"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence correctly uses "This is the first time..."?',
+                answer: "This is the first time I've flown business class.",
+                options: ["This is the first time I've flown business class.", "This is the first time I fly business class.", "This is the first time I flew business class."]
+            }
+        ]
+    },
+    9: {
+        id: 9,
+        title: 'Present perfect continuous (I have been doing)',
+        category: 'present-perfect',
+        explanation: `The present perfect continuous emphasises the **duration** or **ongoing nature** of an activity that started in the past and continues to now (or has just stopped with a visible result).`,
+        rules: [
+            'Form: **have/has + been + verb-ing**',
+            'Emphasises **how long** something has been happening: _I\'ve been waiting for 20 minutes._',
+            'For an activity that **recently stopped** but has visible results: _You\'re out of breath — have you been running?_',
+            'Use with **for** (duration) and **since** (starting point): _She\'s been working here **since** 2019._',
+            'Compare: _I\'ve been reading your book_ (still reading / recently stopped) vs _I\'ve read your book_ (finished)',
+            'Some verbs don\'t take continuous: know, like, believe → use **present perfect simple** only'
+        ],
+        examples: [
+            { text: "Your eyes are red. **Have** you **been crying**?", correct: true },
+            { text: "I **'ve been studying** English for three years.", correct: true },
+            { text: "It **'s been raining** all morning — the garden is flooded.", correct: true },
+            { text: "She **'s been working** too hard recently. She needs a holiday.", correct: true },
+            { text: "~~I've been knowing him for years.~~ → I **'ve known** him for years.", correct: false, note: "'know' is a state verb — use present perfect simple" }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'You look tired. _____ you _____ (work) all day?',
+                answer: "Have ... been working",
+                options: ["Have ... been working", "Did ... work", "Are ... working", "Were ... working"]
+            },
+            {
+                type: 'fill',
+                question: 'How long _____ it _____ (rain)? The streets are flooded!',
+                answer: "has ... been raining",
+                options: ["has ... been raining", "did ... rain", "is ... raining", "was ... raining"]
+            },
+            {
+                type: 'fill',
+                question: 'They _____ (live) in that house since they got married.',
+                answer: "have been living",
+                options: ["have been living", "are living", "lived", "live"]
+            },
+            {
+                type: 'fill',
+                question: 'I _____ (wait) for the bus for 30 minutes. Where is it?',
+                answer: "have been waiting",
+                options: ["have been waiting", "wait", "am waiting", "waited"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence correctly emphasises a visible result of a recent action?',
+                answer: "Your hands are dirty — have you been gardening?",
+                options: ["Your hands are dirty — have you been gardening?", "Your hands are dirty — did you garden?", "Your hands are dirty — do you garden?"]
+            },
+            {
+                type: 'correct',
+                question: 'Which is correct? ("know" is a state verb)',
+                answer: "I've known her since we were children.",
+                options: ["I've known her since we were children.", "I've been knowing her since we were children.", "I know her since we were children."]
+            }
+        ]
+    },
+    10: {
+        id: 10,
+        title: 'Present perfect continuous and simple',
+        category: 'present-perfect',
+        explanation: `This unit helps you choose between **present perfect continuous** (I have been doing) and **present perfect simple** (I have done). This is crucial for TOEIC!`,
+        rules: [
+            '**Continuous** emphasises the **activity/duration**: _I\'ve been reading your report._ (focus: the activity of reading)',
+            '**Simple** emphasises the **result/completion**: _I\'ve read your report._ (focus: I finished it)',
+            '**How long…?** → usually continuous: _How long have you been learning English?_',
+            '**How many/much…?** → always simple: _How many pages have you read?_',
+            'Continuous: activity may OR may not be complete. Simple: the action is complete.',
+            'With **live** and **work**, both are often possible with the same meaning: _I\'ve lived / I\'ve been living here for 10 years._'
+        ],
+        examples: [
+            { text: "I **'ve been writing** emails all morning. (focus: activity, maybe not finished)", correct: true },
+            { text: "I **'ve written** 15 emails today. (focus: the result — 15 emails!)", correct: true },
+            { text: "How long **have** you **been waiting**? (focus: duration)", correct: true },
+            { text: "How many countries **have** you **visited**? (quantity → simple)", correct: true }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'My hands are dirty. I _____ (repair) the car.',
+                answer: "have been repairing",
+                options: ["have been repairing", "have repaired", "repaired", "am repairing"]
+            },
+            {
+                type: 'fill',
+                question: 'How many cups of coffee _____ you _____ (drink) today?',
+                answer: "have ... drunk",
+                options: ["have ... drunk", "have ... been drinking", "did ... drink", "are ... drinking"]
+            },
+            {
+                type: 'fill',
+                question: 'I _____ (read) this book for two weeks and I\'m still only on chapter 3.',
+                answer: "have been reading",
+                options: ["have been reading", "have read", "read", "am reading"]
+            },
+            {
+                type: 'fill',
+                question: 'She _____ (write) three reports this week. She\'s very productive.',
+                answer: "has written",
+                options: ["has written", "has been writing", "wrote", "is writing"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence focuses on HOW LONG?',
+                answer: "She's been working here since January.",
+                options: ["She's been working here since January.", "She's worked on three projects.", "She worked here last year."]
+            },
+            {
+                type: 'correct',
+                question: 'Which answer is correct with "How many…?"',
+                answer: "How many books have you read this year?",
+                options: ["How many books have you read this year?", "How many books have you been reading this year?", "How many books did you been reading?"]
+            }
+        ]
+    },
+    11: {
+        id: 11,
+        title: 'How long have you (been) …?',
+        category: 'present-perfect',
+        explanation: `We use the present perfect (simple or continuous) with **How long…?** to ask about situations that started in the past and are still true NOW. This is one of the most common patterns in English.`,
+        rules: [
+            '**How long have you been…?** asks about duration from past to now',
+            'For **actions in progress**: _How long have you been waiting?_ → present perfect continuous',
+            'For **states**: _How long have you known her?_ → present perfect simple (state verbs)',
+            '**I\'ve known / I\'ve had / I\'ve been** → state verbs always use simple',
+            'Don\'t confuse: _How long have you been married?_ (still married now) vs _How long were you married?_ (now divorced)',
+            'The answer usually uses **for** or **since**: _I\'ve been here **for** two hours / **since** 3 o\'clock._'
+        ],
+        examples: [
+            { text: "**How long have** you **been learning** English? — For three years.", correct: true },
+            { text: "**How long have** you **known** Bob? — Since we were at university.", correct: true },
+            { text: "**How long have** you **had** that jacket? — I've had it for ages.", correct: true },
+            { text: "~~How long do you live here?~~ → How long **have** you **lived** here?", correct: false, note: "Use present perfect for 'past to now' duration" }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'How long _____ you _____ (know) each other?',
+                answer: "have ... known",
+                options: ["have ... known", "have ... been knowing", "do ... know", "did ... know"]
+            },
+            {
+                type: 'fill',
+                question: 'How long _____ she _____ (work) for this company?',
+                answer: "has ... been working",
+                options: ["has ... been working", "does ... work", "is ... working", "did ... work"]
+            },
+            {
+                type: 'fill',
+                question: 'I _____ (have) this car for five years now.',
+                answer: "have had",
+                options: ["have had", "have been having", "had", "am having"]
+            },
+            {
+                type: 'fill',
+                question: 'She _____ (be) a teacher since 2015.',
+                answer: "has been",
+                options: ["has been", "has been being", "is", "was"]
+            },
+            {
+                type: 'correct',
+                question: 'Which question is correct for someone who is still living in Tokyo?',
+                answer: "How long have you been living in Tokyo?",
+                options: ["How long have you been living in Tokyo?", "How long do you live in Tokyo?", "How long did you live in Tokyo?"]
+            }
+        ]
+    },
+    12: {
+        id: 12,
+        title: 'For and since — When…? and How long…?',
+        category: 'present-perfect',
+        explanation: `**For** and **since** are used with the present perfect to talk about duration. Getting them right is essential for TOEIC Part 5 and Part 6.`,
+        rules: [
+            '**For** + a period of time: _for two hours, for six months, for a long time, for ages_',
+            '**Since** + a point in time: _since Monday, since 2010, since I was a child, since breakfast_',
+            '**When…?** + past simple: _When did you start learning English?_',
+            '**How long…?** + present perfect: _How long have you been learning English?_',
+            'Don\'t confuse **for** and **during**: _I waited **for** two hours_ (how long) vs _I fell asleep **during** the film_ (when)',
+            'Don\'t confuse **for** and **ago**: _I arrived **three days ago**_ (past simple) vs _I\'ve been here **for** three days_ (present perfect)'
+        ],
+        examples: [
+            { text: "I've been waiting **for** 30 minutes.", correct: true },
+            { text: "She has worked here **since** April.", correct: true },
+            { text: "We've known each other **for** ten years — **since** 2016.", correct: true },
+            { text: "~~I am here since 3 o'clock.~~ → I **have been** here since 3 o'clock.", correct: false, note: "Use present perfect with 'since', not present simple" },
+            { text: "~~I have been here for last Monday.~~ → I have been here **since** last Monday.", correct: false, note: "'Last Monday' is a point in time → use 'since'" }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'She has been a manager _____ January.',
+                answer: "since",
+                options: ["since", "for", "during", "ago"]
+            },
+            {
+                type: 'fill',
+                question: 'They have lived in this city _____ over 20 years.',
+                answer: "for",
+                options: ["for", "since", "during", "ago"]
+            },
+            {
+                type: 'fill',
+                question: 'I haven\'t seen her _____ the conference last month.',
+                answer: "since",
+                options: ["since", "for", "from", "during"]
+            },
+            {
+                type: 'fill',
+                question: '_____ did you start working here?',
+                answer: "When",
+                options: ["When", "How long", "Since when", "For when"]
+            },
+            {
+                type: 'fill',
+                question: '_____ have you been waiting for the delivery?',
+                answer: "How long",
+                options: ["How long", "When", "Since", "For"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence is correct?',
+                answer: "I've known him since we were in college.",
+                options: ["I've known him since we were in college.", "I've known him for we were in college.", "I know him since we were in college."]
+            }
+        ]
+    },
+    13: {
+        id: 13,
+        title: 'Present perfect and past 1',
+        category: 'present-perfect',
+        explanation: `Choosing between the **present perfect** and the **past simple** is one of the most tested grammar points on the TOEIC. The key: does the time period connect to NOW?`,
+        rules: [
+            '**Present perfect** = past action with a connection to NOW: _I\'ve lost my keys._ (I still don\'t have them)',
+            '**Past simple** = past action with NO connection to now: _I lost my keys yesterday._ (specific past time)',
+            'Present perfect with **today / this week / this year** (the time period is NOT finished): _I\'ve had three meetings today._',
+            'Past simple with **yesterday / last week / in 2020 / ago** (finished time): _I had three meetings yesterday._',
+            '**News** → present perfect first, then past simple for details: _There **has been** an accident. It **happened** on Main Street._',
+            '**been** vs **gone**: _He\'s **been** to France_ (went and came back) vs _He\'s **gone** to France_ (he\'s still there now)'
+        ],
+        examples: [
+            { text: "**Have** you **seen** the new product brochure? (at any time — connected to now)", correct: true },
+            { text: "I **saw** it yesterday at the meeting. (specific past time)", correct: true },
+            { text: "The company **has opened** two new branches this year. (this year is NOT finished)", correct: true },
+            { text: "The company **opened** two new branches last year. (last year IS finished)", correct: true },
+            { text: "~~I have seen him yesterday.~~ → I **saw** him yesterday.", correct: false, note: "'yesterday' = specific past time → past simple required" }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'I _____ (not/see) Tom today. Is he at work?',
+                answer: "haven't seen",
+                options: ["haven't seen", "didn't see", "don't see", "am not seeing"]
+            },
+            {
+                type: 'fill',
+                question: 'We _____ (finish) the project last Friday.',
+                answer: "finished",
+                options: ["finished", "have finished", "have been finishing", "are finishing"]
+            },
+            {
+                type: 'fill',
+                question: 'The price of oil _____ (rise) significantly this month.',
+                answer: "has risen",
+                options: ["has risen", "rose", "rises", "is rising"]
+            },
+            {
+                type: 'fill',
+                question: '_____ you ever _____ (visit) Japan?',
+                answer: "Have ... visited",
+                options: ["Have ... visited", "Did ... visit", "Do ... visit", "Were ... visiting"]
+            },
+            {
+                type: 'fill',
+                question: 'She isn\'t here. She _____ (go) to the bank.',
+                answer: "has gone",
+                options: ["has gone", "has been", "went", "goes"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence correctly uses the present perfect for unfinished time?',
+                answer: "Sales have increased by 15% this quarter.",
+                options: ["Sales have increased by 15% this quarter.", "Sales increased by 15% this quarter.", "Sales increase by 15% this quarter."]
+            }
+        ]
+    },
+    14: {
+        id: 14,
+        title: 'Present perfect and past 2',
+        category: 'present-perfect',
+        explanation: `More practice distinguishing present perfect from past simple — this time focusing on **experiences**, **conversations that shift tenses**, and common TOEIC traps.`,
+        rules: [
+            'For **general experience** (no specific time): _**Have** you **been** to Paris?_ → present perfect',
+            'For **specific details about that experience**: _Yes, I **went** there in 2019._ → past simple',
+            'A conversation often **starts** with present perfect, then **switches** to past simple for details',
+            '**How long…?** about a current situation → present perfect: _How long **have** you **worked** here?_',
+            '**How long…?** about a past situation (now finished) → past simple: _How long **did** you **work** there?_',
+            'Time expressions that ALWAYS take past simple: yesterday, ago, last (week/year), when I was…, in (2005/June)'
+        ],
+        examples: [
+            { text: "\"**Have** you **read** this book?\" — \"Yes, I **read** it last summer. It **was** excellent.\"", correct: true },
+            { text: "I **'ve worked** here for five years. (I still work here)", correct: true },
+            { text: "I **worked** there for five years. (I don't work there anymore)", correct: true },
+            { text: "\"I **'ve bought** a new laptop.\" — \"Oh nice! Where **did** you **buy** it?\"", correct: true }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: '"_____ you ever _____ (try) Thai food?" "Yes, I _____ (have) some last week."',
+                answer: "Have ... tried ... had",
+                options: ["Have ... tried ... had", "Did ... try ... had", "Have ... tried ... have had", "Do ... try ... have"]
+            },
+            {
+                type: 'fill',
+                question: 'I _____ (work) for IBM for six years, then I left and joined Google.',
+                answer: "worked",
+                options: ["worked", "have worked", "have been working", "was working"]
+            },
+            {
+                type: 'fill',
+                question: 'How long _____ you _____ (be) in your current position?',
+                answer: "have ... been",
+                options: ["have ... been", "did ... be", "are ... being", "were ... being"]
+            },
+            {
+                type: 'fill',
+                question: '"I _____ (lose) my badge." "When _____ you last _____ (have) it?"',
+                answer: "have lost ... did ... have",
+                options: ["have lost ... did ... have", "lost ... did ... have", "have lost ... have ... had", "lost ... have ... had"]
+            },
+            {
+                type: 'correct',
+                question: 'Which conversation correctly switches from present perfect to past simple?',
+                answer: "\"I've met the new CEO.\" \"Really? When did you meet her?\"",
+                options: ["\"I've met the new CEO.\" \"Really? When did you meet her?\"", "\"I've met the new CEO.\" \"Really? When have you met her?\"", "\"I met the new CEO.\" \"Really? When have you met her?\""]
+            }
+        ]
+    },
+    15: {
+        id: 15,
+        title: 'Past perfect (I had done)',
+        category: 'present-perfect',
+        explanation: `The past perfect describes an action that happened **before another past action**. It's the "past of the past". Very useful for telling stories and explaining sequences of events.`,
+        rules: [
+            'Form: **had + past participle** (same form for all subjects)',
+            'Use to show that something happened **BEFORE** another past event: _When I arrived, the meeting **had already started**._',
+            'Often used with **when, by the time, before, after, already, just, never**: _By the time we got there, the film **had finished**._',
+            'Compare: _I wasn\'t hungry because I **had eaten** lunch._ (eating = first, not hungry = second)',
+            'In a time sequence already clear from context, past simple is often enough: _I got up, **had** breakfast, and **left** for work._',
+            'Negative: **had not (hadn\'t) + past participle**: _She **hadn\'t seen** the email before the meeting._'
+        ],
+        examples: [
+            { text: "When I arrived at the party, most people **had already left**.", correct: true },
+            { text: "She didn't want to go to the cinema because she **had seen** the film before.", correct: true },
+            { text: "I **had never flown** before my trip to New York last year.", correct: true },
+            { text: "By the time the ambulance arrived, the patient **had recovered**.", correct: true },
+            { text: "~~If I had knew about the problem…~~ → If I **had known** about the problem…", correct: false, note: "Always use past participle after 'had'" }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'When I got to the station, the train _____ (already/leave).',
+                answer: "had already left",
+                options: ["had already left", "already left", "has already left", "already leaves"]
+            },
+            {
+                type: 'fill',
+                question: 'She _____ (never/visit) a foreign country before her first business trip.',
+                answer: "had never visited",
+                options: ["had never visited", "never visited", "has never visited", "never visits"]
+            },
+            {
+                type: 'fill',
+                question: 'By the time they arrived, we _____ (finish) the presentation.',
+                answer: "had finished",
+                options: ["had finished", "finished", "have finished", "were finishing"]
+            },
+            {
+                type: 'fill',
+                question: 'I felt ill because I _____ (eat) too much at lunch.',
+                answer: "had eaten",
+                options: ["had eaten", "ate", "have eaten", "was eating"]
+            },
+            {
+                type: 'fill',
+                question: 'The company went bankrupt because it _____ (not/adapt) to the new market.',
+                answer: "hadn't adapted",
+                options: ["hadn't adapted", "didn't adapt", "hasn't adapted", "wasn't adapting"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence correctly shows that action 1 happened before action 2?',
+                answer: "I couldn't enter the building because I had forgotten my access card.",
+                options: ["I couldn't enter the building because I had forgotten my access card.", "I couldn't enter the building because I forgot my access card.", "I can't enter the building because I had forgotten my access card."]
+            }
+        ]
+    },
+    16: {
+        id: 16,
+        title: 'Past perfect continuous (I had been doing)',
+        category: 'present-perfect',
+        explanation: `The past perfect continuous describes an activity that was **in progress for a period** before another past event. It emphasises the **duration** of the earlier action.`,
+        rules: [
+            'Form: **had been + verb-ing**',
+            'Use for an activity in progress for a time **before something else** happened: _When he retired, he **had been working** for the company for 35 years._',
+            'Emphasises **how long** the first action lasted: _She was tired because she **had been studying** all night._',
+            'The result or effect of the action was visible: _The ground was wet. It **had been raining**._',
+            'Compare with past perfect simple: _I **had been running** (focus on the activity) vs I **had run** 10 km (focus on completion/quantity)_',
+            'State verbs use past perfect simple: _He **had known** her for years (NOT: had been knowing)_'
+        ],
+        examples: [
+            { text: "I **had been waiting** for an hour before the bus finally came.", correct: true },
+            { text: "He was out of breath — he **had been running**.", correct: true },
+            { text: "She got the promotion because she **had been performing** exceptionally well.", correct: true },
+            { text: "They were exhausted. They **had been travelling** for 18 hours.", correct: true }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'She was very tired because she _____ (work) since 6 a.m.',
+                answer: "had been working",
+                options: ["had been working", "has been working", "was working", "worked"]
+            },
+            {
+                type: 'fill',
+                question: 'The streets were wet. It _____ (rain) all night.',
+                answer: "had been raining",
+                options: ["had been raining", "has been raining", "rained", "was raining"]
+            },
+            {
+                type: 'fill',
+                question: 'When the factory closed, he _____ (work) there for 20 years.',
+                answer: "had been working",
+                options: ["had been working", "worked", "has been working", "was working"]
+            },
+            {
+                type: 'fill',
+                question: 'They _____ (negotiate) for months before they finally reached an agreement.',
+                answer: "had been negotiating",
+                options: ["had been negotiating", "negotiated", "have been negotiating", "were negotiating"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence correctly uses the past perfect continuous for duration?',
+                answer: "By the time I was promoted, I had been working there for 10 years.",
+                options: ["By the time I was promoted, I had been working there for 10 years.", "By the time I was promoted, I worked there for 10 years.", "By the time I was promoted, I have been working there for 10 years."]
+            }
+        ]
+    },
+    17: {
+        id: 17,
+        title: 'Have and have got',
+        category: 'present-perfect',
+        explanation: `**Have** and **have got** both express **possession**, but they work differently grammatically. Understanding this distinction helps you pick the right answer on the TOEIC.`,
+        rules: [
+            '**I have** = **I\'ve got** (same meaning for possession): _I have a car = I\'ve got a car._',
+            '**Have** uses do/does in questions and negatives: _**Do** you **have** a passport? / I **don\'t have** a car._',
+            '**Have got** inverts in questions and uses not: _**Have** you **got** a passport? / I **haven\'t got** a car._',
+            'For **actions/experiences** → only **have** (NOT have got): _I **have** breakfast at 8._ / _She **has** a shower every morning._',
+            '**Have got** is more common in British English. **Have** is more common in American English.',
+            'In the past, **have got** is not used → always **had**: _I **had** a blue car when I was young._ (NOT: I had got)'
+        ],
+        examples: [
+            { text: "I **have** two brothers. = I **'ve got** two brothers.", correct: true },
+            { text: "**Do** you **have** any questions? = **Have** you **got** any questions?", correct: true },
+            { text: "I usually **have** lunch at 1 p.m. (action — NOT: I've got lunch)", correct: true },
+            { text: "She **has** a bath every evening. (action, NOT: She's got a bath)", correct: true }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: '_____ you _____ a meeting at 3 o\'clock?',
+                answer: "Do ... have",
+                options: ["Do ... have", "Have ... got", "Are ... having", "Did ... have"]
+            },
+            {
+                type: 'fill',
+                question: 'She _____ (not/have) any experience in marketing.',
+                answer: "doesn't have",
+                options: ["doesn't have", "hasn't got", "haven't got", "don't have"]
+            },
+            {
+                type: 'fill',
+                question: 'I _____ a terrible headache. Can I leave early?',
+                answer: "have",
+                options: ["have", "am having", "had", "have had"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence incorrectly uses "have got" for an action?',
+                answer: "I've got breakfast at 7 every morning.",
+                options: ["I've got breakfast at 7 every morning.", "I've got a new laptop.", "I've got two sisters."]
+            },
+            {
+                type: 'correct',
+                question: 'Which two sentences mean the same thing?',
+                answer: "\"I have a car\" and \"I've got a car\"",
+                options: ["\"I have a car\" and \"I've got a car\"", "\"I have lunch\" and \"I've got lunch\"", "\"I had a car\" and \"I'd got a car\""]
+            }
+        ]
+    },
+    18: {
+        id: 18,
+        title: 'Used to (do)',
+        category: 'present-perfect',
+        explanation: `**Used to** describes past habits or states that are **no longer true**. It's a very useful structure for talking about changes in life and comparing past and present.`,
+        rules: [
+            '**Used to + verb** = a past habit or state that is no longer true: _I **used to smoke**, but I gave up._',
+            'Negative: **didn\'t use to**: _He **didn\'t use to** like coffee, but now he drinks it every day._',
+            'Question: **Did … use to…?**: _**Did** you **use to** live in Paris?_',
+            'For **past states** (not actions): _This building **used to be** a cinema._ (It isn\'t anymore)',
+            'Don\'t confuse: **used to do** (past habit) vs **be used to doing** (= be accustomed to) vs **get used to** (= become accustomed to)',
+            '**would** can also describe past habits (actions only, NOT states): _We **would go** to the beach every summer._'
+        ],
+        examples: [
+            { text: "I **used to work** in a factory, but now I work in an office.", correct: true },
+            { text: "**Did** you **use to** play any musical instruments?", correct: true },
+            { text: "She **didn't use to** like vegetables, but now she loves them.", correct: true },
+            { text: "~~I used to be knowing him.~~ → I **used to know** him.", correct: false, note: "Used to + base verb, not continuous" },
+            { text: "Be careful: _I **am used to** working hard._ = I am accustomed to it (NOT a past habit)", correct: true }
+        ],
+        exercises: [
+            {
+                type: 'fill',
+                question: 'I _____ (use/play) tennis a lot, but now I prefer swimming.',
+                answer: "used to play",
+                options: ["used to play", "use to play", "am used to playing", "was used to play"]
+            },
+            {
+                type: 'fill',
+                question: 'This area _____ (use/be) very quiet, but now it\'s very busy.',
+                answer: "used to be",
+                options: ["used to be", "use to be", "was used to be", "is used to"]
+            },
+            {
+                type: 'fill',
+                question: '_____ you _____ (use/live) in the city centre?',
+                answer: "Did ... use to live",
+                options: ["Did ... use to live", "Did ... used to live", "Have ... used to live", "Do ... use to live"]
+            },
+            {
+                type: 'fill',
+                question: 'She _____ (not/use/like) her job, but things have improved.',
+                answer: "didn't use to like",
+                options: ["didn't use to like", "didn't used to like", "wasn't used to like", "hasn't used to like"]
+            },
+            {
+                type: 'fill',
+                question: 'I\'ve lived in England for 3 years now, so I _____ (be used to/drive) on the left.',
+                answer: "am used to driving",
+                options: ["am used to driving", "used to drive", "am used to drive", "get used to drive"]
+            },
+            {
+                type: 'correct',
+                question: 'Which sentence describes a past state that is NO LONGER true?',
+                answer: "This building used to be a hospital.",
+                options: ["This building used to be a hospital.", "This building is used to be a hospital.", "This building was used to being a hospital."]
             }
         ]
     },

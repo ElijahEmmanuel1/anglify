@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { grammarCategories, grammarUnits, getUnitsByCategory } from '../data/grammarData'
 import { addXP, completeGrammarUnit } from '../utils/progressEngine'
 import { BookIcon, ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, BookOpenIcon, RulesIcon, LightbulbIcon, PencilEditIcon, CorrectIcon, WrongIcon, TrophyIcon, PartyIcon } from '../components/Icons'
@@ -12,12 +12,18 @@ function shuffleArray(arr) {
     return a
 }
 
+// Staggered animation helper – adds a delay based on index
+function staggerDelay(index, base = 60) {
+    return { animationDelay: `${index * base}ms`, opacity: 0 }
+}
+
 export default function GrammarLab({ progress, setProgress, showXpGain }) {
     const [view, setView] = useState('categories')
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [selectedUnit, setSelectedUnit] = useState(null)
     const [exerciseState, setExerciseState] = useState({})
     const [showResults, setShowResults] = useState(false)
+    const [lastAnswerAnim, setLastAnswerAnim] = useState(null) // { index, correct } for feedback anim
 
     const shuffledOptions = useMemo(() => {
         if (!selectedUnit?.exercises) return {}
@@ -29,7 +35,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
     }, [selectedUnit])
 
     const openCategory = (cat) => { setSelectedCategory(cat); setView('units') }
-    const openUnit = (unit) => { setSelectedUnit(unit); setExerciseState({}); setShowResults(false); setView('lesson') }
+    const openUnit = (unit) => { setSelectedUnit(unit); setExerciseState({}); setShowResults(false); setLastAnswerAnim(null); setView('lesson') }
     const goBack = () => {
         if (view === 'lesson') { setView('units'); setSelectedUnit(null); setShowResults(false) }
         else if (view === 'units') { setView('categories'); setSelectedCategory(null) }
@@ -40,6 +46,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
         const ex = selectedUnit.exercises[exIdx]
         const correct = answer === ex.answer
         setExerciseState(prev => ({ ...prev, [exIdx]: { answer, correct, answered: true } }))
+        setLastAnswerAnim({ index: exIdx, correct })
     }
 
     const submitExercises = () => {
@@ -56,6 +63,8 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
 
     const allAnswered = selectedUnit?.exercises?.length > 0 &&
         Object.keys(exerciseState).length === selectedUnit.exercises.length
+    const answeredCount = Object.keys(exerciseState).length
+    const totalExercises = selectedUnit?.exercises?.length || 0
 
     // Categories view
     if (view === 'categories') {
@@ -67,13 +76,15 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {grammarCategories.map((cat) => {
+                    {grammarCategories.map((cat, i) => {
                         const completedInCat = cat.units.filter(id => progress.grammar[id]?.completed).length
-                        const progressPct = (completedInCat / cat.units.length) * 100
+                        const availableInCat = cat.units.filter(id => grammarUnits[id]).length
+                        const progressPct = availableInCat > 0 ? (completedInCat / availableInCat) * 100 : 0
                         return (
                             <button
                                 key={cat.id}
-                                className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover:shadow-card transition-shadow duration-200 text-left flex items-center gap-4"
+                                className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover:shadow-card transition-shadow duration-200 text-left flex items-center gap-4 animate-reveal-up"
+                                style={staggerDelay(i, 40)}
                                 onClick={() => openCategory(cat)}
                             >
                                 <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
@@ -83,10 +94,10 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                                 <div className="flex-1 min-w-0">
                                     <h3 className="text-base font-semibold text-slate-900 truncate">{cat.title}</h3>
                                     <div className="text-sm text-slate-500 mb-2">
-                                        {cat.units.length} units &middot; {completedInCat} completed
+                                        {availableInCat} / {cat.units.length} units &middot; {completedInCat} completed
                                     </div>
                                     <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-brand-500 rounded-full transition-all duration-500" style={{ width: `${progressPct}%` }} />
+                                        <div className="h-full bg-brand-500 rounded-full transition-all duration-700 ease-out" style={{ width: `${progressPct}%` }} />
                                     </div>
                                 </div>
                                 <ArrowRightIcon size={16} className="text-slate-300 shrink-0" />
@@ -102,7 +113,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
     if (view === 'units' && selectedCategory) {
         const allUnitsInCategory = selectedCategory.units
         return (
-            <div className="space-y-6 pb-20 animate-fade-in">
+            <div className="space-y-6 pb-20 animate-slide-in-right">
                 <button
                     onClick={goBack}
                     className="flex items-center gap-2 text-slate-500 hover:text-brand-600 font-medium transition-colors text-sm"
@@ -116,13 +127,13 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                 </div>
 
                 <div className="space-y-2">
-                    {allUnitsInCategory.map((unitId) => {
+                    {allUnitsInCategory.map((unitId, idx) => {
                         const unit = grammarUnits[unitId]
                         const completed = progress.grammar[unitId]?.completed
                         const score = progress.grammar[unitId]?.score
 
                         if (!unit) return (
-                            <div key={unitId} className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-slate-400 flex items-center gap-3 text-sm">
+                            <div key={unitId} className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-slate-400 flex items-center gap-3 text-sm animate-reveal-up" style={staggerDelay(idx, 30)}>
                                 <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center font-bold text-xs">{unitId}</div>
                                 <div>Unit {unitId} &middot; Coming Soon</div>
                             </div>
@@ -131,9 +142,10 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                         return (
                             <button
                                 key={unitId}
-                                className={`w-full bg-white p-3.5 rounded-xl border transition-colors duration-150 flex items-center gap-3 text-left
+                                className={`w-full bg-white p-3.5 rounded-xl border transition-all duration-200 flex items-center gap-3 text-left animate-reveal-up
                                     ${completed ? 'border-emerald-200/80 bg-emerald-50/30' : 'border-slate-200/80 hover:border-brand-200 hover:bg-brand-50/20'}
                                 `}
+                                style={staggerDelay(idx, 30)}
                                 onClick={() => openUnit(unit)}
                             >
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm shrink-0
@@ -163,10 +175,10 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
     // Lesson view
     if (view === 'lesson' && selectedUnit) {
         const correctCount = Object.values(exerciseState).filter(e => e.correct).length
-        const totalExercises = selectedUnit.exercises?.length || 0
+        const exerciseProgressPct = totalExercises > 0 ? (answeredCount / totalExercises) * 100 : 0
 
         return (
-            <div className="space-y-6 pb-24 animate-fade-in">
+            <div className="space-y-6 pb-24 animate-slide-in-right">
                 <button
                     onClick={goBack}
                     className="flex items-center gap-2 text-slate-500 hover:text-brand-600 font-medium transition-colors text-sm"
@@ -174,14 +186,14 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                     <ArrowLeftIcon size={18} /> Back to {selectedCategory?.title}
                 </button>
 
-                <div className="border-b border-slate-200 pb-5">
+                <div className="border-b border-slate-200 pb-5 animate-fade-in">
                     <div className="text-brand-600 font-bold uppercase tracking-wider text-xs mb-1">Unit {selectedUnit.id}</div>
                     <h2 className="text-2xl font-display font-bold text-slate-900">{selectedUnit.title}</h2>
                 </div>
 
                 <div className="space-y-6">
                     {/* Explanation Section */}
-                    <section>
+                    <section className="animate-reveal-up" style={staggerDelay(0, 100)}>
                         <div className="flex items-center gap-2 mb-3">
                             <span className="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center"><BookOpenIcon size={16} /></span>
                             <h3 className="text-lg font-display font-bold text-slate-900">Lesson</h3>
@@ -193,14 +205,14 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
 
                     {/* Rules */}
                     {selectedUnit.rules && (
-                        <section>
+                        <section className="animate-reveal-up" style={staggerDelay(1, 100)}>
                             <div className="flex items-center gap-2 mb-3">
                                 <span className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center"><RulesIcon size={16} /></span>
                                 <h3 className="text-lg font-display font-bold text-slate-900">Key Rules</h3>
                             </div>
                             <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-soft space-y-2.5">
                                 {selectedUnit.rules.map((rule, i) => (
-                                    <div key={i} className="flex gap-3">
+                                    <div key={i} className="flex gap-3 animate-fade-in-up" style={staggerDelay(i, 60)}>
                                         <div className="w-1.5 h-1.5 rounded-full bg-brand-400 mt-2.5 shrink-0"></div>
                                         <p className="text-slate-700 text-[15px]" dangerouslySetInnerHTML={{ __html: rule.replace(/\*\*(.*?)\*\*/g, '<strong class="text-brand-600">$1</strong>').replace(/_(.*?)_/g, '<em class="text-slate-500 font-medium">$1</em>') }} />
                                     </div>
@@ -211,14 +223,14 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
 
                     {/* Examples */}
                     {selectedUnit.examples && (
-                        <section>
+                        <section className="animate-reveal-up" style={staggerDelay(2, 100)}>
                             <div className="flex items-center gap-2 mb-3">
                                 <span className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center"><LightbulbIcon size={16} /></span>
                                 <h3 className="text-lg font-display font-bold text-slate-900">Examples</h3>
                             </div>
                             <div className="grid gap-2">
                                 {selectedUnit.examples.map((ex, i) => (
-                                    <div key={i} className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <div key={i} className={`p-4 rounded-xl border animate-fade-in-up ${ex.correct === false ? 'bg-red-50/50 border-red-100' : 'bg-slate-50 border-slate-100'}`} style={staggerDelay(i, 80)}>
                                         <p className="text-slate-800 text-[15px]" dangerouslySetInnerHTML={{ __html: ex.text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-600">$1</strong>').replace(/~~(.*?)~~/g, '<span class="text-red-500 line-through decoration-2">$1</span>') }} />
                                         {ex.note && <div className="mt-2 text-sm text-amber-600 font-medium flex items-center gap-1.5"><LightbulbIcon size={14} /> {ex.note}</div>}
                                     </div>
@@ -229,29 +241,42 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
 
                     {/* Exercises */}
                     {selectedUnit.exercises && selectedUnit.exercises.length > 0 && (
-                        <section>
-                            <div className="flex items-center gap-2 mb-4">
-                                <span className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center"><PencilEditIcon size={16} /></span>
-                                <h3 className="text-lg font-display font-bold text-slate-900">Practice</h3>
+                        <section className="animate-reveal-up" style={staggerDelay(3, 100)}>
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-2">
+                                    <span className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center"><PencilEditIcon size={16} /></span>
+                                    <h3 className="text-lg font-display font-bold text-slate-900">Practice</h3>
+                                </div>
+                                {!showResults && totalExercises > 0 && (
+                                    <span className="text-xs font-bold text-slate-400">{answeredCount}/{totalExercises} answered</span>
+                                )}
                             </div>
+
+                            {/* Exercise progress bar */}
+                            {!showResults && totalExercises > 0 && (
+                                <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mb-5">
+                                    <div className="h-full bg-brand-500 rounded-full transition-all duration-500 ease-out" style={{ width: `${exerciseProgressPct}%` }} />
+                                </div>
+                            )}
 
                             <div className="space-y-4">
                                 {selectedUnit.exercises.map((ex, exIdx) => {
                                     const state = exerciseState[exIdx]
+                                    const isLastAnswered = lastAnswerAnim?.index === exIdx
                                     return (
-                                        <div key={exIdx} className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-soft">
+                                        <div key={exIdx} className={`bg-white p-5 rounded-2xl border border-slate-200/80 shadow-soft transition-all duration-300 ${isLastAnswered && state?.answered ? (state.correct ? 'animate-correct-flash' : 'animate-shake') : ''}`}>
                                             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Question {exIdx + 1}</div>
                                             <div className="text-base font-medium text-slate-900 mb-5">{ex.question}</div>
 
                                             <div className="grid gap-2.5">
                                                 {(shuffledOptions[exIdx] || ex.options).map((opt, optIdx) => {
-                                                    let classes = 'p-3.5 rounded-xl border-2 text-left transition-colors duration-150 font-medium text-sm flex gap-3 '
+                                                    let classes = 'p-3.5 rounded-xl border-2 text-left transition-all duration-200 font-medium text-sm flex gap-3 '
                                                     if (state?.answered) {
-                                                        if (opt === ex.answer) classes += 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                                                        if (opt === ex.answer) classes += 'border-emerald-500 bg-emerald-50 text-emerald-700 animate-pop'
                                                         else if (opt === state.answer && !state.correct) classes += 'border-red-400 bg-red-50 text-red-700 opacity-60'
                                                         else classes += 'border-slate-100 bg-white text-slate-400 opacity-40'
                                                     } else {
-                                                        classes += 'border-slate-200 bg-white text-slate-700 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer'
+                                                        classes += 'border-slate-200 bg-white text-slate-700 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer active:scale-[0.98]'
                                                     }
 
                                                     return (
@@ -264,7 +289,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                                             </div>
 
                                             {state?.answered && (
-                                                <div className={`mt-3 p-3 rounded-xl text-sm font-semibold flex items-center gap-2 ${state.correct ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
+                                                <div className={`mt-3 p-3 rounded-xl text-sm font-semibold flex items-center gap-2 animate-fade-in-up ${state.correct ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
                                                     {state.correct ? <><CorrectIcon size={16} /> Correct!</> : <><WrongIcon size={16} /> The answer is: {ex.answer}</>}
                                                 </div>
                                             )}
@@ -273,13 +298,13 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                                 })}
 
                                 {!showResults && allAnswered && (
-                                    <div className="flex justify-center pt-2">
-                                        <button className="btn btn-primary px-8 py-3 text-base" onClick={submitExercises}>Submit Answers</button>
+                                    <div className="flex justify-center pt-2 animate-fade-in-up">
+                                        <button className="btn btn-primary px-8 py-3 text-base active:scale-[0.97] transition-transform" onClick={submitExercises}>Submit Answers</button>
                                     </div>
                                 )}
 
                                 {showResults && (
-                                    <div className="bg-white rounded-2xl p-8 border border-slate-200/80 shadow-lift text-center animate-scale-in">
+                                    <div className="bg-white rounded-2xl p-8 border border-slate-200/80 shadow-lift text-center animate-pop">
                                         <div className="mb-4 text-brand-600">
                                             {correctCount === totalExercises ? <TrophyIcon size={56} className="mx-auto" /> : correctCount >= totalExercises * 0.7 ? <PartyIcon size={56} className="mx-auto" /> : <BookIcon size={56} className="mx-auto" />}
                                         </div>
@@ -290,7 +315,7 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
 
                                         <div className="flex justify-center gap-3">
                                             <button className="btn btn-secondary px-6" onClick={goBack}>Back to List</button>
-                                            <button className="btn btn-primary px-6" onClick={() => { setExerciseState({}); setShowResults(false) }}>Retry Lesson</button>
+                                            <button className="btn btn-primary px-6" onClick={() => { setExerciseState({}); setShowResults(false); setLastAnswerAnim(null) }}>Retry Lesson</button>
                                         </div>
                                     </div>
                                 )}
