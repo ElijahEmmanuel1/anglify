@@ -161,7 +161,7 @@ export const toeicLessons = {
             {
                 id: 'p1_l1_q2',
                 type: 'photo',
-                image: U('photo-1573496359142-b8d87734a5a2'),
+                image: U('nWxpa5qHE9I'),
                 imageAlt: 'A woman smiling while working at her desk, with a laptop in front of her.',
                 statements: [
                     '(A) A woman is cleaning the office floor.',
@@ -175,7 +175,7 @@ export const toeicLessons = {
             {
                 id: 'p1_l1_q3',
                 type: 'photo',
-                image: U('photo-1600880292203-757bb62b4baf'),
+                image: U('E8pqwxaS6ko'),
                 imageAlt: 'Two colleagues collaborating, looking at a laptop screen together in a modern office.',
                 statements: [
                     '(A) Two people are looking at a computer screen together.',
@@ -203,7 +203,7 @@ export const toeicLessons = {
             {
                 id: 'p1_l1_q5',
                 type: 'photo',
-                image: U('photo-1556761175-4b46a572b786'),
+                image: U('I9meM8YQ9DM'),
                 imageAlt: 'A woman standing and speaking to colleagues who are seated at a table during a meeting.',
                 statements: [
                     '(A) Everyone is standing near the exit door.',
@@ -217,7 +217,7 @@ export const toeicLessons = {
             {
                 id: 'p1_l1_q6',
                 type: 'photo',
-                image: U('photo-1497366216548-37526070297c'),
+                image: U('LycaA7rWsHc'),
                 imageAlt: 'An open modern office space with desks, computers, and large windows.',
                 statements: [
                     '(A) Workers are packed into a tiny, dark room.',
@@ -267,7 +267,7 @@ export const toeicLessons = {
             {
                 id: 'p1_l2_q2',
                 type: 'photo',
-                image: U('photo-1480714378408-67cf0d13bc1b'),
+                image: U('cs18jLUoQ5M'),
                 imageAlt: 'An aerial view of a busy city street with buildings, cars, and pedestrians.',
                 statements: [
                     '(A) A bird\'s-eye view of a busy city street.',
@@ -281,7 +281,7 @@ export const toeicLessons = {
             {
                 id: 'p1_l2_q3',
                 type: 'photo',
-                image: U('photo-1474487548417-781cb71495f7'),
+                image: U('nQ3t3zTL59w'),
                 imageAlt: 'A modern train at a station platform.',
                 statements: [
                     '(A) A ship is docked at the harbor.',
