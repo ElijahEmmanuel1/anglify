@@ -103,6 +103,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                             {selectedLesson.exercises.map((revEx, i) => {
                                 const uA = answers[i]
                                 const ok = uA === revEx.answer
+                                const options = revEx.type === 'qr' ? revEx.responses : revEx.statements
                                 return (
                                     <div key={i} className={`p-4 rounded-xl border ${ok ? 'border-emerald-200 dark:border-emerald-800/40 bg-emerald-50/50 dark:bg-emerald-950/20' : 'border-red-200 dark:border-red-800/40 bg-red-50/50 dark:bg-red-950/20'}`}>
                                         <div className="flex items-start gap-3 mb-2">
@@ -110,8 +111,9 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                                                 {ok ? <CorrectIcon size={16} /> : <WrongIcon size={16} />}
                                             </span>
                                             <div>
-                                                <p className="text-sm font-semibold text-slate-900 dark:text-white">Q{i + 1}: {revEx.statements[revEx.answer]}</p>
-                                                {!ok && <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">Your answer: {revEx.statements[uA]}</p>}
+                                                {revEx.type === 'qr' && <p className="text-xs text-slate-500 dark:text-slate-400 mb-1 italic">"{revEx.question}"</p>}
+                                                <p className="text-sm font-semibold text-slate-900 dark:text-white">Q{i + 1}: {options[revEx.answer]}</p>
+                                                {!ok && <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">Your answer: {options[uA]}</p>}
                                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{revEx.explanation}</p>
                                             </div>
                                         </div>
@@ -155,31 +157,59 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                     <p className="text-sm text-slate-500 dark:text-slate-400">{selectedLesson.titleFr}</p>
                 </div>
 
-                {/* Photo card */}
+                {/* Exercise card — adapts to type */}
                 <div className="premium-card overflow-hidden">
-                    <div className="relative bg-slate-100 dark:bg-surface-700 aspect-[16/10] overflow-hidden">
-                        {!imageLoaded[currentQ] && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-8 h-8 border-3 border-brand-200 dark:border-brand-800 border-t-brand-500 dark:border-t-brand-400 rounded-full animate-spin" />
-                            </div>
-                        )}
-                        <img
-                            key={ex.id}
-                            src={ex.image}
-                            alt={ex.imageAlt}
-                            className={`w-full h-full object-cover transition-opacity duration-500 ${imageLoaded[currentQ] ? 'opacity-100' : 'opacity-0'}`}
-                            onLoad={() => setImageLoaded(prev => ({ ...prev, [currentQ]: true }))}
-                            loading="eager"
-                        />
-                    </div>
+                    {/* Photo header (only for photo type) */}
+                    {ex.type === 'photo' && (
+                        <div className="relative bg-slate-100 dark:bg-surface-700 aspect-[16/10] overflow-hidden">
+                            {!imageLoaded[currentQ] && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-8 h-8 border-3 border-brand-200 dark:border-brand-800 border-t-brand-500 dark:border-t-brand-400 rounded-full animate-spin" />
+                                </div>
+                            )}
+                            <img
+                                key={ex.id}
+                                src={ex.image}
+                                alt={ex.imageAlt}
+                                className={`w-full h-full object-cover transition-opacity duration-500 ${imageLoaded[currentQ] ? 'opacity-100' : 'opacity-0'}`}
+                                onLoad={() => setImageLoaded(prev => ({ ...prev, [currentQ]: true }))}
+                                loading="eager"
+                            />
+                        </div>
+                    )}
 
                     <div className="p-5 space-y-3">
-                        <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                            Choose the statement that best describes the photograph
-                        </div>
+                        {/* Question-Response header */}
+                        {ex.type === 'qr' && (
+                            <>
+                                <div className="flex items-center gap-2 mb-1">
+                                    <span className="text-2xl">💬</span>
+                                    <div className="text-xs font-bold text-violet-500 dark:text-violet-400 uppercase tracking-wider">Question-Response</div>
+                                </div>
+                                <div className="bg-slate-50 dark:bg-surface-700/50 rounded-xl p-4 border border-slate-200/80 dark:border-slate-700/50">
+                                    <p className="text-base font-semibold text-slate-900 dark:text-white leading-relaxed">{ex.question}</p>
+                                    {ex.questionFr && <p className="text-sm text-slate-400 dark:text-slate-500 mt-1.5 italic">{ex.questionFr}</p>}
+                                </div>
+                            </>
+                        )}
 
+                        {/* Photo instruction */}
+                        {ex.type === 'photo' && (
+                            <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                Choose the statement that best describes the photograph
+                            </div>
+                        )}
+
+                        {/* QR instruction */}
+                        {ex.type === 'qr' && (
+                            <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                Choose the best response
+                            </div>
+                        )}
+
+                        {/* Options / Responses */}
                         <div className="grid gap-2.5">
-                            {ex.statements.map((stmt, sIdx) => {
+                            {(ex.type === 'qr' ? ex.responses : ex.statements).map((stmt, sIdx) => {
                                 let classes = 'p-3.5 rounded-xl border-2 text-left transition-all duration-200 font-medium text-sm flex gap-3 items-start '
 
                                 if (isAnswered) {
@@ -408,7 +438,7 @@ export default function TOEICPrep({ progress, setProgress, showXpGain }) {
                                                             {lesson.title}
                                                         </span>
                                                         <span className="text-xs text-slate-400 dark:text-slate-500 block">
-                                                            {lesson.titleFr} &middot; {lesson.exercises.length} photos
+                                                            {lesson.titleFr} &middot; {lesson.exercises.length} {lesson.exercises[0]?.type === 'photo' ? 'photos' : 'questions'}
                                                         </span>
                                                     </div>
                                                 </div>

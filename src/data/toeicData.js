@@ -37,10 +37,17 @@ export const toeicParts = [
         icon: '💬',
         color: 'violet',
         questionsPerTest: 25,
-        lessons: [],
-        description: 'Listen to a question and choose the best response from three options.',
-        tips: 'Identify the question word (Who, What, When, Where, Why, How) immediately.',
-        strategy: []
+        lessons: ['p2_l1', 'p2_l2', 'p2_l3', 'p2_l4', 'p2_l5', 'p2_l6', 'p2_l7', 'p2_l8'],
+        description: 'Listen to a question or statement and choose the best response from three options.',
+        tips: 'Identify the question word (Who, What, When, Where, Why, How) immediately. The correct answer directly addresses the question.',
+        strategy: [
+            'Listen for the **first word** — it tells you what type of answer is expected (Who → person, Where → place, When → time)',
+            'Beware of **traps with similar-sounding words**: "right" (correct) vs "write" (écrire), "mail" vs "male"',
+            'Watch out for **indirect answers** — "Why don\'t we go?" → "That sounds great" (not "Because...")',
+            'A **statement** (not a question) may require agreement, disagreement, or a follow-up — listen carefully',
+            'Eliminate answers that **repeat words** from the question — they are often distractors',
+            'For **Yes/No questions**, the answer might not start with "Yes" or "No" — look for meaning'
+        ]
     },
     {
         id: 'part3',
@@ -964,6 +971,794 @@ export const toeicLessons = {
                 explanation: 'The person is using a microscope in what appears to be a lab — a researcher or scientist at work.'
             }
         ]
+    },
+
+    // ═══════════════════════════════════════════════
+    //  PART 2: QUESTION-RESPONSE LESSONS
+    // ═══════════════════════════════════════════════
+
+    // ─── Lesson 1: Who Questions ───────────────────
+    p2_l1: {
+        id: 'p2_l1',
+        partId: 'part2',
+        title: 'Who Questions',
+        titleFr: 'Questions avec « Who »',
+        description: 'Learn to identify the correct response to questions asking about people.',
+        difficulty: 'beginner',
+        keyVocabulary: [
+            { en: 'in charge of', fr: 'responsable de' },
+            { en: 'supervisor', fr: 'superviseur' },
+            { en: 'department', fr: 'service / département' },
+            { en: 'colleague', fr: 'collègue' },
+            { en: 'applicant', fr: 'candidat' },
+            { en: 'representative', fr: 'représentant' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l1_q1',
+                type: 'qr',
+                question: 'Who is responsible for the quarterly report?',
+                questionFr: 'Qui est responsable du rapport trimestriel ?',
+                responses: [
+                    '(A) Ms. Chen from the finance department.',
+                    '(B) The report is due on Friday.',
+                    '(C) It covers the third quarter.'
+                ],
+                answer: 0,
+                explanation: '"Who" asks for a person. Only (A) names a person — Ms. Chen. (B) gives a deadline, (C) describes content.'
+            },
+            {
+                id: 'p2_l1_q2',
+                type: 'qr',
+                question: 'Who should I contact about the new policy?',
+                questionFr: 'Qui dois-je contacter au sujet de la nouvelle politique ?',
+                responses: [
+                    '(A) It was announced last week.',
+                    '(B) Try reaching out to the HR manager.',
+                    '(C) The policy covers all employees.'
+                ],
+                answer: 1,
+                explanation: '"Who" expects a person. (B) suggests contacting the HR manager — a specific person. (A) and (C) don\'t answer "who".'
+            },
+            {
+                id: 'p2_l1_q3',
+                type: 'qr',
+                question: 'Who approved the budget for the conference?',
+                questionFr: 'Qui a approuvé le budget pour la conférence ?',
+                responses: [
+                    '(A) The conference is in March.',
+                    '(B) About twenty thousand dollars.',
+                    '(C) The regional director did.'
+                ],
+                answer: 2,
+                explanation: '(C) identifies a person (the regional director) who approved it. (A) gives a date, (B) gives a price.'
+            },
+            {
+                id: 'p2_l1_q4',
+                type: 'qr',
+                question: 'Who is leading tomorrow\'s training session?',
+                questionFr: 'Qui dirige la session de formation de demain ?',
+                responses: [
+                    '(A) It starts at nine o\'clock.',
+                    '(B) An external consultant will be running it.',
+                    '(C) In the large meeting room.'
+                ],
+                answer: 1,
+                explanation: '(B) identifies a person — an external consultant. (A) gives a time, (C) gives a location.'
+            },
+            {
+                id: 'p2_l1_q5',
+                type: 'qr',
+                question: 'Who else is attending the client dinner?',
+                questionFr: 'Qui d\'autre assiste au dîner avec le client ?',
+                responses: [
+                    '(A) The restaurant is downtown.',
+                    '(B) Both the sales manager and the CEO.',
+                    '(C) It was a successful meeting.'
+                ],
+                answer: 1,
+                explanation: '(B) names people (sales manager and CEO). (A) is a place, (C) doesn\'t mention anyone.'
+            },
+            {
+                id: 'p2_l1_q6',
+                type: 'qr',
+                question: 'Who left this package on my desk?',
+                questionFr: 'Qui a laissé ce colis sur mon bureau ?',
+                responses: [
+                    '(A) I think it was the delivery person.',
+                    '(B) Yes, it\'s very heavy.',
+                    '(C) Your desk is near the window.'
+                ],
+                answer: 0,
+                explanation: '(A) identifies a person — the delivery person. (B) describes the package, (C) describes the desk location.'
+            }
+        ]
+    },
+
+    // ─── Lesson 2: Where Questions ─────────────────
+    p2_l2: {
+        id: 'p2_l2',
+        partId: 'part2',
+        title: 'Where Questions',
+        titleFr: 'Questions avec « Where »',
+        description: 'Practice answering questions about locations, places, and directions.',
+        difficulty: 'beginner',
+        keyVocabulary: [
+            { en: 'across from', fr: 'en face de' },
+            { en: 'on the second floor', fr: 'au deuxième étage' },
+            { en: 'around the corner', fr: 'au coin de la rue' },
+            { en: 'supply room', fr: 'salle de fournitures' },
+            { en: 'branch office', fr: 'bureau régional / succursale' },
+            { en: 'warehouse', fr: 'entrepôt' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l2_q1',
+                type: 'qr',
+                question: 'Where can I find the extra printer paper?',
+                questionFr: 'Où puis-je trouver du papier pour l\'imprimante ?',
+                responses: [
+                    '(A) There\'s some in the supply closet down the hall.',
+                    '(B) We ordered it yesterday.',
+                    '(C) The printer is working fine.'
+                ],
+                answer: 0,
+                explanation: '"Where" asks for a place. (A) gives a location — the supply closet down the hall. (B) talks about ordering, (C) about the printer.'
+            },
+            {
+                id: 'p2_l2_q2',
+                type: 'qr',
+                question: 'Where is the nearest post office?',
+                questionFr: 'Où se trouve le bureau de poste le plus proche ?',
+                responses: [
+                    '(A) It closes at five o\'clock.',
+                    '(B) Two blocks east of here, next to the bank.',
+                    '(C) I need to mail a package.'
+                ],
+                answer: 1,
+                explanation: '(B) provides a specific location. (A) gives a time, (C) explains a personal need.'
+            },
+            {
+                id: 'p2_l2_q3',
+                type: 'qr',
+                question: 'Where will the team-building event take place?',
+                questionFr: 'Où aura lieu l\'événement de team-building ?',
+                responses: [
+                    '(A) At the Riverside Park, near the lake.',
+                    '(B) It will last about three hours.',
+                    '(C) The whole department is invited.'
+                ],
+                answer: 0,
+                explanation: '(A) gives a place — Riverside Park. (B) gives a duration, (C) says who is invited.'
+            },
+            {
+                id: 'p2_l2_q4',
+                type: 'qr',
+                question: 'Where should I park my car during the renovation?',
+                questionFr: 'Où dois-je garer ma voiture pendant la rénovation ?',
+                responses: [
+                    '(A) The renovation will last two months.',
+                    '(B) You can use the temporary lot on Oak Street.',
+                    '(C) It\'s a silver sedan.'
+                ],
+                answer: 1,
+                explanation: '(B) gives a place — the temporary lot on Oak Street. (A) gives a duration, (C) describes the car.'
+            },
+            {
+                id: 'p2_l2_q5',
+                type: 'qr',
+                question: 'Where did you put the client files?',
+                questionFr: 'Où as-tu mis les dossiers du client ?',
+                responses: [
+                    '(A) They\'re in the top drawer of the filing cabinet.',
+                    '(B) I reviewed them this morning.',
+                    '(C) The client called earlier.'
+                ],
+                answer: 0,
+                explanation: '(A) specifies a location — the top drawer. (B) says when they were reviewed, (C) is about the client calling.'
+            },
+            {
+                id: 'p2_l2_q6',
+                type: 'qr',
+                question: 'Where is the new branch office being built?',
+                questionFr: 'Où le nouveau bureau régional est-il en construction ?',
+                responses: [
+                    '(A) On the corner of Fifth Avenue and Main Street.',
+                    '(B) It should be finished by December.',
+                    '(C) The company is expanding rapidly.'
+                ],
+                answer: 0,
+                explanation: '(A) provides a specific location. (B) talks about a deadline, (C) is a general statement about the company.'
+            }
+        ]
+    },
+
+    // ─── Lesson 3: When Questions ──────────────────
+    p2_l3: {
+        id: 'p2_l3',
+        partId: 'part2',
+        title: 'When Questions',
+        titleFr: 'Questions avec « When »',
+        description: 'Practice answering questions about time, deadlines, and schedules.',
+        difficulty: 'beginner',
+        keyVocabulary: [
+            { en: 'deadline', fr: 'date limite' },
+            { en: 'by the end of the week', fr: 'd\'ici la fin de la semaine' },
+            { en: 'as soon as possible', fr: 'dès que possible' },
+            { en: 'postpone', fr: 'reporter / repousser' },
+            { en: 'ahead of schedule', fr: 'en avance sur le planning' },
+            { en: 'reschedule', fr: 'reprogrammer' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l3_q1',
+                type: 'qr',
+                question: 'When is the project deadline?',
+                questionFr: 'Quand est la date limite du projet ?',
+                responses: [
+                    '(A) The project manager is Mr. Lee.',
+                    '(B) We need to finish by next Friday.',
+                    '(C) The budget was approved last month.'
+                ],
+                answer: 1,
+                explanation: '"When" asks for a time. (B) provides a deadline — next Friday. (A) names a person, (C) talks about the budget.'
+            },
+            {
+                id: 'p2_l3_q2',
+                type: 'qr',
+                question: 'When did the shipment arrive?',
+                questionFr: 'Quand la livraison est-elle arrivée ?',
+                responses: [
+                    '(A) It came in early this morning.',
+                    '(B) It was shipped from the warehouse.',
+                    '(C) There are about fifty boxes.'
+                ],
+                answer: 0,
+                explanation: '(A) gives a time — early this morning. (B) talks about origin, (C) about quantity.'
+            },
+            {
+                id: 'p2_l3_q3',
+                type: 'qr',
+                question: 'When will the new software be installed?',
+                questionFr: 'Quand le nouveau logiciel sera-t-il installé ?',
+                responses: [
+                    '(A) Sometime next week, probably Tuesday.',
+                    '(B) It\'s much faster than the old version.',
+                    '(C) The IT department handles that.'
+                ],
+                answer: 0,
+                explanation: '(A) provides a time frame — next week, probably Tuesday. (B) describes a feature, (C) names a department.'
+            },
+            {
+                id: 'p2_l3_q4',
+                type: 'qr',
+                question: 'When was the last time you visited the factory?',
+                questionFr: 'Quand avez-vous visité l\'usine pour la dernière fois ?',
+                responses: [
+                    '(A) The factory is in the industrial district.',
+                    '(B) I think it was in early January.',
+                    '(C) We manufacture electronic components.'
+                ],
+                answer: 1,
+                explanation: '(B) gives a time — early January. (A) gives a location, (C) describes what the factory produces.'
+            },
+            {
+                id: 'p2_l3_q5',
+                type: 'qr',
+                question: 'When should I submit the expense report?',
+                questionFr: 'Quand dois-je soumettre la note de frais ?',
+                responses: [
+                    '(A) Please submit it before the end of the month.',
+                    '(B) You can download the form from the intranet.',
+                    '(C) The expenses totaled around three hundred dollars.'
+                ],
+                answer: 0,
+                explanation: '(A) gives a deadline — before the end of the month. (B) talks about a form, (C) gives a total.'
+            },
+            {
+                id: 'p2_l3_q6',
+                type: 'qr',
+                question: 'When are they planning to open the new store?',
+                questionFr: 'Quand prévoient-ils d\'ouvrir le nouveau magasin ?',
+                responses: [
+                    '(A) The grand opening is scheduled for May fifteenth.',
+                    '(B) It\'s going to be a clothing store.',
+                    '(C) The location is on Market Street.'
+                ],
+                answer: 0,
+                explanation: '(A) gives a specific date — May fifteenth. (B) describes the store type, (C) gives a location.'
+            }
+        ]
+    },
+
+    // ─── Lesson 4: What Questions ──────────────────
+    p2_l4: {
+        id: 'p2_l4',
+        partId: 'part2',
+        title: 'What Questions',
+        titleFr: 'Questions avec « What »',
+        description: 'Practice responding to questions asking about things, topics, and specifics.',
+        difficulty: 'intermediate',
+        keyVocabulary: [
+            { en: 'agenda', fr: 'ordre du jour' },
+            { en: 'specifications', fr: 'caractéristiques / spécifications' },
+            { en: 'annual review', fr: 'bilan annuel' },
+            { en: 'to be in charge of', fr: 'être en charge de' },
+            { en: 'requirements', fr: 'exigences / conditions' },
+            { en: 'updated version', fr: 'version mise à jour' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l4_q1',
+                type: 'qr',
+                question: 'What time does the meeting start?',
+                questionFr: 'À quelle heure commence la réunion ?',
+                responses: [
+                    '(A) In conference room B.',
+                    '(B) It\'s been rescheduled to two thirty.',
+                    '(C) About the marketing campaign.'
+                ],
+                answer: 1,
+                explanation: '"What time" asks for a time. (B) gives a time — two thirty. (A) is a place, (C) is a topic.'
+            },
+            {
+                id: 'p2_l4_q2',
+                type: 'qr',
+                question: 'What is on the agenda for this afternoon?',
+                questionFr: 'Qu\'y a-t-il à l\'ordre du jour cet après-midi ?',
+                responses: [
+                    '(A) We\'ll be reviewing the sales figures and the new hires.',
+                    '(B) The afternoon session lasts two hours.',
+                    '(C) I prefer mornings for meetings.'
+                ],
+                answer: 0,
+                explanation: '(A) describes topics (sales figures, new hires) — what is on the agenda. (B) gives a duration, (C) states a preference.'
+            },
+            {
+                id: 'p2_l4_q3',
+                type: 'qr',
+                question: 'What kind of experience does the position require?',
+                questionFr: 'Quel type d\'expérience le poste exige-t-il ?',
+                responses: [
+                    '(A) At least five years in project management.',
+                    '(B) The salary is competitive.',
+                    '(C) We received over a hundred applications.'
+                ],
+                answer: 0,
+                explanation: '(A) specifies the type of experience needed. (B) talks about salary, (C) about applications.'
+            },
+            {
+                id: 'p2_l4_q4',
+                type: 'qr',
+                question: 'What happened to the old furniture in the lobby?',
+                questionFr: 'Qu\'est-il arrivé aux anciens meubles du hall ?',
+                responses: [
+                    '(A) It was donated to a local charity.',
+                    '(B) The lobby looks much better now.',
+                    '(C) New furniture is quite expensive.'
+                ],
+                answer: 0,
+                explanation: '(A) explains what happened — it was donated. (B) comments on appearance, (C) mentions price.'
+            },
+            {
+                id: 'p2_l4_q5',
+                type: 'qr',
+                question: 'What should I bring to the orientation session?',
+                questionFr: 'Que dois-je apporter à la session d\'orientation ?',
+                responses: [
+                    '(A) The orientation is for new employees.',
+                    '(B) Just your ID and a notebook.',
+                    '(C) It\'s held in the main auditorium.'
+                ],
+                answer: 1,
+                explanation: '(B) lists items to bring — ID and a notebook. (A) describes the event, (C) gives a location.'
+            },
+            {
+                id: 'p2_l4_q6',
+                type: 'qr',
+                question: 'What does the warranty cover?',
+                questionFr: 'Que couvre la garantie ?',
+                responses: [
+                    '(A) All defects in materials and workmanship for two years.',
+                    '(B) You can purchase it at the customer service desk.',
+                    '(C) The product comes in three colors.'
+                ],
+                answer: 0,
+                explanation: '(A) describes what the warranty covers — defects for two years. (B) is about purchasing, (C) describes options.'
+            }
+        ]
+    },
+
+    // ─── Lesson 5: Why Questions ───────────────────
+    p2_l5: {
+        id: 'p2_l5',
+        partId: 'part2',
+        title: 'Why Questions',
+        titleFr: 'Questions avec « Why »',
+        description: 'Practice answering questions about reasons, causes, and justifications.',
+        difficulty: 'intermediate',
+        keyVocabulary: [
+            { en: 'due to', fr: 'en raison de' },
+            { en: 'in order to', fr: 'afin de' },
+            { en: 'maintenance', fr: 'maintenance / entretien' },
+            { en: 'to comply with', fr: 'se conformer à' },
+            { en: 'shortage', fr: 'pénurie' },
+            { en: 'feedback', fr: 'retour / commentaire' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l5_q1',
+                type: 'qr',
+                question: 'Why was the meeting postponed?',
+                questionFr: 'Pourquoi la réunion a-t-elle été reportée ?',
+                responses: [
+                    '(A) Because the director is traveling this week.',
+                    '(B) The meeting room is on the third floor.',
+                    '(C) We discussed the budget last time.'
+                ],
+                answer: 0,
+                explanation: '"Why" asks for a reason. (A) gives a cause — the director is traveling. (B) gives a location, (C) a topic.'
+            },
+            {
+                id: 'p2_l5_q2',
+                type: 'qr',
+                question: 'Why do we need to update the system?',
+                questionFr: 'Pourquoi devons-nous mettre à jour le système ?',
+                responses: [
+                    '(A) The update will take about an hour.',
+                    '(B) To fix several security vulnerabilities.',
+                    '(C) The system runs on the cloud.'
+                ],
+                answer: 1,
+                explanation: '(B) gives a reason — to fix security vulnerabilities. (A) gives a duration, (C) describes the system.'
+            },
+            {
+                id: 'p2_l5_q3',
+                type: 'qr',
+                question: 'Why hasn\'t the invoice been paid yet?',
+                questionFr: 'Pourquoi la facture n\'a-t-elle pas encore été payée ?',
+                responses: [
+                    '(A) It\'s for twelve thousand dollars.',
+                    '(B) Please send it to the accounting department.',
+                    '(C) There seems to be a discrepancy in the amounts.'
+                ],
+                answer: 2,
+                explanation: '(C) gives a reason — a discrepancy in the amounts. (A) gives the amount, (B) gives instructions.'
+            },
+            {
+                id: 'p2_l5_q4',
+                type: 'qr',
+                question: 'Why are the offices being rearranged?',
+                questionFr: 'Pourquoi les bureaux sont-ils réorganisés ?',
+                responses: [
+                    '(A) To make room for the new team members.',
+                    '(B) The furniture was ordered online.',
+                    '(C) It should be done by next Monday.'
+                ],
+                answer: 0,
+                explanation: '(A) provides the reason — to make room for new team members. (B) talks about ordering, (C) gives a deadline.'
+            },
+            {
+                id: 'p2_l5_q5',
+                type: 'qr',
+                question: 'Why did the client cancel the order?',
+                questionFr: 'Pourquoi le client a-t-il annulé la commande ?',
+                responses: [
+                    '(A) The order was placed two weeks ago.',
+                    '(B) They found a more affordable supplier.',
+                    '(C) We usually process orders within three days.'
+                ],
+                answer: 1,
+                explanation: '(B) explains the reason — they found a cheaper supplier. (A) gives a date, (C) describes processing time.'
+            },
+            {
+                id: 'p2_l5_q6',
+                type: 'qr',
+                question: 'Why is the parking lot closed today?',
+                questionFr: 'Pourquoi le parking est-il fermé aujourd\'hui ?',
+                responses: [
+                    '(A) They\'re resurfacing the pavement.',
+                    '(B) There\'s usually plenty of space.',
+                    '(C) You can pay at the meter near the entrance.'
+                ],
+                answer: 0,
+                explanation: '(A) gives the cause — resurfacing the pavement. (B) talks about availability, (C) about payment.'
+            }
+        ]
+    },
+
+    // ─── Lesson 6: How Questions ───────────────────
+    p2_l6: {
+        id: 'p2_l6',
+        partId: 'part2',
+        title: 'How Questions',
+        titleFr: 'Questions avec « How »',
+        description: 'Handle "How" questions — including How long, How many, How much, How often.',
+        difficulty: 'intermediate',
+        keyVocabulary: [
+            { en: 'approximately', fr: 'environ / approximativement' },
+            { en: 'quarterly', fr: 'trimestriel' },
+            { en: 'to commute', fr: 'faire le trajet domicile-travail' },
+            { en: 'duration', fr: 'durée' },
+            { en: 'frequently', fr: 'fréquemment' },
+            { en: 'budget-friendly', fr: 'économique' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l6_q1',
+                type: 'qr',
+                question: 'How long will the renovation take?',
+                questionFr: 'Combien de temps la rénovation va-t-elle durer ?',
+                responses: [
+                    '(A) It\'s on the third floor.',
+                    '(B) They estimate about six weeks.',
+                    '(C) The building was constructed in 1985.'
+                ],
+                answer: 1,
+                explanation: '"How long" asks for a duration. (B) provides one — about six weeks. (A) is a location, (C) is a date.'
+            },
+            {
+                id: 'p2_l6_q2',
+                type: 'qr',
+                question: 'How many applicants did we receive for the position?',
+                questionFr: 'Combien de candidatures avons-nous reçues pour le poste ?',
+                responses: [
+                    '(A) Over seventy-five, which is a record.',
+                    '(B) The position is for a software engineer.',
+                    '(C) Human Resources is handling it.'
+                ],
+                answer: 0,
+                explanation: '"How many" asks for a number. (A) gives a quantity — over seventy-five. (B) describes the role, (C) names a department.'
+            },
+            {
+                id: 'p2_l6_q3',
+                type: 'qr',
+                question: 'How do you usually get to work?',
+                questionFr: 'Comment allez-vous habituellement au travail ?',
+                responses: [
+                    '(A) I take the subway and then walk ten minutes.',
+                    '(B) I usually start at eight thirty.',
+                    '(C) My office is in the downtown area.'
+                ],
+                answer: 0,
+                explanation: '"How" asks about a method/way. (A) describes transportation — subway and walking. (B) is a time, (C) is a location.'
+            },
+            {
+                id: 'p2_l6_q4',
+                type: 'qr',
+                question: 'How much does the premium membership cost?',
+                questionFr: 'Combien coûte l\'abonnement premium ?',
+                responses: [
+                    '(A) It includes access to all facilities.',
+                    '(B) You can sign up at the front desk.',
+                    '(C) Ninety-nine dollars a month.'
+                ],
+                answer: 2,
+                explanation: '"How much" asks for a price. (C) gives that — $99/month. (A) describes features, (B) gives instructions.'
+            },
+            {
+                id: 'p2_l6_q5',
+                type: 'qr',
+                question: 'How often do the buses run on weekends?',
+                questionFr: 'À quelle fréquence les bus circulent-ils le week-end ?',
+                responses: [
+                    '(A) The bus stop is right outside the building.',
+                    '(B) Every thirty minutes, starting at seven a.m.',
+                    '(C) I usually drive on weekends.'
+                ],
+                answer: 1,
+                explanation: '"How often" asks for frequency. (B) gives it — every 30 minutes. (A) is a location, (C) is a personal habit.'
+            },
+            {
+                id: 'p2_l6_q6',
+                type: 'qr',
+                question: 'How was the workshop last Thursday?',
+                questionFr: 'Comment était l\'atelier de jeudi dernier ?',
+                responses: [
+                    '(A) It was really informative, I learned a lot.',
+                    '(B) It was held in the conference center.',
+                    '(C) About forty people signed up.'
+                ],
+                answer: 0,
+                explanation: '"How was" asks for an opinion/evaluation. (A) gives one — informative. (B) is a location, (C) is a number.'
+            }
+        ]
+    },
+
+    // ─── Lesson 7: Yes/No & Tag Questions ──────────
+    p2_l7: {
+        id: 'p2_l7',
+        partId: 'part2',
+        title: 'Yes/No & Tag Questions',
+        titleFr: 'Questions fermées et question tags',
+        description: 'Practice answering yes/no questions and tag questions with appropriate responses.',
+        difficulty: 'advanced',
+        keyVocabulary: [
+            { en: 'as far as I know', fr: 'à ma connaissance' },
+            { en: 'I\'m afraid so/not', fr: 'j\'en ai bien peur / j\'ai peur que non' },
+            { en: 'actually', fr: 'en fait' },
+            { en: 'I believe so', fr: 'je crois que oui' },
+            { en: 'not necessarily', fr: 'pas nécessairement' },
+            { en: 'it depends', fr: 'ça dépend' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l7_q1',
+                type: 'qr',
+                question: 'Has the shipment been dispatched yet?',
+                questionFr: 'L\'envoi a-t-il déjà été expédié ?',
+                responses: [
+                    '(A) Yes, it left the warehouse this morning.',
+                    '(B) The warehouse is in New Jersey.',
+                    '(C) We ordered fifty units.'
+                ],
+                answer: 0,
+                explanation: 'This is a Yes/No question. (A) confirms with yes and adds detail. (B) is a place, (C) is a quantity.'
+            },
+            {
+                id: 'p2_l7_q2',
+                type: 'qr',
+                question: 'Didn\'t you send the revised proposal to the client?',
+                questionFr: 'N\'as-tu pas envoyé la proposition révisée au client ?',
+                responses: [
+                    '(A) The client\'s office is on Park Avenue.',
+                    '(B) I thought David was handling that.',
+                    '(C) The proposal includes a detailed timeline.'
+                ],
+                answer: 1,
+                explanation: '(B) is an indirect response — "I thought David was handling that" implies the speaker didn\'t do it. This is a common TOEIC pattern — indirect answers.'
+            },
+            {
+                id: 'p2_l7_q3',
+                type: 'qr',
+                question: 'The new policy takes effect next month, doesn\'t it?',
+                questionFr: 'La nouvelle politique entre en vigueur le mois prochain, n\'est-ce pas ?',
+                responses: [
+                    '(A) Actually, it was pushed back to March.',
+                    '(B) The policy affects all departments.',
+                    '(C) You should read the employee handbook.'
+                ],
+                answer: 0,
+                explanation: '(A) corrects the assumption with "actually" — a very common response pattern for tag questions. (B) and (C) don\'t confirm or deny.'
+            },
+            {
+                id: 'p2_l7_q4',
+                type: 'qr',
+                question: 'Would you like me to reserve a conference room?',
+                questionFr: 'Voulez-vous que je réserve une salle de conférence ?',
+                responses: [
+                    '(A) The conference is about digital marketing.',
+                    '(B) That would be great, thank you.',
+                    '(C) Room 204 is the largest one.'
+                ],
+                answer: 1,
+                explanation: '(B) is a polite acceptance — answering the offer/request. (A) changes the topic, (C) gives a room detail.'
+            },
+            {
+                id: 'p2_l7_q5',
+                type: 'qr',
+                question: 'Are you going to the company picnic on Saturday?',
+                questionFr: 'Allez-vous au pique-nique d\'entreprise samedi ?',
+                responses: [
+                    '(A) The weather forecast says it might rain.',
+                    '(B) I haven\'t decided yet, it depends on my schedule.',
+                    '(C) The picnic was a lot of fun last year.'
+                ],
+                answer: 1,
+                explanation: '(B) is a valid indirect response — expressing uncertainty. (A) discusses weather, (C) talks about last year.'
+            },
+            {
+                id: 'p2_l7_q6',
+                type: 'qr',
+                question: 'Can you finish the report by end of day?',
+                questionFr: 'Pouvez-vous terminer le rapport d\'ici la fin de la journée ?',
+                responses: [
+                    '(A) I\'m afraid I\'ll need until tomorrow morning.',
+                    '(B) The report has six sections.',
+                    '(C) It was submitted to the manager.'
+                ],
+                answer: 0,
+                explanation: '(A) is a polite refusal with an alternative timeline. (B) describes the report, (C) says it was already submitted.'
+            }
+        ]
+    },
+
+    // ─── Lesson 8: Statements & Requests ───────────
+    p2_l8: {
+        id: 'p2_l8',
+        partId: 'part2',
+        title: 'Statements & Requests',
+        titleFr: 'Déclarations et demandes',
+        description: 'Respond to statements, suggestions, and polite requests — the trickiest Part 2 format.',
+        difficulty: 'advanced',
+        keyVocabulary: [
+            { en: 'I\'d appreciate it if…', fr: 'J\'apprécierais que…' },
+            { en: 'Why don\'t we…', fr: 'Pourquoi ne pas…' },
+            { en: 'How about…', fr: 'Que dirais-tu de…' },
+            { en: 'I was wondering if…', fr: 'Je me demandais si…' },
+            { en: 'Do you mind if…', fr: 'Est-ce que ça vous dérange si…' },
+            { en: 'Let me know if…', fr: 'Dites-moi si…' },
+        ],
+        exercises: [
+            {
+                id: 'p2_l8_q1',
+                type: 'qr',
+                question: 'I can\'t seem to find the keys to the storage room.',
+                questionFr: 'Je n\'arrive pas à trouver les clés de la réserve.',
+                responses: [
+                    '(A) The storage room is on the ground floor.',
+                    '(B) Try checking with the security desk.',
+                    '(C) We keep office supplies in there.'
+                ],
+                answer: 1,
+                explanation: 'This is a statement (not a question). (B) offers helpful advice. (A) gives the location of the room, (C) describes its contents.'
+            },
+            {
+                id: 'p2_l8_q2',
+                type: 'qr',
+                question: 'Why don\'t we take a short break before the next presentation?',
+                questionFr: 'Pourquoi ne ferions-nous pas une courte pause avant la prochaine présentation ?',
+                responses: [
+                    '(A) That sounds like a good idea.',
+                    '(B) Because the room is too warm.',
+                    '(C) The presentation is about sales trends.'
+                ],
+                answer: 0,
+                explanation: '"Why don\'t we" is a **suggestion**, not a real "Why" question. (A) agrees with the suggestion. (B) gives a reason (trap — treating it as a real why-question). (C) is unrelated.'
+            },
+            {
+                id: 'p2_l8_q3',
+                type: 'qr',
+                question: 'The printer on the second floor seems to be jammed again.',
+                questionFr: 'L\'imprimante du deuxième étage semble encore bloquée.',
+                responses: [
+                    '(A) I\'ll call maintenance right away.',
+                    '(B) We bought it last September.',
+                    '(C) There\'s paper in the drawer.'
+                ],
+                answer: 0,
+                explanation: 'This is a statement reporting a problem. (A) offers a solution — calling maintenance. (B) gives purchase date, (C) mentions paper.'
+            },
+            {
+                id: 'p2_l8_q4',
+                type: 'qr',
+                question: 'Could you let me know when the delivery arrives?',
+                questionFr: 'Pourriez-vous me prévenir quand la livraison arrive ?',
+                responses: [
+                    '(A) Of course, I\'ll send you a message.',
+                    '(B) The delivery includes ten crates.',
+                    '(C) We use an express shipping service.'
+                ],
+                answer: 0,
+                explanation: 'This is a polite request. (A) agrees to the request. (B) describes the delivery, (C) mentions the shipping service.'
+            },
+            {
+                id: 'p2_l8_q5',
+                type: 'qr',
+                question: 'I was wondering if there are any tickets left for the gala.',
+                questionFr: 'Je me demandais s\'il restait des billets pour le gala.',
+                responses: [
+                    '(A) The gala is at the Grand Hotel.',
+                    '(B) Let me check — I think a few are still available.',
+                    '(C) It was a wonderful evening.'
+                ],
+                answer: 1,
+                explanation: '"I was wondering if" is an indirect question/request. (B) addresses it by offering to check. (A) gives a location, (C) reflects on a past event.'
+            },
+            {
+                id: 'p2_l8_q6',
+                type: 'qr',
+                question: 'How about we reschedule the meeting to Thursday instead?',
+                questionFr: 'Et si nous reprogrammions la réunion à jeudi ?',
+                responses: [
+                    '(A) The meeting lasted about an hour.',
+                    '(B) Thursday works for me. Let me update the calendar.',
+                    '(C) The agenda hasn\'t been set yet.'
+                ],
+                answer: 1,
+                explanation: '"How about" is a suggestion. (B) accepts and takes action. (A) talks about duration, (C) mentions the agenda.'
+            }
+        ]
     }
 }
 
@@ -978,9 +1773,9 @@ export const toeicSteps = Object.fromEntries(
         part: l.partId,
         exercises: l.exercises.map(ex => ({
             type: 'correct',
-            question: ex.statements ? `Choose the statement that best describes the photo.` : ex.question,
-            answer: ex.statements?.[ex.answer] || ex.answer,
-            options: ex.statements || ex.options || []
+            question: ex.type === 'qr' ? ex.question : 'Choose the statement that best describes the photo.',
+            answer: ex.type === 'qr' ? ex.responses?.[ex.answer] : ex.statements?.[ex.answer],
+            options: ex.type === 'qr' ? ex.responses : ex.statements || []
         }))
     }])
 )
