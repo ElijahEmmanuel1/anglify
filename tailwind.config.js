@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class',
     content: [
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}",
@@ -24,16 +25,37 @@ export default {
                     900: '#1e318b',
                     950: '#172055',
                 },
+                surface: {
+                    50: '#f8fafc',
+                    100: '#f1f5f9',
+                    200: '#e2e8f0',
+                    700: '#1e293b',
+                    800: '#111827',
+                    850: '#0f172a',
+                    900: '#0b1120',
+                    950: '#060a14',
+                },
             },
             boxShadow: {
                 'soft': '0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.03)',
                 'card': '0 2px 8px -2px rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.04)',
                 'lift': '0 8px 24px -4px rgba(0,0,0,0.08), 0 2px 6px -2px rgba(0,0,0,0.04)',
                 'overlay': '0 16px 48px -8px rgba(0,0,0,0.12), 0 4px 12px -4px rgba(0,0,0,0.06)',
+                'glow-brand': '0 0 20px -3px rgba(36,81,237,0.25)',
+                'glow-emerald': '0 0 20px -3px rgba(16,185,129,0.25)',
+                'glow-amber': '0 0 20px -3px rgba(245,158,11,0.25)',
+                'dark-card': '0 2px 8px -2px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.03)',
+                'dark-lift': '0 8px 24px -4px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04)',
             },
             borderRadius: {
                 'card': '1rem',
                 'card-lg': '1.25rem',
+            },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-mesh': 'linear-gradient(135deg, var(--tw-gradient-stops))',
+                'hero-gradient': 'linear-gradient(135deg, #1c3eda 0%, #2451ed 40%, #5c91fc 100%)',
+                'hero-dark': 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #172055 100%)',
             },
             animation: {
                 'fade-in': 'fadeIn 0.4s ease-out forwards',

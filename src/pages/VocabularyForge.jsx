@@ -70,10 +70,10 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
         return (
             <div className="space-y-6 pb-24 h-[calc(100vh-140px)] flex flex-col items-center justify-center animate-fade-in">
                 <div className="w-full max-w-md flex items-center justify-between mb-2">
-                    <button onClick={goBack} className="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors text-sm font-medium">
+                    <button onClick={goBack} className="flex items-center gap-2 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-sm font-medium">
                         <ArrowLeftIcon size={18} /> Back
                     </button>
-                    <div className="text-slate-500 font-medium text-sm">
+                    <div className="text-slate-500 dark:text-slate-400 font-medium text-sm">
                         {currentIndex + 1} / {words.length}
                     </div>
                 </div>
@@ -85,27 +85,27 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
                         style={{ transformStyle: 'preserve-3d', transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)', transition: 'transform 0.5s ease' }}
                     >
                         {/* Front */}
-                        <div className="absolute inset-0 bg-white rounded-2xl border border-slate-200/80 shadow-card flex flex-col items-center justify-center p-8 text-center" style={{ backfaceVisibility: 'hidden' }}>
+                        <div className="absolute inset-0 bg-white dark:bg-surface-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/50 shadow-card dark:shadow-dark-card flex flex-col items-center justify-center p-8 text-center" style={{ backfaceVisibility: 'hidden' }}>
                             {boxLevel > 0 && (
-                                <div className="absolute top-4 right-4 px-3 py-1 bg-brand-50 text-brand-600 rounded-lg text-xs font-bold border border-brand-100">
+                                <div className="absolute top-4 right-4 px-3 py-1 bg-brand-50 dark:bg-brand-950/50 text-brand-600 dark:text-brand-400 rounded-lg text-xs font-bold border border-brand-100 dark:border-brand-800/30">
                                     Box {boxLevel}
                                 </div>
                             )}
-                            <div className="text-3xl font-display font-bold text-slate-800 mb-4">{word.word}</div>
-                            <div className="text-slate-400 text-xs font-medium uppercase tracking-widest">Tap to flip</div>
+                            <div className="text-3xl font-display font-bold text-slate-800 dark:text-white mb-4">{word.word}</div>
+                            <div className="text-slate-400 dark:text-slate-500 text-xs font-medium uppercase tracking-widest">Tap to flip</div>
                         </div>
 
                         {/* Back */}
-                        <div className="absolute inset-0 bg-brand-50 rounded-2xl border border-brand-100 shadow-card flex flex-col items-center justify-center p-8 text-center" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
-                            <div className="text-lg font-medium text-brand-900 mb-6">{word.definition}</div>
-                            <div className="text-slate-500 italic text-sm">"{word.example}"</div>
+                        <div className="absolute inset-0 bg-brand-50 dark:bg-brand-950/40 rounded-2xl border border-brand-100 dark:border-brand-800/50 shadow-card dark:shadow-dark-card flex flex-col items-center justify-center p-8 text-center" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                            <div className="text-lg font-medium text-brand-900 dark:text-brand-200 mb-6">{word.definition}</div>
+                            <div className="text-slate-500 dark:text-slate-400 italic text-sm">"{word.example}"</div>
                         </div>
                     </div>
                 </div>
 
                 <div className="flex gap-3 w-full max-w-md">
                     <button
-                        className="flex-1 py-3.5 rounded-xl border-2 border-rose-200 bg-white text-rose-500 font-bold hover:bg-rose-50 transition-colors flex items-center justify-center gap-2 text-sm"
+                        className="flex-1 py-3.5 rounded-xl border-2 border-rose-200 dark:border-rose-800/50 bg-white dark:bg-surface-800 text-rose-500 dark:text-rose-400 font-bold hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-colors flex items-center justify-center gap-2 text-sm"
                         onClick={handleDontKnow}
                     >
                         <WrongIcon size={16} /> Don't know
@@ -124,32 +124,32 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
     return (
         <div className="space-y-6 pb-24 animate-fade-in">
             <div className="mb-4">
-                <h2 className="text-2xl font-display font-bold text-slate-900">Vocabulary Forge</h2>
-                <p className="text-slate-500 mt-1 text-sm">Master business English with spaced repetition</p>
+                <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white">Vocabulary Forge</h2>
+                <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">Master business English with spaced repetition</p>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 text-center shadow-soft">
-                    <div className="text-xl font-display font-bold text-brand-600">{progress.vocabulary?.totalLearned || 0}</div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">Studied</div>
+                <div className="premium-card p-4 text-center">
+                    <div className="text-xl font-display font-bold text-brand-600 dark:text-brand-400">{progress.vocabulary?.totalLearned || 0}</div>
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mt-1">Studied</div>
                 </div>
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 text-center shadow-soft">
-                    <div className="text-xl font-display font-bold text-emerald-500">{progress.vocabulary?.totalMastered || 0}</div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">Mastered</div>
+                <div className="premium-card p-4 text-center">
+                    <div className="text-xl font-display font-bold text-emerald-500 dark:text-emerald-400">{progress.vocabulary?.totalMastered || 0}</div>
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mt-1">Mastered</div>
                 </div>
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 text-center shadow-soft">
-                    <div className="text-xl font-display font-bold text-amber-500">{dueWords.length}</div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">Due</div>
+                <div className="premium-card p-4 text-center">
+                    <div className="text-xl font-display font-bold text-amber-500 dark:text-amber-400">{dueWords.length}</div>
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mt-1">Due</div>
                 </div>
             </div>
 
             {dueWords.length > 0 && (
-                <div className="bg-amber-50 rounded-2xl p-5 border border-amber-200/80 flex items-center justify-between">
+                <div className="bg-amber-50 dark:bg-amber-950/20 rounded-2xl p-5 border border-amber-200/80 dark:border-amber-800/30 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <span className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center"><RefreshIcon size={20} /></span>
+                        <span className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 flex items-center justify-center"><RefreshIcon size={20} /></span>
                         <div>
-                            <div className="font-bold text-amber-900 text-sm">{dueWords.length} words to review</div>
-                            <div className="text-amber-600 text-xs">Spaced repetition strengthens memory</div>
+                            <div className="font-bold text-amber-900 dark:text-amber-200 text-sm">{dueWords.length} words to review</div>
+                            <div className="text-amber-600 dark:text-amber-400 text-xs">Spaced repetition strengthens memory</div>
                         </div>
                     </div>
                     <button
@@ -162,8 +162,8 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
             )}
 
             <div>
-                <div className="flex items-center gap-2 mb-3 text-slate-900 font-display font-bold text-base">
-                    <LayersIcon size={18} className="text-brand-600" /> Themes
+                <div className="flex items-center gap-2 mb-3 text-slate-900 dark:text-white font-display font-bold text-base">
+                    <LayersIcon size={18} className="text-brand-600 dark:text-brand-400" /> Themes
                 </div>
 
                 <div className="space-y-3">
@@ -173,22 +173,22 @@ export default function VocabularyForge({ progress, setProgress, showXpGain }) {
                         return (
                             <button
                                 key={theme.id}
-                                className="w-full bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover:shadow-card transition-shadow duration-200 text-left flex items-center gap-4"
+                                className="w-full premium-card-hover p-4 text-left flex items-center gap-4"
                                 onClick={() => startTheme(theme)}
                             >
-                                <div className="w-12 h-12 rounded-xl bg-slate-50 text-xl flex items-center justify-center shrink-0">
+                                <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-surface-700 text-xl flex items-center justify-center shrink-0">
                                     {theme.icon}
                                 </div>
 
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="text-sm font-semibold text-slate-900">{theme.title}</h3>
-                                    <div className="text-xs text-slate-500 mb-2">{themeWords.length} words &middot; {learned} learned</div>
-                                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-brand-500 rounded-full transition-all duration-500" style={{ width: `${(learned / themeWords.length) * 100}%` }} />
+                                    <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{theme.title}</h3>
+                                    <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">{themeWords.length} words &middot; {learned} learned</div>
+                                    <div className="h-1.5 w-full bg-slate-100 dark:bg-surface-700 rounded-full overflow-hidden">
+                                        <div className="h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full transition-all duration-500" style={{ width: `${(learned / themeWords.length) * 100}%` }} />
                                     </div>
                                 </div>
 
-                                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-300">
+                                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-300 dark:text-slate-600">
                                     <ArrowRightIcon size={16} />
                                 </div>
                             </button>

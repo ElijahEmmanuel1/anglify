@@ -231,3 +231,18 @@ export const GlobeIcon = (props) => (
         <path d="M2 12H22M12 2C14.5 4.73 15.82 8.3 16 12C15.82 15.7 14.5 19.27 12 22C9.5 19.27 8.18 15.7 8 12C8.18 8.3 9.5 4.73 12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </IconBase>
 )
+
+// --- Dark Mode Icons ---
+
+export const SunIcon = (props) => (
+    <IconBase {...props}>
+        <circle cx="12" cy="12" r="5" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" />
+        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </IconBase>
+)
+
+export const MoonIcon = (props) => (
+    <IconBase {...props}>
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </IconBase>
+)
