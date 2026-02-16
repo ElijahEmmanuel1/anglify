@@ -128,6 +128,113 @@ body {
   overscroll-behavior-y: none
 }
 
+/* ============================================
+   Splash Screen
+   ============================================ */
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.splash-screen--exit {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.1);
+}
+
+.splash-content {
+  text-align: center;
+  animation: fadeInUp 0.8s ease backwards;
+}
+
+.splash-logo {
+  width: 96px;
+  height: 96px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: float 3s ease-in-out infinite;
+}
+
+.splash-icon {
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.splash-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.splash-subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.splash-loader {
+  width: 120px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.splash-loader__bar {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  animation: loading 2s ease-in-out infinite;
+  transform-origin: left;
+}
+
+@keyframes loading {
+  0% {
+    transform: scaleX(0);
+  }
+
+  50% {
+    transform: scaleX(0.7);
+  }
+
+  100% {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 a {
   color: var(--accent-primary);
   text-decoration: none

@@ -6,6 +6,7 @@ import TOEICPrep from './pages/TOEICPrep'
 import VocabularyForge from './pages/VocabularyForge'
 import QuickPractice from './pages/QuickPractice'
 import Progress from './pages/Progress'
+import SplashScreen from './components/SplashScreen'
 import { HomeIcon, BookIcon, TargetIcon, PenIcon, ZapIcon, ChartIcon, StarIcon, BellIcon } from './components/Icons'
 
 const NAV_ITEMS = [
@@ -18,6 +19,7 @@ const NAV_ITEMS = [
 ]
 
 export default function App() {
+    const [showSplash, setShowSplash] = useState(true)
     const [currentPage, setCurrentPage] = useState('dashboard')
     const [progress, setProgress] = useState(loadProgress)
     const [xpPopup, setXpPopup] = useState(null)
@@ -58,6 +60,8 @@ export default function App() {
 
     return (
         <div className="app-layout">
+            {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+
             {/* Header - only on dashboard */}
             {currentPage === 'dashboard' && (
                 <header className="header">
