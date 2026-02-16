@@ -2,6 +2,8 @@
 // Progress Engine — LocalStorage Persistence
 // ============================================
 
+import { getTotalLessons } from '../data/toeicData'
+
 const STORAGE_KEY = 'toeic_master_progress';
 
 const DEFAULT_PROGRESS = {
@@ -206,7 +208,8 @@ export function getGrammarStats(progress) {
 export function getToeicStats(progress) {
     const steps = Object.values(progress.toeic);
     const completed = steps.filter(s => s.completed).length;
-    return { completed, total: 49 };
+    const total = getTotalLessons();
+    return { completed, total };
 }
 
 export function estimateToeicScore(progress) {
@@ -216,7 +219,7 @@ export function estimateToeicScore(progress) {
 
     // Rough estimation: base 200 + grammar contribution + toeic contribution + vocab contribution
     const grammarScore = (grammarStats.completed / 145) * grammarStats.avgScore * 3;
-    const toeicScore = (toeicStats.completed / 49) * 200;
+    const toeicScore = toeicStats.total > 0 ? (toeicStats.completed / toeicStats.total) * 200 : 0;
     const vocabScore = Math.min(vocabMastered * 0.5, 100);
 
     return Math.min(990, Math.round(200 + grammarScore + toeicScore + vocabScore));
