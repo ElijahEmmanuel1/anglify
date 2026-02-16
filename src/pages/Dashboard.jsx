@@ -1,11 +1,13 @@
 import { useMemo } from 'react'
 import { getGrammarStats, getToeicStats, estimateToeicScore } from '../utils/progressEngine'
 import { BookIcon, TargetIcon, PenIcon, ZapIcon, StarIcon, FlameIcon, ChartIcon } from '../components/Icons'
+import LordIcon from '../components/LordIcon'
 
 const MODULES = [
     {
         id: 'grammar',
         Icon: BookIcon,
+        lordIconSrc: 'https://cdn.lordicon.com/nocovwne.json', // Document/Book
         title: 'Learn grammar with interactive exercises',
         category: 'Grammar',
         accent: 'indigo',
@@ -16,6 +18,7 @@ const MODULES = [
     {
         id: 'toeic',
         Icon: TargetIcon,
+        lordIconSrc: 'https://cdn.lordicon.com/fhtaantg.json', // Target (Example)
         title: 'Master the TOEIC exam step by step',
         category: 'TOEIC',
         accent: 'emerald',
@@ -26,6 +29,7 @@ const MODULES = [
     {
         id: 'vocabulary',
         Icon: PenIcon,
+        lordIconSrc: 'https://cdn.lordicon.com/wloilxuq.json', // Design/Pen
         title: 'Build your vocabulary with flashcards',
         category: 'Vocabulary',
         accent: 'amber',
@@ -36,6 +40,7 @@ const MODULES = [
     {
         id: 'practice',
         Icon: ZapIcon,
+        lordIconSrc: 'https://cdn.lordicon.com/rpgflhzq.json', // Thunderbolt/Zap
         title: 'Quick drills to test your skills',
         category: 'Practice',
         accent: 'rose',
@@ -149,7 +154,11 @@ export default function Dashboard({ progress, navigate }) {
                         >
                             <div className="flex items-start justify-between mb-4">
                                 <div className={`w-12 h-12 rounded-2xl ${mod.iconBg} flex items-center justify-center shadow-sm`}>
-                                    <mod.Icon size={24} />
+                                    {mod.lordIconSrc ? (
+                                        <LordIcon src={mod.lordIconSrc} trigger="hover" size={32} colors={`primary:${mod.accent === 'indigo' ? '#4f46e5' : mod.accent === 'emerald' ? '#10b981' : mod.accent === 'amber' ? '#f59e0b' : '#e11d48'},secondary:#0f172a`} />
+                                    ) : (
+                                        <mod.Icon size={24} />
+                                    )}
                                 </div>
                                 <div className="px-2.5 py-1 bg-slate-50 text-slate-600 text-xs font-bold rounded-lg group-hover:bg-slate-100 transition-colors">
                                     {mod.category}
