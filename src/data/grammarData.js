@@ -4,6 +4,18 @@
 // ============================================
 
 import { grammarLessonsFR } from './grammarLessons';
+import { grammarLessonsFuture } from './grammarLessons_future';
+import { grammarLessonsModals } from './grammarLessons_modals';
+import { grammarLessonsConditionals } from './grammarLessons_conditionals';
+import { grammarLessonsPassive } from './grammarLessons_passive';
+import { grammarLessonsReported } from './grammarLessons_reported';
+import { grammarLessonsQuestions } from './grammarLessons_questions';
+import { grammarLessonsIngTo } from './grammarLessons_ingTo';
+import { grammarLessonsArticlesNouns } from './grammarLessons_articlesNouns';
+import { grammarLessonsPronouns } from './grammarLessons_pronouns';
+import { grammarLessonsAdjAdv } from './grammarLessons_adjAdv';
+import { grammarLessonsConjPrep } from './grammarLessons_conjPrep';
+import { grammarLessonsPhrasalVerbs } from './grammarLessons_phrasalVerbs';
 
 export const grammarCategories = [
     {
@@ -1456,9 +1468,27 @@ export const grammarUnits = {
     }
 };
 
-// Merge rich French content (units 1-18) into grammarUnits — overrides old content
-Object.entries(grammarLessonsFR).forEach(([id, unit]) => {
-    grammarUnits[Number(id)] = unit;
+// Merge ALL rich French content into grammarUnits — overrides old stub content
+const allLessonSources = [
+    grammarLessonsFR,          // Units 1-18
+    grammarLessonsFuture,      // Units 19-25
+    grammarLessonsModals,      // Units 26-37
+    grammarLessonsConditionals,// Units 38-41
+    grammarLessonsPassive,     // Units 42-46
+    grammarLessonsReported,    // Units 47-48
+    grammarLessonsQuestions,   // Units 49-52
+    grammarLessonsIngTo,       // Units 53-68
+    grammarLessonsArticlesNouns,// Units 69-81
+    grammarLessonsPronouns,    // Units 82-97
+    grammarLessonsAdjAdv,      // Units 98-115
+    grammarLessonsConjPrep,    // Units 116-130
+    grammarLessonsPhrasalVerbs,// Units 131-145
+];
+
+allLessonSources.forEach(source => {
+    Object.entries(source).forEach(([id, unit]) => {
+        grammarUnits[Number(id)] = unit;
+    });
 });
 
 // Normalize a unit to the new structure (for backward compat with old-format units)

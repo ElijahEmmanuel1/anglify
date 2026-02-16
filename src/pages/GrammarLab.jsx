@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
 import { grammarCategories, grammarUnits, getUnitsByCategory, normalizeUnit } from '../data/grammarData'
 import { addXP, completeGrammarUnit } from '../utils/progressEngine'
-import { BookIcon, ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, BookOpenIcon, RulesIcon, LightbulbIcon, PencilEditIcon, CorrectIcon, WrongIcon, TrophyIcon, PartyIcon } from '../components/Icons'
+import { playPronunciation, playSlowPronunciation, isAudioSupported } from '../utils/audioEngine'
+import { BookIcon, ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, BookOpenIcon, RulesIcon, LightbulbIcon, PencilEditIcon, CorrectIcon, WrongIcon, TrophyIcon, PartyIcon, PlayIcon } from '../components/Icons'
 
 function shuffleArray(arr) {
     const a = [...arr]
@@ -297,7 +298,14 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                                 <div className="grid gap-2">
                                     {unit.examples.map((ex, i) => (
                                         <div key={i} className={`p-4 rounded-xl border animate-fade-in-up ${ex.correct === false ? 'bg-red-50/50 border-red-100' : 'bg-slate-50 border-slate-100'}`} style={staggerDelay(i, 80)}>
-                                            <p className="text-slate-800 text-[15px]" dangerouslySetInnerHTML={{ __html: ex.text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-600">$1</strong>').replace(/~~(.*?)~~/g, '<span class="text-red-500 line-through decoration-2">$1</span>') }} />
+                                            <div className="flex items-start justify-between gap-2">
+                                                <p className="text-slate-800 text-[15px] flex-1" dangerouslySetInnerHTML={{ __html: ex.text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-600">$1</strong>').replace(/~~(.*?)~~/g, '<span class="text-red-500 line-through decoration-2">$1</span>') }} />
+                                                {ex.correct !== false && isAudioSupported() && (
+                                                    <button onClick={() => playPronunciation(ex.text)} className="shrink-0 w-8 h-8 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-600 flex items-center justify-center transition-colors" title="Écouter la prononciation">
+                                                        <PlayIcon size={14} />
+                                                    </button>
+                                                )}
+                                            </div>
                                             {ex.fr && <p className="mt-1.5 text-sm text-brand-600/80 italic">{ex.fr}</p>}
                                             {ex.note && <div className="mt-2 text-sm text-amber-600 font-medium flex items-center gap-1.5"><LightbulbIcon size={14} /> {ex.note}</div>}
                                         </div>
@@ -412,6 +420,11 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                                         {state?.answered && (
                                             <div className={`mt-3 p-3 rounded-xl text-sm font-semibold flex items-center gap-2 animate-fade-in-up ${state.correct ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
                                                 {state.correct ? <><CorrectIcon size={16} /> Correct !</> : <><WrongIcon size={16} /> La bonne réponse est : {ex.answer}</>}
+                                                {isAudioSupported() && (
+                                                    <button onClick={() => playPronunciation(ex.answer)} className="ml-auto shrink-0 w-7 h-7 rounded-md bg-white/60 hover:bg-white text-current flex items-center justify-center transition-colors" title="Écouter">
+                                                        <PlayIcon size={12} />
+                                                    </button>
+                                                )}
                                             </div>
                                         )}
                                     </div>
@@ -503,6 +516,11 @@ export default function GrammarLab({ progress, setProgress, showXpGain }) {
                                         {state?.answered && (
                                             <div className={`mt-3 p-3 rounded-xl text-sm font-semibold flex items-center gap-2 animate-fade-in-up ${state.correct ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
                                                 {state.correct ? <><CorrectIcon size={16} /> Correct !</> : <><WrongIcon size={16} /> La bonne réponse est : {ex.answer}</>}
+                                                {isAudioSupported() && (
+                                                    <button onClick={() => playPronunciation(ex.answer)} className="ml-auto shrink-0 w-7 h-7 rounded-md bg-white/60 hover:bg-white text-current flex items-center justify-center transition-colors" title="Écouter">
+                                                        <PlayIcon size={12} />
+                                                    </button>
+                                                )}
                                             </div>
                                         )}
                                     </div>
