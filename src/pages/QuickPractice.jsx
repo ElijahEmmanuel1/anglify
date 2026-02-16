@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { grammarUnits } from '../data/grammarData'
 import { vocabularyWords } from '../data/vocabularyData'
 import { toeicSteps } from '../data/toeicData'
@@ -138,18 +138,19 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
             const total = questions.length
             const pct = Math.round((correctCount / total) * 100)
             return (
-                <div className="quick-practice">
-                    <div className="card" style={{ textAlign: 'center', padding: '3rem', animation: 'scaleIn 0.4s ease' }}>
-                        <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
+                <div className="space-y-8 pb-24 flex items-center justify-center min-h-[60vh]">
+                    <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl text-center animate-scaleIn w-full max-w-md">
+                        <div className="text-6xl mb-4">
                             {pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '📚'}
                         </div>
-                        <div style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem' }}>{correctCount}/{total}</div>
-                        <div style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Score: {pct}%</div>
-                        <div style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Time: {formatTime(timer)}</div>
-                        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-                            <button className="btn btn-secondary" onClick={goBack}>← Menu</button>
-                            <button className="btn btn-primary" onClick={mode === 'daily' ? startDaily : mode === 'speed' ? startSpeed : startVocabQuiz}>
-                                🔄 Play again
+                        <div className="text-3xl font-bold text-slate-900 mb-2">{correctCount}/{total}</div>
+                        <div className="text-slate-500 mb-1">Score: {pct}%</div>
+                        <div className="text-slate-400 font-mono text-sm mb-8">Time: {formatTime(timer)}</div>
+
+                        <div className="flex gap-4 justify-center">
+                            <button className="btn btn-secondary px-6" onClick={goBack}>Main Menu</button>
+                            <button className="btn btn-primary px-6" onClick={mode === 'daily' ? startDaily : mode === 'speed' ? startSpeed : startVocabQuiz}>
+                                Play Again
                             </button>
                         </div>
                     </div>
@@ -161,49 +162,57 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
         const state = answers[currentQ]
 
         return (
-            <div className="quick-practice">
-                <div className="lesson-view__back" onClick={goBack}><ArrowLeftIcon size={16} /> Quit</div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-                    <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                        Question {currentQ + 1}/{questions.length}
-                    </span>
-                    <span style={{ fontSize: '0.875rem', fontFamily: 'var(--font-mono)', color: mode === 'speed' ? 'var(--error)' : 'var(--text-muted)' }}>
-                        ⏱ {formatTime(timer)}
-                    </span>
-                </div>
-                <div className="progress-bar" style={{ marginBottom: '1.5rem' }}>
-                    <div className="progress-bar__fill" style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }} />
+            <div className="space-y-6 pb-24 max-w-2xl mx-auto">
+                <div className="flex items-center justify-between mb-4">
+                    <button onClick={goBack} className="text-slate-500 hover:text-slate-700 font-medium flex items-center gap-2">
+                        <ArrowLeftIcon size={18} /> Quit
+                    </button>
+                    <div className="flex items-center gap-4">
+                        <span className="text-sm font-bold text-slate-400">
+                            {currentQ + 1}/{questions.length}
+                        </span>
+                        <span className={`font-mono text-sm font-medium px-2 py-1 rounded bg-slate-100 ${mode === 'speed' ? 'text-red-600' : 'text-slate-600'}`}>
+                            ⏱ {formatTime(timer)}
+                        </span>
+                    </div>
                 </div>
 
-                <div className="card">
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.75rem' }}>{q.sourceTitle}</div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1.5rem', lineHeight: 1.5 }}>{q.question}</div>
-                    <div className="exercise__options">
+                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-indigo-500 rounded-full transition-all duration-300" style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }} />
+                </div>
+
+                <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-lg mt-6">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{q.sourceTitle}</div>
+                    <div className="text-xl font-bold text-slate-900 mb-8 leading-relaxed">{q.question}</div>
+
+                    <div className="grid gap-3">
                         {(shuffledQOptions[currentQ] || q.options).map((opt, i) => {
-                            let className = 'exercise__option'
+                            let classes = 'p-4 rounded-xl border-2 text-left transition-all font-medium flex gap-3 relative overflow-hidden '
                             if (state?.answered) {
-                                if (opt === q.answer) className += ' exercise__option--correct'
-                                else if (opt === state.answer && !state.correct) className += ' exercise__option--incorrect'
+                                if (opt === q.answer) classes += 'border-green-500 bg-green-50 text-green-700'
+                                else if (opt === state.answer && !state.correct) classes += 'border-red-500 bg-red-50 text-red-700 opacity-60'
+                                else classes += 'border-slate-100 bg-white text-slate-400 opacity-50'
+                            } else {
+                                classes += 'border-slate-100 bg-white text-slate-700 hover:border-indigo-200 hover:bg-slate-50 cursor-pointer shadow-sm hover:shadow-md'
                             }
                             return (
-                                <div key={i} className={className} onClick={() => handleAnswer(opt)}>
-                                    <span className="exercise__option-letter">{String.fromCharCode(65 + i)}</span>
-                                    <span>{opt}</span>
-                                </div>
+                                <button key={i} className={classes} onClick={() => handleAnswer(opt)} disabled={state?.answered}>
+                                    <span className="w-6 h-6 rounded-md bg-white border border-inherit flex items-center justify-center text-xs font-bold shrink-0">{String.fromCharCode(65 + i)}</span>
+                                    {opt}
+                                </button>
                             )
                         })}
                     </div>
+
                     {state?.answered && (
-                        <>
-                            <div className={`exercise__feedback ${state.correct ? 'exercise__feedback--correct' : 'exercise__feedback--incorrect'}`} style={{ marginTop: '1rem' }}>
+                        <div className="mt-6 flex items-center justify-between animate-fadeIn">
+                            <div className={`px-4 py-2 rounded-lg text-sm font-bold ${state.correct ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                                 {state.correct ? '✅ Correct!' : `❌ Answer: ${q.answer}`}
                             </div>
-                            <div style={{ marginTop: '1rem', textAlign: 'right' }}>
-                                <button className="btn btn-primary" onClick={nextQuestion}>
-                                    {currentQ < questions.length - 1 ? 'Next →' : 'See results'}
-                                </button>
-                            </div>
-                        </>
+                            <button className="btn btn-primary px-6 shadow-lg shadow-indigo-200" onClick={nextQuestion}>
+                                {currentQ < questions.length - 1 ? 'Next Question →' : 'Finish Quiz'}
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>
@@ -212,32 +221,74 @@ export default function QuickPractice({ progress, setProgress, showXpGain }) {
 
     // Menu
     return (
-        <div className="quick-practice">
-            <div className="page-header">
-                <h2 className="page-header__title">Quick Practice</h2>
-                <p className="page-header__subtitle">Train quickly to reinforce your skills</p>
+        <div className="space-y-8 pb-24">
+            <div className="mb-4">
+                <h2 className="text-3xl font-display font-bold text-slate-900">Quick Practice</h2>
+                <p className="text-slate-500 mt-2">Train quickly to reinforce your skills</p>
             </div>
 
-            <div className="practice-modes">
-                <div className="practice-mode" onClick={startDaily} style={{ animation: 'fadeInUp 0.4s ease 0.1s both' }}>
-                    <div className="practice-mode__icon practice-mode__icon--daily"><TargetIcon size={28} /></div>
-                    <div className="practice-mode__title">Daily Challenge</div>
-                    <div className="practice-mode__desc">10 mixed questions — Timer on</div>
-                    <div className="practice-mode__xp"><StarIcon size={14} /> +50-150 XP</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div
+                    onClick={startDaily}
+                    className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group relative overflow-hidden"
+                    style={{ animation: 'fadeInUp 0.4s ease 0.1s both' }}
+                >
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <TargetIcon size={120} className="text-indigo-600" />
+                    </div>
+
+                    <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <TargetIcon size={28} />
+                    </div>
+
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">Daily Challenge</h3>
+                    <p className="text-slate-500 text-sm mb-6">10 mixed questions from all topics. Best for daily streak.</p>
+
+                    <div className="flex items-center gap-2 text-xs font-bold text-amber-500 bg-amber-50 self-start px-3 py-1.5 rounded-full w-fit">
+                        <StarIcon size={14} /> +50-150 XP
+                    </div>
                 </div>
 
-                <div className="practice-mode" onClick={startSpeed} style={{ animation: 'fadeInUp 0.4s ease 0.2s both' }}>
-                    <div className="practice-mode__icon practice-mode__icon--speed"><ClockIcon size={28} /></div>
-                    <div className="practice-mode__title">Speed Drill</div>
-                    <div className="practice-mode__desc">5 rapid questions — Test your speed</div>
-                    <div className="practice-mode__xp"><StarIcon size={14} /> +30-80 XP</div>
+                <div
+                    onClick={startSpeed}
+                    className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group relative overflow-hidden"
+                    style={{ animation: 'fadeInUp 0.4s ease 0.2s both' }}
+                >
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <ClockIcon size={120} className="text-rose-600" />
+                    </div>
+
+                    <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <ClockIcon size={28} />
+                    </div>
+
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-rose-600 transition-colors">Speed Drill</h3>
+                    <p className="text-slate-500 text-sm mb-6">5 rapid-fire questions. Test your thinking speed.</p>
+
+                    <div className="flex items-center gap-2 text-xs font-bold text-amber-500 bg-amber-50 self-start px-3 py-1.5 rounded-full w-fit">
+                        <StarIcon size={14} /> +30-80 XP
+                    </div>
                 </div>
 
-                <div className="practice-mode" onClick={startVocabQuiz} style={{ animation: 'fadeInUp 0.4s ease 0.3s both' }}>
-                    <div className="practice-mode__icon practice-mode__icon--vocab"><PenIcon size={28} /></div>
-                    <div className="practice-mode__title">Vocab Quiz</div>
-                    <div className="practice-mode__desc">10 words to translate — Business vocabulary</div>
-                    <div className="practice-mode__xp"><StarIcon size={14} /> +25-125 XP</div>
+                <div
+                    onClick={startVocabQuiz}
+                    className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group relative overflow-hidden"
+                    style={{ animation: 'fadeInUp 0.4s ease 0.3s both' }}
+                >
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <PenIcon size={120} className="text-emerald-600" />
+                    </div>
+
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <PenIcon size={28} />
+                    </div>
+
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">Vocab Quiz</h3>
+                    <p className="text-slate-500 text-sm mb-6">10 words to defined. Expand your medical vocabulary.</p>
+
+                    <div className="flex items-center gap-2 text-xs font-bold text-amber-500 bg-amber-50 self-start px-3 py-1.5 rounded-full w-fit">
+                        <StarIcon size={14} /> +25-125 XP
+                    </div>
                 </div>
             </div>
         </div>

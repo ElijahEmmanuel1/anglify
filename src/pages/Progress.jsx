@@ -1,166 +1,196 @@
-import { getGrammarStats, getToeicStats, estimateToeicScore, xpToNextLevel, LEVEL_TITLES } from '../utils/progressEngine'
-import { grammarCategories } from '../data/grammarData'
-import { StarIcon, FlameIcon, BookIcon, TargetIcon, ChartIcon } from '../components/Icons'
+import { useState, useMemo } from 'react'
+import {
+    calculateLevel,
+    xpToNextLevel,
+    LEVEL_TITLES,
+    getGrammarStats,
+    getToeicStats,
+    estimateToeicScore
+} from '../utils/progressEngine'
+import { StarIcon, FlameIcon, ChartIcon, TargetIcon, BookIcon, PenIcon } from '../components/Icons'
 
 export default function Progress({ progress }) {
+    const level = calculateLevel(progress.xp)
+    const nextLevelXp = xpToNextLevel(level)
+    const currentLevelBaseXp = xpToNextLevel(level - 1)
+    const levelProgress = ((progress.xp - currentLevelBaseXp) / (nextLevelXp - currentLevelBaseXp)) * 100
+
     const grammarStats = getGrammarStats(progress)
     const toeicStats = getToeicStats(progress)
     const toeicScore = estimateToeicScore(progress)
-    const xpInfo = xpToNextLevel(progress.xp, progress.level)
-
-    const categoryStats = grammarCategories.map(cat => {
-        const completed = cat.units.filter(id => progress.grammar[id]?.completed).length
-        const pct = Math.round((completed / cat.units.length) * 100)
-        return { ...cat, completed, total: cat.units.length, pct }
-    })
-
-    const today = new Date()
-    const last180 = Array.from({ length: 180 }, (_, i) => {
-        const date = new Date(today)
-        date.setDate(date.getDate() - (179 - i))
-        return date.toISOString().split('T')[0]
-    })
-
-    const totalStudyDays = Object.keys(progress.studyDays || {}).length
-    const totalActivities = Object.values(progress.studyDays || {}).reduce((sum, v) => sum + v, 0)
 
     return (
-        <div className="progress-page">
-            <div className="page-header">
-                <h2 className="page-header__title">My Progress</h2>
-                <p className="page-header__subtitle">Your journey to TOEIC mastery</p>
+        <div className="space-y-8 pb-24 animate-fadeIn">
+            <div className="mb-4">
+                <h2 className="text-3xl font-display font-bold text-slate-900">Your Progress</h2>
+                <p className="text-slate-500 mt-2">Track your journey to mastery</p>
             </div>
 
-            {/* TOEIC Score */}
-            <div className="progress-score" style={{ animation: 'fadeInUp 0.4s ease' }}>
-                <div className="progress-score__value">{toeicScore}</div>
-                <div className="progress-score__label">Estimated TOEIC Score / 990</div>
-                <div className="progress-bar" style={{ maxWidth: '300px', margin: '1rem auto 0' }}>
-                    <div className="progress-bar__fill" style={{ width: `${(toeicScore / 990) * 100}%` }} />
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '1rem' }}>
-                    <div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase' }}>Listening</div>
-                        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--accent-primary)' }}>{Math.round(toeicScore * 0.5)}</div>
-                    </div>
-                    <div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase' }}>Reading</div>
-                        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--success)' }}>{Math.round(toeicScore * 0.5)}</div>
-                    </div>
-                </div>
-            </div>
+            {/* Level Card */}
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
-            {/* Stats */}
-            <div className="progress-stats">
-                <div className="progress-stat" style={{ animation: 'fadeInUp 0.4s ease 0.1s both' }}>
-                    <div className="progress-stat__icon" style={{ background: 'var(--warning-bg)', color: 'var(--xp-gold)' }}><StarIcon size={20} /></div>
-                    <div>
-                        <div className="progress-stat__value" style={{ color: 'var(--xp-gold-light)' }}>{progress.xp} XP</div>
-                        <div className="progress-stat__label">Level {progress.level} — {LEVEL_TITLES[progress.level]}</div>
-                    </div>
-                </div>
-
-                <div className="progress-stat" style={{ animation: 'fadeInUp 0.4s ease 0.15s both' }}>
-                    <div className="progress-stat__icon" style={{ background: 'var(--error-bg)', color: 'var(--streak-fire)' }}><FlameIcon size={20} /></div>
-                    <div>
-                        <div className="progress-stat__value" style={{ color: 'var(--warning)' }}>{progress.streak.current} days</div>
-                        <div className="progress-stat__label">Streak (Best: {progress.streak.best})</div>
-                    </div>
-                </div>
-
-                <div className="progress-stat" style={{ animation: 'fadeInUp 0.4s ease 0.2s both' }}>
-                    <div className="progress-stat__icon" style={{ background: 'var(--module-grammar-bg)', color: 'var(--accent-primary)' }}><BookIcon size={20} /></div>
-                    <div>
-                        <div className="progress-stat__value">{grammarStats.completed}/145</div>
-                        <div className="progress-stat__label">Grammar units</div>
-                    </div>
-                </div>
-
-                <div className="progress-stat" style={{ animation: 'fadeInUp 0.4s ease 0.25s both' }}>
-                    <div className="progress-stat__icon" style={{ background: 'var(--module-toeic-bg)', color: 'var(--module-toeic)' }}><ChartIcon size={20} /></div>
-                    <div>
-                        <div className="progress-stat__value">{totalStudyDays}</div>
-                        <div className="progress-stat__label">Study days ({totalActivities} activities)</div>
-                    </div>
-                </div>
-            </div>
-
-            {/* XP Progress */}
-            <div className="card" style={{ marginBottom: '1.5rem', animation: 'fadeInUp 0.4s ease 0.2s both' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem' }}>
-                    <span style={{ fontWeight: 700 }}>Level {progress.level} → {progress.level + 1}</span>
-                    <span style={{ color: 'var(--text-muted)' }}>{Math.round(xpInfo.current)}/{Math.round(xpInfo.needed)} XP</span>
-                </div>
-                <div className="progress-bar">
-                    <div className="progress-bar__fill" style={{ width: `${xpInfo.percentage}%`, background: 'var(--xp-gradient)' }} />
-                </div>
-            </div>
-
-            {/* Grammar Mastery */}
-            <div className="card" style={{ marginBottom: '1.5rem', animation: 'fadeInUp 0.4s ease 0.25s both' }}>
-                <div className="section-title" style={{ marginBottom: '1rem' }}><BookIcon size={18} /> Grammar Mastery</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {categoryStats.map(cat => (
-                        <div key={cat.id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem', background: 'var(--bg-primary)', borderRadius: 'var(--radius-lg)' }}>
-                            <span style={{ fontSize: '1.25rem' }}>{cat.icon}</span>
-                            <div style={{ flex: 1 }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-                                    <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{cat.title}</span>
-                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{cat.completed}/{cat.total}</span>
-                                </div>
-                                <div className="progress-bar">
-                                    <div className="progress-bar__fill" style={{
-                                        width: `${cat.pct}%`,
-                                        background: cat.pct === 100 ? 'var(--success)' : 'var(--accent-gradient)'
-                                    }} />
-                                </div>
-                            </div>
+                <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
+                    <div className="relative">
+                        <svg className="w-32 h-32 transform -rotate-90">
+                            <circle
+                                cx="64"
+                                cy="64"
+                                r="60"
+                                stroke="currentColor"
+                                strokeWidth="8"
+                                fill="transparent"
+                                className="text-slate-700"
+                            />
+                            <circle
+                                cx="64"
+                                cy="64"
+                                r="60"
+                                stroke="currentColor"
+                                strokeWidth="8"
+                                fill="transparent"
+                                strokeDasharray={2 * Math.PI * 60}
+                                strokeDashoffset={2 * Math.PI * 60 * (1 - levelProgress / 100)}
+                                className="text-indigo-500 transition-all duration-1000 ease-out"
+                                strokeLinecap="round"
+                            />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-3xl font-bold">{level}</span>
+                            <span className="text-xs text-slate-400 uppercase tracking-wider">Level</span>
                         </div>
-                    ))}
+                    </div>
+
+                    <div className="flex-1">
+                        <div className="text-indigo-400 font-bold uppercase tracking-widest text-sm mb-1">{LEVEL_TITLES[level] || 'Master'}</div>
+                        <h3 className="text-3xl font-bold mb-2">Keep it up, Elijah!</h3>
+                        <p className="text-slate-400 mb-4">You need <span className="text-white font-bold">{nextLevelXp - progress.xp} XP</span> to reach Level {level + 1}</p>
+                    </div>
                 </div>
             </div>
 
-            {/* TOEIC Progress */}
-            <div className="card" style={{ marginBottom: '1.5rem', animation: 'fadeInUp 0.4s ease 0.3s both' }}>
-                <div className="section-title" style={{ marginBottom: '1rem' }}><TargetIcon size={18} /> TOEIC Progress</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', textAlign: 'center' }}>
-                    <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-primary)' }}>{toeicStats.completed}</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Completed</div>
+            {/* Main Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-yellow-50 text-yellow-500 flex items-center justify-center shadow-sm">
+                        <StarIcon size={24} />
                     </div>
                     <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-dim)' }}>{49 - toeicStats.completed}</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Remaining</div>
-                    </div>
-                    <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--success)' }}>{Math.round((toeicStats.completed / 49) * 100)}%</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Progress</div>
+                        <div className="text-2xl font-bold text-slate-900">{progress.xp}</div>
+                        <div className="text-sm text-slate-500 font-medium">Total XP</div>
                     </div>
                 </div>
-                <div className="progress-bar" style={{ marginTop: '1rem' }}>
-                    <div className="progress-bar__fill" style={{ width: `${(toeicStats.completed / 49) * 100}%`, background: 'var(--module-toeic)' }} />
+
+                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center shadow-sm">
+                        <FlameIcon size={24} />
+                    </div>
+                    <div>
+                        <div className="text-2xl font-bold text-slate-900">{progress.streak.current}</div>
+                        <div className="text-sm text-slate-500 font-medium">Day Streak</div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center shadow-sm">
+                        <TargetIcon size={24} />
+                    </div>
+                    <div>
+                        <div className="text-2xl font-bold text-slate-900">{toeicScore}</div>
+                        <div className="text-sm text-slate-500 font-medium">Est. TOEIC</div>
+                    </div>
                 </div>
             </div>
 
-            {/* Heatmap */}
-            <div className="card" style={{ animation: 'fadeInUp 0.4s ease 0.35s both' }}>
-                <div className="section-title" style={{ marginBottom: '1rem' }}><ChartIcon size={18} /> Study Heatmap (6 months)</div>
-                <div className="heatmap__grid">
-                    {last180.map((dateStr, i) => {
-                        const val = progress.studyDays?.[dateStr] || 0
-                        const level = val === 0 ? '' : val < 3 ? 'heatmap__day--l1' : val < 5 ? 'heatmap__day--l2' : val < 10 ? 'heatmap__day--l3' : val < 20 ? 'heatmap__day--l4' : 'heatmap__day--l5'
-                        return <div key={i} className={`heatmap__day ${level}`} title={`${dateStr}: ${val}`} />
-                    })}
-                </div>
-                <div className="heatmap-legend">
-                    <span>Less</span>
-                    <div className="heatmap__day" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l1" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l2" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l3" style={{ width: 11, height: 11 }} />
-                    <div className="heatmap__day heatmap__day--l5" style={{ width: 11, height: 11 }} />
-                    <span>More</span>
-                </div>
+            {/* Detailed Progress */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <section className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                        <BookIcon size={20} className="text-indigo-600" /> Grammar Mastery
+                    </h3>
+
+                    <div className="flex items-center gap-6 mb-6">
+                        <div className="flex-1">
+                            <div className="text-4xl font-display font-bold text-slate-900 mb-1">{Math.round((grammarStats.completed / 145) * 100)}%</div>
+                            <div className="text-sm text-slate-500">Course Completion</div>
+                        </div>
+                        <div className="size-24 rounded-full border-8 border-slate-50 flex items-center justify-center relative">
+                            <svg className="w-full h-full transform -rotate-90 absolute">
+                                <circle
+                                    cx="50%"
+                                    cy="50%"
+                                    r="40"
+                                    stroke="currentColor"
+                                    strokeWidth="8"
+                                    fill="transparent"
+                                    strokeDasharray={2 * Math.PI * 40}
+                                    strokeDashoffset={2 * Math.PI * 40 * (1 - (grammarStats.completed / 145))}
+                                    className="text-indigo-500"
+                                    strokeLinecap="round"
+                                />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between text-sm">
+                            <span className="text-slate-600">Units Completed</span>
+                            <span className="font-bold text-slate-900">{grammarStats.completed} / 145</span>
+                        </div>
+                        <div className="w-full bg-slate-100 rounded-full h-2">
+                            <div className="bg-indigo-500 h-2 rounded-full transition-all duration-500" style={{ width: `${(grammarStats.completed / 145) * 100}%` }}></div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-sm">
+                            <span className="text-slate-600">Average Score</span>
+                            <span className="font-bold text-slate-900">{grammarStats.averageScore}%</span>
+                        </div>
+                        <div className="w-full bg-slate-100 rounded-full h-2">
+                            <div className="bg-emerald-500 h-2 rounded-full transition-all duration-500" style={{ width: `${grammarStats.averageScore}%` }}></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                        <PenIcon size={20} className="text-indigo-600" /> Vocabulary
+                    </h3>
+
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="bg-slate-50 p-4 rounded-2xl text-center">
+                            <div className="text-2xl font-bold text-slate-900">{progress.vocabulary?.totalLearned || 0}</div>
+                            <div className="text-xs font-bold text-slate-400 uppercase">Words Learned</div>
+                        </div>
+                        <div className="bg-emerald-50 p-4 rounded-2xl text-center">
+                            <div className="text-2xl font-bold text-emerald-600">{progress.vocabulary?.totalMastered || 0}</div>
+                            <div className="text-xs font-bold text-emerald-600/60 uppercase">Mastered</div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                            <span>Box Distribution</span>
+                        </div>
+                        {[5, 4, 3, 2, 1].map(box => {
+                            const count = Object.values(progress.vocabulary?.words || {}).filter(w => w.box === box).length
+                            const total = Object.keys(progress.vocabulary?.words || {}).length || 1
+                            const pct = (count / total) * 100
+
+                            return (
+                                <div key={box} className="flex items-center gap-3 text-sm">
+                                    <div className="w-12 font-medium text-slate-500">Box {box}</div>
+                                    <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full rounded-full ${box >= 4 ? 'bg-emerald-500' : box >= 2 ? 'bg-indigo-500' : 'bg-amber-500'}`}
+                                            style={{ width: `${pct}%` }}
+                                        />
+                                    </div>
+                                    <div className="w-8 text-right font-bold text-slate-700">{count}</div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </section>
             </div>
         </div>
     )
